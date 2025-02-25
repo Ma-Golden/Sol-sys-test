@@ -9,10 +9,36 @@ public class MainMenuController : MonoBehaviour
 {
     public CanvasGroup OptionPanel;
 
+    // Current build indeces
+    // 0: MainMenu
+    // 1: SampleScene
+    // 2: TestScene
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+            Debug.Log("Mouse button registered");
+    }
+
+
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    public void OpenTestScene()
+    {
+        Debug.Log("Opening Test Scene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        //SceneManager.LoadScene(2);
+    }
+    
+    public void OpenSystemEditor()
+    {
+        Debug.Log("Opening SystemEditing Scene");
+        SceneManager.LoadScene("SystemEditingScene");
+    }
+
 
     public void Option()
     {
@@ -30,10 +56,12 @@ public class MainMenuController : MonoBehaviour
     // Simple quit function
     public void QuitGame()
     {
-        # if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+        Debug.Log("Quitting Game");
+
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
         #else
-            Application.Quit();
+                    Application.Quit();
         #endif
     }
 }

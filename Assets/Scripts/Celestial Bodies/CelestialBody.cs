@@ -17,6 +17,7 @@ public class CelestialBody : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         position += velocity * Time.fixedDeltaTime;
         transform.position = position;
     }
@@ -24,12 +25,28 @@ public class CelestialBody : MonoBehaviour
     public void ApplyForce(Vector3 force)
     {
         Vector3 acceleration = force / mass;
-        velocity = velocity * Time.fixedDeltaTime;
+        velocity += acceleration * Time.fixedDeltaTime;
     }
 
-    // Update is called once per frame
-    void Update()
+    // UI Updates
+    public void SetMass(float newMass) => mass = newMass;
+    public void SetVelocity(Vector3 newVelocity) => velocity = newVelocity;
+    public void SetPosition(Vector3 newPosition)
     {
-        
+        position = newPosition;
+        transform.position = newPosition;
     }
+
+
+    private void OnMouseDown()
+    {
+        EditorUI editorUI = FindFirstObjectByType<EditorUI>();
+        if (editorUI != null) 
+        {
+            editorUI.SetSelectedBody(this);
+        }
+    }
+
+
+
 }
