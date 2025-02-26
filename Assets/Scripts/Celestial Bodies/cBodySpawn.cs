@@ -3,7 +3,7 @@ using UnityEngine;
 public class cBodySpawn : MonoBehaviour
 {
     public GameObject cBodyPrefab; // Assign in inspector
-    public int numBodies = 2; // 2 for the moment
+    public int numBodies = 0; // 2 for the moment
 
     private void Start()
     {

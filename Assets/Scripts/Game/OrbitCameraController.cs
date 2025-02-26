@@ -1,0 +1,96 @@
+using UnityEngine;
+
+public class OrbitCameraController : MonoBehaviour
+{
+    public Transform target; // Central body to orbit around
+    public Camera cam;
+
+    public float panSpeed = 5f;
+    public float zoomSpeed = 5f;
+    public float rotationSpeed = 3f;
+
+    public float minZoom = 1.5f;
+    public float maxZoom = 60f;
+
+    private Vector3 _dragOrigin;
+    private Vector3 _currentRotation;
+    //private bool _isOrbiting = false;
+
+    private void Start()
+    {
+        if (target == null)
+        {
+            Debug.LogWarning("OrbitCamController: No target assigned, defaulting to world origin");
+            target = new GameObject("Camera Target").transform;
+        }
+        if (cam == null)
+            cam = Camera.main;
+
+        _currentRotation = transform.eulerAngles;
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButton(1)) Debug.Log("Right-click detected");
+
+
+
+        HandleCameraPan();
+        HandleCameraZoom();
+        HandleOrbitRotation();
+    }
+
+    private void HandleCameraPan()
+    {
+        if (Input.GetMouseButtonDown(1)) // Initial right-click down to start panning
+        {
+            _dragOrigin = cam.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            Vector3 difference = _dragOrigin - cam.ScreenToWorldPoint(Input.mousePosition);
+            transform.position += difference * panSpeed * Time.deltaTime;
+        }
+    }
+
+    private void HandleCameraZoom() 
+    {
+        float scrollDelta = Input.mouseScrollDelta.y;
+        if (scrollDelta == 0) return; // return if not zooming
+
+        float zoomAmount = scrollDelta > 0 ? zoomSpeed * cam.orthographicSize / 40 : -zoomSpeed * cam.orthographicSize / 40;
+        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - zoomAmount, minZoom, maxZoom);
+    }
+
+    private void HandleOrbitRotation()
+    {
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButton(0)) // ALT + L Cont to rotate
+        {
+//            _isOrbiting = true;
+            float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+            float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+
+            _currentRotation.x -= mouseY;
+            _currentRotation.y += mouseY;
+            _currentRotation.x = Mathf.Clamp(_currentRotation.x, 10f, 80f); // Prevent flipping
+
+            Quaternion rotation = Quaternion.Euler(_currentRotation.x, _currentRotation.y, 0);
+            transform.position = target.position - (rotation * Vector3.forward * cam.orthographicSize * 2);
+            transform.LookAt(target.position);
+        }
+        else
+        {
+//            _isOrbiting = false;
+        }
+    }
+
+    // Resets the camera to top down view (of system)
+    public void ResetToTopDown()
+    {
+        _currentRotation = new Vector3(90f, 0f, 0f);
+        transform.position = target.position - new Vector3(0, cam.orthographicSize * 2, 0);
+        transform.LookAt(target.position);
+    }
+
+}
