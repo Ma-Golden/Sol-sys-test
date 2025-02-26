@@ -5,16 +5,19 @@ public class OrbitCameraController : MonoBehaviour
     public Transform target; // Central body to orbit around
     public Camera cam;
 
-    public float panSpeed = 5f;
+    public float panSpeed = 10f;
     public float zoomSpeed = 5f;
     public float rotationSpeed = 3f;
-
     public float minZoom = 1.5f;
     public float maxZoom = 60f;
-
-    private Vector3 _dragOrigin;
+    private Vector3 _lastMousePos;
     private Vector3 _currentRotation;
+    private bool isDragging;
     //private bool _isOrbiting = false;
+
+    private float oldPos;
+    private float panOrigin;
+
 
     private void Start()
     {
@@ -31,27 +34,34 @@ public class OrbitCameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(1)) Debug.Log("Right-click detected");
+        if (Input.GetMouseButton(1)) Debug.Log("Right-click detected"); // N.B: DEBUG
 
-
-
-        HandleCameraPan();
+        HandleCameraDrag();
         HandleCameraZoom();
-        HandleOrbitRotation();
+        HandleOrbit();
     }
 
-    private void HandleCameraPan()
+    private void HandleCameraDrag()
     {
-        if (Input.GetMouseButtonDown(1)) // Initial right-click down to start panning
+        if (Input.GetMouseButtonDown(1))
         {
-            _dragOrigin = cam.ScreenToWorldPoint(Input.mousePosition);
+
+            _lastMousePos = Input.mousePosition;
         }
 
-        if (Input.GetMouseButton(1))
+        if(Input.GetMouseButton(1))
         {
-            Vector3 difference = _dragOrigin - cam.ScreenToWorldPoint(Input.mousePosition);
-            transform.position += difference * panSpeed * Time.deltaTime;
+            Vector3 delta = Input.mousePosition - _lastMousePos;
+
+
+            // Convert mouse movement to world movement
+            Vector3 move = transform.right * -delta.x + transform.up * -delta.y;
+
+            transform.position += move * panSpeed * Time.deltaTime;
+
+            _lastMousePos = Input.mousePosition;
         }
+
     }
 
     private void HandleCameraZoom() 
@@ -59,24 +69,29 @@ public class OrbitCameraController : MonoBehaviour
         float scrollDelta = Input.mouseScrollDelta.y;
         if (scrollDelta == 0) return; // return if not zooming
 
-        float zoomAmount = scrollDelta > 0 ? zoomSpeed * cam.orthographicSize / 40 : -zoomSpeed * cam.orthographicSize / 40;
-        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - zoomAmount, minZoom, maxZoom);
+        float distance = (transform.position - target.position).magnitude;
+        float zoomAmount = scrollDelta * zoomSpeed;
+        float newDistance = Mathf.Clamp(distance - zoomAmount, minZoom, maxZoom);
+
+        transform.position = target.position + (transform.position - target.position).normalized * newDistance;
     }
 
-    private void HandleOrbitRotation()
+    private void HandleOrbit()
     {
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButton(0)) // ALT + L Cont to rotate
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButton(0)) // Ctrl + Left Click to orbit
         {
 //            _isOrbiting = true;
             float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
             float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
             _currentRotation.x -= mouseY;
-            _currentRotation.y += mouseY;
+            _currentRotation.y += mouseX;
             _currentRotation.x = Mathf.Clamp(_currentRotation.x, 10f, 80f); // Prevent flipping
 
             Quaternion rotation = Quaternion.Euler(_currentRotation.x, _currentRotation.y, 0);
-            transform.position = target.position - (rotation * Vector3.forward * cam.orthographicSize * 2);
+            Vector3 direction = rotation * Vector3.back * (transform.position - target.position).magnitude;
+
+            transform.position = target.position + direction;
             transform.LookAt(target.position);
         }
         else
