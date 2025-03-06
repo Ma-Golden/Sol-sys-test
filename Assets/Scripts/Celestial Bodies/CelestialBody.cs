@@ -13,6 +13,13 @@ public class CelestialBody : MonoBehaviour
     void Start()
     {
         position = transform.position;
+
+        //TODO: REFACTOR
+        // Make sure cbody has collifer for clicking
+        if (GetComponent<Collider>() == null)
+        {
+            gameObject.AddComponent<SphereCollider>();
+        }
     }
 
     private void FixedUpdate()
