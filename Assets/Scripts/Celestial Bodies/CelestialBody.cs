@@ -3,18 +3,24 @@ using UnityEngine;
 public class CelestialBody : MonoBehaviour
 {
     // Essential Vars for all cBodies
-    public float mass = 1f;
+    public float mass = 1f;     // TODO: ADJUST MASS SCALIN
     public Vector3 velocity;
     public Vector3 position;
     public Transform sphereMesh; // Reference to the sphere mesh of the cbody
 
-    private SphereCollider sphereCollider;    
-    
+    private SphereCollider sphereCollider;
+    //private Renderer sphereRenderer; // Renderer for sphere mesh
+    //private Material originalMaterial;
+
+
+
+
+
+
     // TODO: name of cbody 
 
     // N.B CHECK METHOD FOR CALCULATING FORCES
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         position = transform.position;

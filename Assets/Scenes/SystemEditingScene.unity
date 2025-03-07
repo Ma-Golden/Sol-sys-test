@@ -1644,6 +1644,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3693275242940514891, guid: d7409213bcddb344b9c5c3baa2dda6ef, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 88a0789914ed23148898caf2090be282, type: 2}
     - target: {fileID: 5229445915231314619, guid: d7409213bcddb344b9c5c3baa2dda6ef, type: 3}
       propertyPath: m_Name
       value: CentralBodyTemp
