@@ -6,6 +6,11 @@ public class CelestialBody : MonoBehaviour
     public float mass = 1f;
     public Vector3 velocity;
     public Vector3 position;
+    public Transform sphereMesh; // Reference to the sphere mesh of the cbody
+
+    private SphereCollider sphereCollider;    
+    
+    // TODO: name of cbody 
 
     // N.B CHECK METHOD FOR CALCULATING FORCES
 
@@ -16,9 +21,24 @@ public class CelestialBody : MonoBehaviour
 
         //TODO: REFACTOR
         // Make sure cbody has collifer for clicking
-        if (GetComponent<Collider>() == null)
+         sphereCollider = GetComponent<SphereCollider>();
+        if (sphereCollider == null)
         {
-            gameObject.AddComponent<SphereCollider>();
+            Debug.Log("Adding Sphere Collider to " + gameObject.name);
+            sphereCollider = gameObject.AddComponent<SphereCollider>();
+        }
+
+        UpdateColliderSize(); // Set collider size to match visual mesh
+    }
+
+    private void UpdateColliderSize()
+    {
+        Debug.Log("Updating collider size");
+        if (sphereMesh != null)
+        {
+            float radius = sphereMesh.localScale.x /2f;
+            Debug.Log("Setting collider Radius: " + radius);
+            sphereCollider.radius = radius;
         }
     }
 
@@ -47,6 +67,7 @@ public class CelestialBody : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log("CelestialBody clicked" + gameObject.name);
         EditorUI editorUI = FindFirstObjectByType<EditorUI>();
         if (editorUI != null) 
         {

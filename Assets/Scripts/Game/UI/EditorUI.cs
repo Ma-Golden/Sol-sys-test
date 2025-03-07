@@ -7,13 +7,13 @@ public class EditorUI : MonoBehaviour
 {
     // Select body vars
     public CelestialBody selectedBody;
-    public Button deselectButton;
-    public TMP_Text bodyNameText; // Display name of selected body
 
-    // Edit body vars
-    public Slider massSlider;
+    // UI Buttons
     public TMP_InputField velocityXInput, velocityYInput, velocityZInput;
+    public TMP_Text bodyNameText; // Display name of selected body
+    public Slider massSlider;
     public Button deleteButton;
+    public Button deselectButton;
 
     private Color originalColor;
     private Renderer selectedRenderer;
@@ -36,12 +36,13 @@ public class EditorUI : MonoBehaviour
 
     public void SetSelectedBody(CelestialBody body)
     {
-        if (selectedBody != null)
-        {
-            ResetPreviousSelection();
-        }
+        //if (selectedBody != null)
+        //{
+        //    ResetPreviousSelection();
+        //}
 
         selectedBody = body;
+        
         selectedRenderer = body.GetComponent<Renderer>();
 
         // Store original colour and apply highlight
@@ -94,6 +95,7 @@ public class EditorUI : MonoBehaviour
         velocityZInput.gameObject.SetActive(show);
         deleteButton.gameObject.SetActive(show);
         deselectButton.gameObject.SetActive(show);
+        deleteButton.gameObject.SetActive(show);
         bodyNameText.gameObject.SetActive(show);
     }
 
