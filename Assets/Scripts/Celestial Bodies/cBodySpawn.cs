@@ -32,12 +32,6 @@ public class cBodySpawn : MonoBehaviour
             return;
         }
 
-        //Vector3 randomPos = new Vector3(
-        //    Random.Range(-10f, 10f),
-        //    Random.Range(-10f, 10f),
-        //    Random.Range(-10f, 10f)
-        //);
-
         Vector3 randomPos = new Vector3(
             Random.Range(-10f, 10f),
             0, // Keeping flat for start
@@ -59,27 +53,5 @@ public class cBodySpawn : MonoBehaviour
             gravityManager.bodies.Add(body);
         }
 
-        //// Give planets an initial velocity perpendicular to the center (0,0,0)
-        //Vector3 directionToCenter = (Vector3.zero - randomPos).normalized;
-        //Vector3 orbitalVelocity = Vector3.Cross(directionToCenter, Vector3.up) * Random.Range(1f, 2f);
-        //body.velocity = orbitalVelocity;
-
-        //GravityManager gravityManager = FindFirstObjectByType<GravityManager>();
-        //if (gravityManager != null)
-        //{
-        //    gravityManager.bodies.Add(body);
-        //}
     }
-
-    // Debug function to print hierarchy of instantiated objects
-    private void PrintObjectHierarchy(Transform obj)
-    {
-        Debug.Log("Object: " + obj.name);
-        foreach (Transform child in obj)
-        {
-            Debug.Log(" - Child: " + child.name);
-        }
-    }
-
-
 }

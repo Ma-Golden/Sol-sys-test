@@ -9,25 +9,33 @@ public class CelestialBody : MonoBehaviour
     public Transform sphereMesh; // Reference to the sphere mesh of the cbody
 
     private SphereCollider sphereCollider;
-    //private Renderer sphereRenderer; // Renderer for sphere mesh
-    //private Material originalMaterial;
-
-
-
-
-
+    private Renderer sphereRenderer; // Renderer for sphere mesh
+    private Material originalMaterial;
+    private Material outlineMaterial; // Hightlighting selected body
 
     // TODO: name of cbody 
-
     // N.B CHECK METHOD FOR CALCULATING FORCES
 
     void Start()
     {
         position = transform.position;
 
-        //TODO: REFACTOR
-        // Make sure cbody has collifer for clicking
-         sphereCollider = GetComponent<SphereCollider>();
+        if (sphereMesh != null)
+        {
+            sphereRenderer = sphereMesh.GetComponent<Renderer>();
+            if (sphereRenderer != null)
+            {
+                originalMaterial = sphereRenderer.material;
+            }
+        }
+        else
+        {
+            Debug.LogError("SphereMesh not assigned in " + gameObject.name);
+        }
+            
+        // make sure body has a collider
+        sphereCollider = GetComponent<SphereCollider>();
+
         if (sphereCollider == null)
         {
             Debug.Log("Adding Sphere Collider to " + gameObject.name);
@@ -70,7 +78,6 @@ public class CelestialBody : MonoBehaviour
         transform.position = newPosition;
     }
 
-
     private void OnMouseDown()
     {
         Debug.Log("CelestialBody clicked" + gameObject.name);
@@ -81,6 +88,13 @@ public class CelestialBody : MonoBehaviour
         }
     }
 
-
+    // Set visual cue that body is highlighted
+    public void Highlight(bool isHighlighted)
+    {
+        if (sphereRenderer != null)
+        {
+            sphereRenderer.material = isHighlighted ? outlineMaterial : originalMaterial;
+        }
+    }
 
 }

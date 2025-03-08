@@ -15,9 +15,6 @@ public class EditorUI : MonoBehaviour
     public Button deleteButton;
     public Button deselectButton;
 
-    private Color originalColor;
-    private Renderer selectedRenderer;
-
 
     private void Start()
     {
@@ -36,21 +33,13 @@ public class EditorUI : MonoBehaviour
 
     public void SetSelectedBody(CelestialBody body)
     {
-        //if (selectedBody != null)
-        //{
-        //    ResetPreviousSelection();
-        //}
+        if (selectedBody != null)
+        {
+            selectedBody.Highlight(false); // Remove highlight from previous selection
+        }
 
         selectedBody = body;
-        
-        selectedRenderer = body.GetComponent<Renderer>();
-
-        // Store original colour and apply highlight
-        if (selectedRenderer != null)
-        {
-            originalColor = selectedRenderer.material.color;
-            selectedRenderer.material.color = Color.blue;
-        }
+        selectedBody.Highlight(true); // Highlight selected body
 
         // Update UI elements with planets data
         bodyNameText.text = selectedBody.gameObject.name;
@@ -70,18 +59,10 @@ public class EditorUI : MonoBehaviour
         }
     }
 
-    private void ResetPreviousSelection()
-    {
-
-       if (selectedRenderer != null)
-        {
-            selectedRenderer.material.color = originalColor; // Reset color
-        }
-    }
 
     public void DeselectBody()
     {
-        ResetPreviousSelection();
+        selectedBody.Highlight(false);
         selectedBody = null;
         ShowUI(false);
     }
