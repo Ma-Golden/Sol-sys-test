@@ -48,6 +48,7 @@ MonoBehaviour:
   mass: 1
   velocity: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
+  sphereMesh: {fileID: 2509645329071060816}
 --- !u!1 &6235665998719902247
 GameObject:
   m_ObjectHideFlags: 0
