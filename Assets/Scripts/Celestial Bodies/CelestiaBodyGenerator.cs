@@ -17,6 +17,16 @@ public class CelestiaBodyGenerator : MonoBehaviour
     private Mesh _generatedMesh;
 
 
+
+
+    // Observer vars
+    private bool _shapeUpdated;
+    private bool _shadingUpdated;
+    private bool _physicsUpdated;
+
+
+
+
     // for different LOD levels
     private static Dictionary<int, SphereMesh> _sphereGenerators;
     
@@ -47,10 +57,28 @@ public class CelestiaBodyGenerator : MonoBehaviour
             Debug.LogWarning("No CelestialBodyConfig assigned to generator!");
             return;
         }
-
+        // TODO: REMOVE THIS TEST SETUP
         InitializeMeshComponents();
         GenerateBody();
     }
+
+    // Allow update of shape, shading etc from edit mode
+    private void HandleEditModeGeneration()
+    {
+        // TODO: Implement this
+
+        if (_shapeUpdated)
+        {
+            Debug.Log("Shape updated");
+            _shapeUpdated = false;
+
+        }
+    }
+
+
+
+
+
 
 
 
