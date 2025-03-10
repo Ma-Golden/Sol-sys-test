@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CelestialBody : MonoBehaviour
 {
+    public CelestiaBodyGenerator celestiaBodyGenerator;
+
     // Essential Vars for all cBodies
     public float mass = 1f;     // TODO: ADJUST MASS SCALIN
     public Vector3 velocity;

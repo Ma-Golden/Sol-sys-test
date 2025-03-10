@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // Following Singleton pattern for persistent game manager
-    private static GameManager Instance;
+    public static GameManager Instance;
 
     // Enumerate for game mode
     public enum GameMode { Menu, Create, Simulate, Unknown }

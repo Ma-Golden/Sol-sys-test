@@ -1,5 +1,7 @@
 using CelestialBodies.Config;
 using CelestialBodies.Config.Shape;
+using System.Collections.Generic;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 public class CelestiaBodyGenerator : MonoBehaviour
@@ -14,6 +16,12 @@ public class CelestiaBodyGenerator : MonoBehaviour
     private MeshCollider meshCollider;
     private Mesh _generatedMesh;
 
+
+    // for different LOD levels
+    private static Dictionary<int, SphereMesh> _sphereGenerators;
+    
+    
+    
     //[Header("Body Settings")]
     //public Shape shape; // Shape of the body
     //public int resolution = 100;        // Mesh res
