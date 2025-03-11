@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43061ba5d64fd7049ad5666d251f9232, type: 3}
   m_Name: DefaultPlanetShape
   m_EditorClassIdentifier: 
+  perturbCompute: {fileID: 7200000, guid: cef2cb53f4a0c29479ac3830875d4c3f, type: 3}
+  heightCompute: {fileID: 7200000, guid: d33f03bf1e4c12c4d96ba68ebdafd4c2, type: 3}
   shapeConfig:
     random: 0
     seed: 0

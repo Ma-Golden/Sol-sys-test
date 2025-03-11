@@ -17,6 +17,12 @@ namespace CelestialBodies.Config.Shape
         {
             // Allow reproducable 
             PRNG prng = new PRNG(shapeConfig.seed);
+            
+            
+            
+            
+            
+            
             base.SetShapeData();
         }
 

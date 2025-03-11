@@ -50,23 +50,18 @@ public class CelestiaBodyGenerator : MonoBehaviour
     private Mesh _previewMesh;
     //private Mesh[] _lodMeshes;
 
-    //private void Start()
-    //{
-    //    if (bodyConfig == null)
-    //    {
-    //        Debug.LogWarning("No CelestialBodyConfig assigned to generator!");
-    //        return;
-    //    }
-    //    // TODO: REMOVE THIS TEST SETUP
-    //    Debug.Log("TEST GENERATION OF SPHERE MESH");
-    //    InitializeMeshComponents();
-    //    GenerateBody();
-    //}
 
     // Allow update of shape, shading etc from edit mode
     public void HandleEditModeGeneration()
     {
         // TODO: Implement this
+
+        // TEST HARD CODING OF UPDATED TO TRUE
+        if (!_shapeUpdated)
+        {
+            Debug.Log("Setting shape updated to true for test");
+            _shapeUpdated = true;
+        }
 
         if (_shapeUpdated)
         {
@@ -101,18 +96,30 @@ public class CelestiaBodyGenerator : MonoBehaviour
         float edgeLength = (vertices[triangles[0]] - vertices[triangles[1]]).magnitude;
 
         // Set heights
+        if (bodyConfig.shape == null)
+        {
+            Debug.LogError("No shape assigned to body config");
+            return new Vector2(0, 0);
+        }
+
         float[] heights = bodyConfig.shape.CalculateHeights(_vertexBuffer);
 
         Shape.ShapeConfig shapeCon = bodyConfig.shape.GetShapeConfig();
 
-        //// Perturb vertices for rougher appearance
-        //if (shapeCon.perturbVertices && bodyConfig.shape.perturbCompute)
-        //{
-        //    ComputeShader perturbShader = bodyConfig.shape.perturbCompute;
-        //    float maxPerturbStrength = shapeCon.perturbStrength * edgeLength / 2;
+        // Perturb vertices to give rougher appearance
+        if (shapeCon.perturbVertices && bodyConfig.shape.perturbCompute)
+        {
+            ComputeShader perturbShader = bodyConfig.shape.perturbCompute;
+            float maxPerturbStrength = shapeCon.perturbStrength * edgeLength / 2;
 
+            perturbShader.SetBuffer(0, "points", _vertexBuffer);
+            perturbShader.SetInt("numPoints", vertices.Length);
+            perturbShader.SetFloat("maxPerturbStrength", maxPerturbStrength);
 
-        //}
+            ComputeHelper.Run(perturbShader, vertices.Length);
+            Vector3[] pertData = new Vector3[vertices.Length];
+            _vertexBuffer.GetData(pertData);
+        }
 
         // Calculate terrain min/max height and set height of vertices
         float minHeight = float.MaxValue;
@@ -153,7 +160,17 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
     (Vector3[] vertices, int[] triangles) CreateSphereVertsTris(int resolution)
     {
-        // TODO: CHECK AND CREATE SPHER MESH DICT IF NOT PRESET
+
+        // If not created, create a dict storing sphere meshes
+        if (_sphereGenerators == null)
+        {
+            _sphereGenerators = new Dictionary<int, SphereMesh>();
+        }
+
+        if (!_sphereGenerators.ContainsKey(resolution))
+        {
+            _sphereGenerators.Add(resolution, new SphereMesh(resolution));
+        }
 
         // Create sphere mehs
         SphereMesh sphereGenerator = _sphereGenerators[resolution];
@@ -212,11 +229,12 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
     }
     
-
     // Get child object with specified name
     // If none exists, then creates object with that name
     GameObject GetOrCreateMeshObject (Mesh surfaceMesh, Material material)
     {
+        Debug.Log("GetOrCreateMeshObject");
+
         // Find/create object
         Transform child = transform.Find("Terrain Mesh");
         if (!child)

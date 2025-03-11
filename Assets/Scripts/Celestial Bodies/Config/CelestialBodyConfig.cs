@@ -26,6 +26,7 @@ namespace CelestialBodies.Config
         public void SubscribeToShapeUpdates(ICelestialObserver observer)
         {
             shape.Subscribe(observer);
+            shading.Subscribe(observer);
 
             observer.OnInitialUpdate();
         }
@@ -37,20 +38,13 @@ namespace CelestialBodies.Config
             Debug.Log("Updating Celestial Body Settings");
             bodyType = newType;
             
-            Debug.Log("shape = SystemSavingUtils.Instance.CreateFeatures(newType)");            
             (Shape.Shape sp, Shading.Shading sd) = SystemSavingUtils.Instance.CreateFeatures(newType);
 
-
-            Debug.Log("shape = sp; etc");
             shape = sp;
             shading = sd;
             //physics = ph;
 
-
-            Debug.Log("sd.InitConfig");
             sp.InitConfig();
-
-            Debug.Log("shading init config");
             sd.InitSettings();
             //ph.InitSettings();
 

@@ -15,6 +15,9 @@ namespace CelestialBodies.Config.Shading
         // Memento Pattern
         public override void InitSettings()
         {
+
+            Debug.Log("PlanetShading InitSettings");
+
             if (Observers == null) return;
             foreach (var observer in Observers)
             {

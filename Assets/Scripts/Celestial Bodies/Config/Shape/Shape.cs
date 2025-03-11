@@ -20,14 +20,7 @@ namespace CelestialBodies.Config.Shape
         //public ShapeConfig shapeConfig; // set in editor
         public abstract Mesh GenerateMesh(int resolution, float radius);
 
-        // todo: OBSERVERS
-
-        //public ComputeShader perturbCompute;
-        //public ComputeShader heightMapCompute;
-        //private ComputeBuffer _heightMapBuffer;
-
         //private static System.Random _prng = new System.Random();
-
 
         public virtual float[] CalculateHeights (ComputeBuffer vertexBuffer)
         {
