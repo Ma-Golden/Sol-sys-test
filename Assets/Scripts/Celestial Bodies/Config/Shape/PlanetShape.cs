@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Unity.VisualScripting;
 
 
 namespace CelestialBodies.Config.Shape
@@ -9,9 +10,19 @@ namespace CelestialBodies.Config.Shape
     public class PlanetShape : Shape
     {
 
-        [SerializeField] public PlaneShapeSettings shapeConfig;
+        [SerializeField] public PlanetShapeConfig shapeConfig;
 
-        public override void InitSettings()
+
+        protected override void SetShapeData()
+        {
+            // Allow reproducable 
+            PRNG prng = new PRNG(shapeConfig.seed)
+            base.SetShapeData();
+        }
+
+
+
+        public override void InitConfig()
         {
             // TODO: CHECK OBSERVERS HERE
             return;
@@ -21,6 +32,26 @@ namespace CelestialBodies.Config.Shape
         {
             return shapeConfig;
         }
+
+
+        public override void SetConfig(ShapeConfig shapeConfig)
+        {
+            shapeConfig = (PlanetShapeConfig)shapeConfig;
+
+            //shapeConfig.UpdateMountainHeights();
+
+            //if (Observers == null) return;
+            //foreach (ICelestialObserver o in Observers)
+            //{
+
+            //   o.OnShapeUpdate();
+            //}
+        
+        }
+
+
+
+
 
 
         // TODO: replace with compute shader generation
@@ -69,11 +100,19 @@ namespace CelestialBodies.Config.Shape
             return mesh;
         }
 
+
         [Serializable]
-        public class PlaneShapeSettings : ShapeConfig
+        public class PlanetShapeConfig : ShapeConfig
         {
             [Header ("Continent settings TODO")]
             public float continentFrequency = 1.0f;
+            // oceans
+            
+            // mountains
+            
+            // continentNoise stuff
+        
+            // mountainheight function
         }
 
     };

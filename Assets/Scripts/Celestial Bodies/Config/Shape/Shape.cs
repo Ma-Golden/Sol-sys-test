@@ -9,6 +9,11 @@ namespace CelestialBodies.Config.Shape
     public abstract class Shape : ScriptableObject
     {
 
+        public ComputeShader perturbCompute;
+        public ComputeShader heightCompute;
+        private ComputeBuffer _heightBuffer;
+
+
         //public ShapeConfig shapeConfig; // set in editor
         public abstract Mesh GenerateMesh(int resolution, float radius);
 
@@ -20,10 +25,41 @@ namespace CelestialBodies.Config.Shape
 
         //private static System.Random _prng = new System.Random();
 
-        public abstract void InitSettings();
+
+        public virtual float[] CalculateHeights (ComputeBuffer vertexBuffer)
+        {
+            // Set data
+            SetShapeData();
+            heightCompute.SetInt("numVertices", vertexBuffer.count);
+            heightCompute.SetBuffer(0, "vertices", vertexBuffer);
+            ComputeHelper.CreateAndSetBuffer<float>(ref _heightBuffer, vertexBuffer.count, heightCompute, "heights");
+
+            // Run
+            ComputeHelper.Run(heightCompute, vertexBuffer.count);
+
+            // Get & return heights from shader
+            float[] heights = new float[vertexBuffer.count];
+            _heightBuffer.GetData(heights);
+            return heights;
+        }
+
+        protected virtual void SetShapeData ()
+        {
+            // overriden by child class
+        }
+
+        public virtual void ReleaseBuffers ()
+        {
+            ComputeHelper.Release(_heightBuffer);
+        }
+
+
+
+        // Abstract methods - to be overridden by derived classes
+        public abstract void InitConfig();
 
         public abstract ShapeConfig GetShapeConfig();
-
+        public abstract void SetConfig(ShapeConfig shapeConfig);
 
         public abstract class ShapeConfig
         {

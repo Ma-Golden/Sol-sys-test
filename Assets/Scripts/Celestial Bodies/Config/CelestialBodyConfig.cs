@@ -33,7 +33,7 @@ namespace CelestialBodies.Config
 
             shape = sh;
 
-            sh.InitSettings();
+            sh.InitConfig();
             //shading = sd;
             //physics = ph;
 
