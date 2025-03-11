@@ -1,5 +1,6 @@
 using System;
 using CelestialBodies.Config;
+using CelestialBodies.Config.Shading;
 using CelestialBodies.Config.Shape;
 using UnityEngine;
 
@@ -13,8 +14,15 @@ public class SystemSavingUtils : MonoBehaviour
     public string storePath = null;
     public string testStorePath = null;
 
+
+    // N.B TESTING ONLY -> HARDCODED SHAPES
     [Header("Shapes")]
     public PlanetShape PlanetShape;
+
+
+
+    [Header("Shading")]
+    public Shading PlanetShading;
 
     private void Awake()
     {
@@ -22,19 +30,22 @@ public class SystemSavingUtils : MonoBehaviour
     }
 
     // N.B ONLY RETURNS SHAPE ATM
-    public Shape CreateFeatures(CelestialBodyConfig.CelestialBodyType celestialBodyType)
+    public (Shape shape, Shading shading) CreateFeatures(CelestialBodyConfig.CelestialBodyType celestialBodyType)
     {
         Shape shape = null;
+        Shading shading = null;
+        
         // TODO: add more features
 
         switch (celestialBodyType)
         {
             case CelestialBodyConfig.CelestialBodyType.Planet:
                 shape = PlanetShape;
+                shading = PlanetShading; 
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        return shape;
+        return (shape, shading);
     }
 };

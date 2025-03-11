@@ -32,7 +32,7 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
     // Store different sphere meshes for different LOD levels
     private static Dictionary<int, SphereMesh> _sphereGenerators;
-    
+
     //[Header("Body Settings")]
     //public Shape shape; // Shape of the body
     //public int resolution = 100;        // Mesh res
@@ -44,28 +44,27 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
 
     // Meshes
-    //private GameObject _terrainHolder = null;
-    //private GameObject _colliderHolder = null;
+    private GameObject _terrainHolder = null;
+//    private GameObject _colliderHolder = null;
 
     private Mesh _previewMesh;
     //private Mesh[] _lodMeshes;
 
-
-    private void Start()
-    {
-        if (bodyConfig == null)
-        {
-            Debug.LogWarning("No CelestialBodyConfig assigned to generator!");
-            return;
-        }
-        // TODO: REMOVE THIS TEST SETUP
-        Debug.Log("TEST GENERATION OF SPHERE MESH");
-        InitializeMeshComponents();
-        GenerateBody();
-    }
+    //private void Start()
+    //{
+    //    if (bodyConfig == null)
+    //    {
+    //        Debug.LogWarning("No CelestialBodyConfig assigned to generator!");
+    //        return;
+    //    }
+    //    // TODO: REMOVE THIS TEST SETUP
+    //    Debug.Log("TEST GENERATION OF SPHERE MESH");
+    //    InitializeMeshComponents();
+    //    GenerateBody();
+    //}
 
     // Allow update of shape, shading etc from edit mode
-    private void HandleEditModeGeneration()
+    public void HandleEditModeGeneration()
     {
         // TODO: Implement this
 
@@ -76,6 +75,18 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
             // _shadingUpdated = false;
             _heightMinMax = GenerateShapeShading(ref _previewMesh, 250);
+
+            // TODO SHADING
+
+            body.surfaceMaterial = new Material(Shader.Find("Standard"));
+
+            _terrainHolder = GetOrCreateMeshObject(_previewMesh, body.surfaceMaterial);
+
+        }
+        else if (_shadingUpdated)
+        {
+            Debug.Log("Shading Update");
+            Debug.Log("NOT IMPLEMENTED");
         }
 
         ReleaseAllBuffers();
@@ -173,14 +184,44 @@ public class CelestiaBodyGenerator : MonoBehaviour
             : UnityEngine.Rendering.IndexFormat.UInt32;
     }
 
+
+    public void OnShapeUpdate()
+    {
+        _shapeUpdated = true;
+        //
+
+        HandleEditModeGeneration();
+    }
+
+    public void OnPhysicsUpdate()
+    {
+        _physicsUpdated = true;
+        Debug.LogWarning("PhysicsUpdate not implemented");
+    }
+
+
+    public void OnInitialUpdate()
+    {
+        _shapeUpdated = true;
+        _shadingUpdated = true;
+        _physicsUpdated = true;
+
+
+        // TODO IMPLEMENT CHECKING OF GAME MODE HERE
+        HandleEditModeGeneration();
+
+    }
+    
+
     // Get child object with specified name
     // If none exists, then creates object with that name
     GameObject GetOrCreateMeshObject (Mesh surfaceMesh, Material material)
     {
-        // Find/creaete object
+        // Find/create object
         Transform child = transform.Find("Terrain Mesh");
         if (!child)
         {
+            Debug.Log("Creating new terrain mesh object");
             child = new GameObject("Terrain Mesh").transform;
             child.parent = transform;
             child.localPosition = Vector3.zero;

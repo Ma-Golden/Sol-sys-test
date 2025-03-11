@@ -15,37 +15,43 @@ public class CelestialBody : MonoBehaviour
     private Material originalMaterial;
     private Material outlineMaterial; // Hightlighting selected body
 
+
+    public Material surfaceMaterial;
+
+
+
+
     // TODO: name of cbody 
     // N.B CHECK METHOD FOR CALCULATING FORCES
 
-    void Start()
-    {
-        position = transform.position;
+    //void Start()
+    //{
+    //    position = transform.position;
 
-        if (sphereMesh != null)
-        {
-            sphereRenderer = sphereMesh.GetComponent<Renderer>();
-            if (sphereRenderer != null)
-            {
-                originalMaterial = sphereRenderer.material;
-            }
-        }
-        else
-        {
-            Debug.LogError("SphereMesh not assigned in " + gameObject.name);
-        }
+    //    if (sphereMesh != null)
+    //    {
+    //        sphereRenderer = sphereMesh.GetComponent<Renderer>();
+    //        if (sphereRenderer != null)
+    //        {
+    //            originalMaterial = sphereRenderer.material;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("SphereMesh not assigned in " + gameObject.name);
+    //    }
             
-        // make sure body has a collider
-        sphereCollider = GetComponent<SphereCollider>();
+    //    // make sure body has a collider
+    //    sphereCollider = GetComponent<SphereCollider>();
 
-        if (sphereCollider == null)
-        {
-            Debug.Log("Adding Sphere Collider to " + gameObject.name);
-            sphereCollider = gameObject.AddComponent<SphereCollider>();
-        }
+    //    if (sphereCollider == null)
+    //    {
+    //        Debug.Log("Adding Sphere Collider to " + gameObject.name);
+    //        sphereCollider = gameObject.AddComponent<SphereCollider>();
+    //    }
 
-        UpdateColliderSize(); // Set collider size to match visual mesh
-    }
+    //    UpdateColliderSize(); // Set collider size to match visual mesh
+    //}
 
     private void UpdateColliderSize()
     {

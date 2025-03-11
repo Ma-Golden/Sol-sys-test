@@ -9,16 +9,13 @@ namespace CelestialBodies.Config
     public class CelestialBodyConfig
     {
         public string bodyName;
+        private static readonly string[] testNames = { "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto" };
         public CelestialBodyType bodyType;
-
 
         // Base class for setting shape, shading, and physical properties
         public Shape.Shape shape;
-        //public Shading.Shading shading;
+        public Shading.Shading shading;
         //public PhysicalProperties.PhysicalProperties physicalProperties;
-
-
-        private static readonly string[] testNames = { "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto" };
 
         public void Init(CelestialBodyType type)
         {
@@ -26,18 +23,35 @@ namespace CelestialBodies.Config
             UpdateCBodySettings(type);
         }
 
+        public void SubscribeToShapeUpdates(ICelestialObserver observer)
+        {
+            shape.Subscribe(observer);
+
+            observer.OnInitialUpdate();
+        }
+
+
+
         public void UpdateCBodySettings(CelestialBodyType newType)
         {
+            Debug.Log("Updating Celestial Body Settings");
             bodyType = newType;
-            Shape.Shape sh = SystemSavingUtils.Instance.CreateFeatures(newType);
+            
+            Debug.Log("shape = SystemSavingUtils.Instance.CreateFeatures(newType)");            
+            (Shape.Shape sp, Shading.Shading sd) = SystemSavingUtils.Instance.CreateFeatures(newType);
 
-            shape = sh;
 
-            sh.InitConfig();
-            //shading = sd;
+            Debug.Log("shape = sp; etc");
+            shape = sp;
+            shading = sd;
             //physics = ph;
 
-            //sd.InitSettings();
+
+            Debug.Log("sd.InitConfig");
+            sp.InitConfig();
+
+            Debug.Log("shading init config");
+            sd.InitSettings();
             //ph.InitSettings();
 
         }

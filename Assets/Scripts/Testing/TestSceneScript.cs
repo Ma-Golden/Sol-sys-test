@@ -16,24 +16,38 @@ public class TestSceneScript : MonoBehaviour
 
     private void Start()
     {
-        // Create spher mesh with resolution
-        SphereMesh sphereMesh = new SphereMesh(resolution);
+        cBodyType = CelestialBodyConfig.CelestialBodyType.Planet;
 
-        // Create new mesh & assign vertices and triangles
-        Mesh mesh = new Mesh();
-        mesh.vertices = sphereMesh.Vertices;
-        mesh.triangles = sphereMesh.Triangles;
-        mesh.RecalculateNormals();
+        _cs = new CelestialBodyConfig();
+        _cs.Init(cBodyType);
 
-        // Create a neaw Gameobject to hold mesh
-        GameObject sphereObject = new GameObject("SphereMesh", typeof(MeshFilter), typeof(MeshRenderer));
-        sphereObject.GetComponent<MeshFilter>().mesh = mesh;
+        // Intialize Celestial Body
+        celestialBody = new GameObject("TestCbody").AddComponent<CelestialBody>();
+        celestialBody.celestiaBodyGenerator = celestialBody.gameObject.AddComponent<CelestiaBodyGenerator>();
+        celestialBody.celestiaBodyGenerator.bodyConfig = _cs;
+        celestialBody.celestiaBodyGenerator.body = celestialBody;
+        Debug.Log("Celestial Body Created");
 
-        sphereObject.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
+        celestialBody.celestiaBodyGenerator.HandleEditModeGeneration();
 
-        // Set postion of sphere object to centre of space
-        sphereObject.transform.position = new Vector3(0f, 0f, 0f);
+        //// Create spher mesh with resolution
+        //SphereMesh sphereMesh = new SphereMesh(resolution);
     }
+        //// Create new mesh & assign vertices and triangles
+        //Mesh mesh = new Mesh();
+        //mesh.vertices = sphereMesh.Vertices;
+        //mesh.triangles = sphereMesh.Triangles;
+        //mesh.RecalculateNormals();
+
+        //// Create a neaw Gameobject to hold mesh
+        //GameObject sphereObject = new GameObject("SphereMesh", typeof(MeshFilter), typeof(MeshRenderer));
+        //sphereObject.GetComponent<MeshFilter>().mesh = mesh;
+
+        //sphereObject.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
+
+        //// Set postion of sphere object to centre of space
+        //sphereObject.transform.position = new Vector3(0f, 0f, 0f);
+   // }
 
 
 

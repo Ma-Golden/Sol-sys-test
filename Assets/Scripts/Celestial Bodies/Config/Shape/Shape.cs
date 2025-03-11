@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 
 namespace CelestialBodies.Config.Shape
@@ -8,6 +9,8 @@ namespace CelestialBodies.Config.Shape
     [Serializable][CreateAssetMenu(fileName = "Shape", menuName = "Scriptable Objects/Shape")]
     public abstract class Shape : ScriptableObject
     {
+        // Observers
+        [CanBeNull] protected List<ICelestialObserver> Observers = new List<ICelestialObserver>();
 
         public ComputeShader perturbCompute;
         public ComputeShader heightCompute;
@@ -54,6 +57,15 @@ namespace CelestialBodies.Config.Shape
         }
 
 
+        public void Subscribe(ICelestialObserver observer)
+        {
+            Observers?.Add(observer);
+        }
+
+        public void UnsubscribeAll()
+        {
+           Observers?.Clear();
+        }
 
         // Abstract methods - to be overridden by derived classes
         public abstract void InitConfig();

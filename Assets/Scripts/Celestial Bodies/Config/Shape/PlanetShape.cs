@@ -16,7 +16,7 @@ namespace CelestialBodies.Config.Shape
         protected override void SetShapeData()
         {
             // Allow reproducable 
-            PRNG prng = new PRNG(shapeConfig.seed)
+            PRNG prng = new PRNG(shapeConfig.seed);
             base.SetShapeData();
         }
 

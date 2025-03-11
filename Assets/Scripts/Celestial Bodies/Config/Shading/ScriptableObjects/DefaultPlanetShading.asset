@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23d7137af3716264da13866016f54821, type: 3}
+  m_Name: DefaultPlanetShading
+  m_EditorClassIdentifier: 
+  shadingDataCompute: {fileID: 0}
+  terrainMaterial: {fileID: 2100000, guid: 564c3d0a8c5d6cd4598506277d4613ec, type: 2}
+  shadingSettings:
+    randomize: 0
+    seed: 0
+    realisticColors: 1
+    mainColor: {r: 1, g: 1, b: 1, a: 1}
+    baseGreenColors:
+      shoreColLow: {r: 0, g: 0, b: 0, a: 0}
+      shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
+      flatColLowA: {r: 0, g: 0, b: 0, a: 0}
+      flatColHighA: {r: 0, g: 0, b: 0, a: 0}
+      flatColLowB: {r: 0, g: 0, b: 0, a: 0}
+      flatColHighB: {r: 0, g: 0, b: 0, a: 0}
+      steepLow: {r: 0, g: 0, b: 0, a: 0}
+      steepHigh: {r: 0, g: 0, b: 0, a: 0}
+    baseRedColors:
+      shoreColLow: {r: 0, g: 0, b: 0, a: 0}
+      shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
+      flatColLowA: {r: 0, g: 0, b: 0, a: 0}
+      flatColHighA: {r: 0, g: 0, b: 0, a: 0}
+      flatColLowB: {r: 0, g: 0, b: 0, a: 0}
+      flatColHighB: {r: 0, g: 0, b: 0, a: 0}
+      steepLow: {r: 0, g: 0, b: 0, a: 0}
+      steepHigh: {r: 0, g: 0, b: 0, a: 0}
+    baseBlueColors:
+      shoreColLow: {r: 0, g: 0, b: 0, a: 0}
+      shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
+      flatColLowA: {r: 0, g: 0, b: 0, a: 0}
+      flatColHighA: {r: 0, g: 0, b: 0, a: 0}
+      flatColLowB: {r: 0, g: 0, b: 0, a: 0}
+      flatColHighB: {r: 0, g: 0, b: 0, a: 0}
+      steepLow: {r: 0, g: 0, b: 0, a: 0}
+      steepHigh: {r: 0, g: 0, b: 0, a: 0}
+    randomColors:
+      shoreColLow: {r: 0, g: 0, b: 0, a: 0}
+      shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
+      flatColLowA: {r: 0, g: 0, b: 0, a: 0}
+      flatColHighA: {r: 0, g: 0, b: 0, a: 0}
+      flatColLowB: {r: 0, g: 0, b: 0, a: 0}
+      flatColHighB: {r: 0, g: 0, b: 0, a: 0}
+      steepLow: {r: 0, g: 0, b: 0, a: 0}
+      steepHigh: {r: 0, g: 0, b: 0, a: 0}
+    greenHRange: {x: 0, y: 0}
+    redHRange: {x: 0, y: 0}
+    blueHRange: {x: 0, y: 0}
