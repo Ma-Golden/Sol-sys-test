@@ -15,40 +15,23 @@ public class CelestialBody : MonoBehaviour
     private Material originalMaterial;
     private Material outlineMaterial; // Hightlighting selected body
 
-
     public Material surfaceMaterial;
 
-    // TODO: name of cbody 
-    // N.B CHECK METHOD FOR CALCULATING FORCES
+    //    private Rigidbody _rb;
 
-    //void Start()
-    //{
-    //    position = transform.position;
 
-    //    if (sphereMesh != null)
-    //    {
-    //        sphereRenderer = sphereMesh.GetComponent<Renderer>();
-    //        if (sphereRenderer != null)
-    //        {
-    //            originalMaterial = sphereRenderer.material;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("SphereMesh not assigned in " + gameObject.name);
-    //    }
-            
-    //    // make sure body has a collider
-    //    sphereCollider = GetComponent<SphereCollider>();
+    private void Awake()
+    {
+        //_rb = gameObject.AddComponent<Rigidbody>();
+        //_rb.iskinematic = true;
 
-    //    if (sphereCollider == null)
-    //    {
-    //        Debug.Log("Adding Sphere Collider to " + gameObject.name);
-    //        sphereCollider = gameObject.AddComponent<SphereCollider>();
-    //    }
+        celestiaBodyGenerator = gameObject.AddComponent<CelestiaBodyGenerator>();
+        celestiaBodyGenerator.body = this;
+    }
 
-    //    UpdateColliderSize(); // Set collider size to match visual mesh
-    //}
+
+
+
 
     private void UpdateColliderSize()
     {

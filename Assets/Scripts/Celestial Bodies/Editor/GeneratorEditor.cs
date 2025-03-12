@@ -5,6 +5,7 @@ using PlasticPipe.PlasticProtocol.Messages;
 using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.XR;
 
 
@@ -12,16 +13,21 @@ using UnityEngine.XR;
 public class GeneratorEditor : Editor
 {
     CelestiaBodyGenerator generator;
-    Editor shapeEditor;
-    Editor shadingEditor;
+    private UnityEditor.Editor shapeEditor;
+    private UnityEditor.Editor shadingEditor;
+    
 
     private bool shapeFoldout;
     private bool shadingFoldout;
 
     public override void OnInspectorGUI()
     {
+        Debug.Log("OnInspectorGUI");
+
         // Get relevant config data
+        Debug.Log("Getting shading config");
         Shading.ShadingSettings shadingC = generator.bodyConfig.shading.GetConfig();
+        Debug.Log("Getting shape config");
         Shape.ShapeConfig shapeC = generator.bodyConfig.shape.GetConfig();
         // TODO: phys, ocean etc
 
@@ -42,7 +48,6 @@ public class GeneratorEditor : Editor
 
         }
 
-
         using (var check = new EditorGUI.ChangeCheckScope())
         {
             DrawDefaultInspector();
@@ -54,34 +59,26 @@ public class GeneratorEditor : Editor
 
         if (GUILayout.Button("Randomize Shape"))
         {
-            //            generator.bodyConfig.shape.shapeConfig.seed = Random.Range(0, 100000);
-
+            Debug.Log("Randomize Shape button pressed");
+            
+            //generator.bodyConfig.shape.shapeConfig.seed = Random.Range(0, 100000);
             shapeC.seed = Random.Range(0, 100000);
 
 
 
-
+            Regenerate();
 //            shapeC.RandomizeShape(true);
             // ocean && rings
             //Regenerate(shapeC);
 
         }
-
-
-
-
-
-
-
-            base.OnInspectorGUI();
+        SaveState();
     }
-
-
 
     void Regenerate()
     {      
-        var shapeC = generator.bodyConfig.shape.GetConfig();
-        var shadingC = generator.bodyConfig.shading.GetConfig();
+        //var shapeC = generator.bodyConfig.shape.GetConfig();
+        //var shadingC = generator.bodyConfig.shading.GetConfig();
 
         generator.OnShapeUpdate();
         generator.OnShadingUpdate();
@@ -90,5 +87,35 @@ public class GeneratorEditor : Editor
     }
 
 
+    void DrawsettingsEditor(Object settings, ref bool foldout, ref Editor editor)
+    {
+        if (settings != null)
+        {
+            foldout = EditorGUILayout.InspectorTitlebar(foldout, settings);
+            if (foldout)
+            {
+                CreateCachedEditor(settings, null, ref editor);
+                editor.OnInspectorGUI();
+            }
+        }
+    }
+
+    private void OnEnable()
+    {
+        shapeFoldout = EditorPrefs.GetBool(nameof(shapeFoldout), false);
+        shadingFoldout = EditorPrefs.GetBool(nameof(shadingFoldout), false);
+        
+        generator = (CelestiaBodyGenerator)target;
+        generator.bodyConfig.Subscribe(generator);
+
+        //shapeFoldout = true;
+        //shadingFoldout = true;
+    }
+
+    private void SaveState()
+    {
+        EditorPrefs.SetBool(nameof(shapeFoldout), shapeFoldout);
+        EditorPrefs.SetBool(nameof(shadingFoldout), shadingFoldout);
+    }
 
 }

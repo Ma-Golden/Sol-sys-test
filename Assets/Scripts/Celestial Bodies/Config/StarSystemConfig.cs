@@ -9,17 +9,26 @@ namespace CelestialBodies.Config
     [Serializable]
     public class StarSystemConfig
     {
-
         // TODO check this
         [SerializeField]
         public string systemName;
-        private List<CelestialBody> celestialBodies;
+        public List<CelestialBodyConfig> celestialBodyConfigs = new List<CelestialBodyConfig>();
 
         // TODO: Check these
         public Vector3 lastCamPos;
         public float lastCamZoom;
 
-        // TODO: add body settings
+        
+        // Add and init new settings to config list
+        public int AddNewCelestialBodySettings(CelestialBodyConfig.CelestialBodyType type)
+        {
+            CelestialBodyConfig newBody = new CelestialBodyConfig();
+            // Init config values
+            newBody.Init(type);
+
+            celestialBodyConfigs.Add(newBody);
+            return celestialBodyConfigs.Count - 1;
+        }
 
 
 

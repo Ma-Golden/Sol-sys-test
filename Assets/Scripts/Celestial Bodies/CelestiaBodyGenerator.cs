@@ -58,11 +58,11 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
         // TODO: Implement this
 
         // TEST HARD CODING OF UPDATED TO TRUE
-        if (!_shapeUpdated)
-        {
-            Debug.Log("Setting shape updated to true for test");
-            _shapeUpdated = true;
-        }
+        //if (!_shapeUpdated)
+        //{
+        //    Debug.Log("Setting shape updated to true for test");
+        //    _shapeUpdated = true;
+        //}
 
         if (_shapeUpdated)
         {
@@ -114,7 +114,6 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
         // Perturb vertices to give rougher appearance
         if (shapeCon.perturbVertices && bodyConfig.shape.perturbCompute)
         {
-            Debug.Log("Perturbing vertices");
             ComputeShader perturbShader = bodyConfig.shape.perturbCompute;
             float maxPerturbStrength = shapeCon.perturbStrength * edgeLength / 2;
 
@@ -248,7 +247,6 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
     // If none exists, then creates object with that name
     GameObject GetOrCreateMeshObject (Mesh surfaceMesh, Material material)
     {
-        Debug.Log("GetOrCreateMeshObject");
 
         // Find/create object
         Transform child = transform.Find("Terrain Mesh");
