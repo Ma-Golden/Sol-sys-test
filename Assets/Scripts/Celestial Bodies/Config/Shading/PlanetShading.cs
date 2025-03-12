@@ -13,11 +13,8 @@ namespace CelestialBodies.Config.Shading
         [SerializeField] protected PlanetShadingSettings shadingSettings;
 
         // Memento Pattern
-        public override void InitSettings()
+        public override void InitConfig()
         {
-
-            Debug.Log("PlanetShading InitSettings");
-
             if (Observers == null) return;
             foreach (var observer in Observers)
             {
@@ -25,12 +22,12 @@ namespace CelestialBodies.Config.Shading
             }
         }
 
-        public override ShadingSettings GetSettings()
+        public override ShadingSettings GetConfig()
         {
             return shadingSettings;
         }
 
-        public override void SetSettings(ShadingSettings ss)
+        public override void SetConfig(ShadingSettings ss)
         {
             shadingSettings = (PlanetShadingSettings)ss;
 

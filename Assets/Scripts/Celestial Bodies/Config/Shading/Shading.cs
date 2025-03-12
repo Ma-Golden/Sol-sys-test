@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace CelestialBodies.Config.Shading
 {
     [Serializable]
@@ -77,10 +76,10 @@ namespace CelestialBodies.Config.Shading
         }
 
         // MEMENTO PATTERN
-        public abstract void InitSettings();
-        public abstract ShadingSettings GetSettings();
+        public abstract void InitConfig();
+        public abstract ShadingSettings GetConfig();
 
-        public abstract void SetSettings(ShadingSettings ss);
+        public abstract void SetConfig(ShadingSettings ss);
 
         [Serializable]
         public abstract class ShadingSettings

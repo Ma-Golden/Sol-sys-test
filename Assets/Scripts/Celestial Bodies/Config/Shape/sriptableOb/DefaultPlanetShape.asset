@@ -17,7 +17,7 @@ MonoBehaviour:
   shapeConfig:
     random: 0
     seed: 0
-    perturbVertices: 0
+    perturbVertices: 1
     perturbStrength: 0.36
     noiseScale: 3
     noiseStrength: 2

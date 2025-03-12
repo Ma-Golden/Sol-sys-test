@@ -15,10 +15,10 @@ MonoBehaviour:
   shadingDataCompute: {fileID: 0}
   terrainMaterial: {fileID: 2100000, guid: 564c3d0a8c5d6cd4598506277d4613ec, type: 2}
   shadingSettings:
-    randomize: 0
+    randomize: 1
     seed: 0
     realisticColors: 1
-    mainColor: {r: 1, g: 1, b: 1, a: 1}
+    mainColor: {r: 0.5754717, g: 0.1981577, b: 0.1981577, a: 1}
     baseGreenColors:
       shoreColLow: {r: 0, g: 0, b: 0, a: 0}
       shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
@@ -55,6 +55,6 @@ MonoBehaviour:
       flatColHighB: {r: 0, g: 0, b: 0, a: 0}
       steepLow: {r: 0, g: 0, b: 0, a: 0}
       steepHigh: {r: 0, g: 0, b: 0, a: 0}
-    greenHRange: {x: 0, y: 0}
-    redHRange: {x: 0, y: 0}
-    blueHRange: {x: 0, y: 0}
+    greenHRange: {x: -0.1, y: 0.02}
+    redHRange: {x: -0.08, y: 0.02}
+    blueHRange: {x: -0.01, y: 0.02}

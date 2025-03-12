@@ -23,6 +23,17 @@ namespace CelestialBodies.Config
             UpdateCBodySettings(type);
         }
 
+
+        public void Subscribe(ICelestialObserver observer)
+        {
+            shape.Subscribe(observer);
+            shading.Subscribe(observer);
+            //physicalProperties.Subscribe(observer);
+
+            observer.OnInitialUpdate();
+        }
+
+
         public void SubscribeToShapeUpdates(ICelestialObserver observer)
         {
             shape.Subscribe(observer);
@@ -45,7 +56,7 @@ namespace CelestialBodies.Config
             //physics = ph;
 
             sp.InitConfig();
-            sd.InitSettings();
+            sd.InitConfig();
             //ph.InitSettings();
 
         }

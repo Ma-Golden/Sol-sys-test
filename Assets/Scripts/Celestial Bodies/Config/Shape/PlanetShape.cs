@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
+using System.Linq.Expressions;
 
 
 namespace CelestialBodies.Config.Shape
@@ -9,24 +10,17 @@ namespace CelestialBodies.Config.Shape
     [CreateAssetMenu(fileName = "PlanetShape", menuName = "Scriptable Objects/Shape/PlanetShape")]
     public class PlanetShape : Shape
     {
-
         [SerializeField] public PlanetShapeConfig shapeConfig;
-
-
         protected override void SetShapeData()
         {
             // Allow reproducable 
             PRNG prng = new PRNG(shapeConfig.seed);
-            
-            
-            
-            
-            
-            
-            base.SetShapeData();
+
+            // shape config
+            shapeConfig.continentNoise.SetComputeValues(heightCompute, prng, "_continents");
+            shapeConfig.ridgeNoise.SetComputeValues(heightCompute, prng, "_ridges");
+            shapeConfig.maskNoise.SetComputeValues(heightCompute, prng, "_mask");
         }
-
-
 
         public override void InitConfig()
         {
@@ -34,92 +28,63 @@ namespace CelestialBodies.Config.Shape
             return;
         }
 
-        public override ShapeConfig GetShapeConfig()
+        public override ShapeConfig GetConfig()
         {
             return shapeConfig;
         }
 
 
-        public override void SetConfig(ShapeConfig shapeConfig)
+        public override void SetConfig(ShapeConfig psc)
         {
-            shapeConfig = (PlanetShapeConfig)shapeConfig;
+            shapeConfig = (PlanetShapeConfig)psc;
+            shapeConfig.UpdateMountainHeights();
 
-            //shapeConfig.UpdateMountainHeights();
-
-            //if (Observers == null) return;
-            //foreach (ICelestialObserver o in Observers)
-            //{
-
-            //   o.OnShapeUpdate();
-            //}
-        
-        }
-
-
-
-
-
-
-        // TODO: replace with compute shader generation
-        public override Mesh GenerateMesh(int resolution, float radius)
-        {
-            Mesh mesh = new Mesh(); // Instance of new mesh
-            List<Vector3> vertices = new List<Vector3>(); // List of vertices
-            List<int> triangles = new List<int>(); // List of triangles
-
-            PRNG random = new PRNG(shapeConfig.seed); // Create a new random number generator
-
-            for (int y = 0; y <= resolution; y++)
+            if (Observers == null) return;
+            foreach (ICelestialObserver o in Observers)
             {
-                for (int x = 0; x <= resolution; x++)
-                {
-                    float u = (float)x / resolution * 2 - 1;
-                    float v = (float)y / resolution * 2 - 1;
-                    Vector3 pointOnSphere = new Vector3(u, v, 1).normalized;
 
-                    float height = Mathf.PerlinNoise(pointOnSphere.x * shapeConfig.noiseScale,
-                                                     pointOnSphere.y * shapeConfig.noiseScale)
-                                                       * shapeConfig.noiseStrength;
-
-                    vertices.Add(pointOnSphere * (radius + height));
-
-                    if (x < resolution && y < resolution)
-                    {
-                        int a = y * (resolution + 1) + x;
-                        int b = a + resolution + 1;
-                        int c = a + 1;
-                        int d = b + 1;
-
-                        triangles.Add(a);
-                        triangles.Add(b);
-                        triangles.Add(c);
-                        triangles.Add(c);
-                        triangles.Add(b);
-                        triangles.Add(d);
-                    }
-                }
+                o.OnShapeUpdate();
             }
-
-            mesh.vertices = vertices.ToArray();
-            mesh.triangles = triangles.ToArray();
-            mesh.RecalculateNormals();
-            return mesh;
         }
-
 
         [Serializable]
         public class PlanetShapeConfig : ShapeConfig
         {
-            [Header ("Continent settings TODO")]
+            [Header("Continent settings TODO")]
+            public float oceanDepthMultiplier = 5;
+            public float oceanFloorDepth = 1.4f;
+            public float oceanFloorSmoothing = 0.5f;
+            
+            public float mountainBlend = 1f;
+            public float baseMountainHeight = 0.02f;
+            public float minMountainHeight = -0.8f;
+            public float maxMountainHeight = 0.8f;
+            
+            // TODO check if needed
             public float continentFrequency = 1.0f;
-            // oceans
-            
-            // mountains
-            
-            // continentNoise stuff
-        
-            // mountainheight function
-        }
 
+
+            [Header("Noise settings")]
+            public SimpleNoiseSettings continentNoise = new SimpleNoiseSettings();
+
+            public SimpleNoiseSettings maskNoise = new SimpleNoiseSettings();
+
+            public RidgeNoiseSettings ridgeNoise = new RidgeNoiseSettings();
+
+            public Vector4 testParams = Vector4.zero;
+
+            public void UpdateMountainHeights()
+            {
+                if (random)
+                {
+                    PRNG random = new PRNG(seed);
+                    maskNoise.verticalShift = random.Range(minMountainHeight, maxMountainHeight);
+                }
+                else
+                {
+                    maskNoise.verticalShift = baseMountainHeight;
+                }
+            }
+        } // ShapeConfig
     };
 }

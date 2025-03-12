@@ -1,3 +1,4 @@
+using CelestialBodies;
 using CelestialBodies.Config;
 using CelestialBodies.Config.Shape;
 using System;
@@ -6,7 +7,7 @@ using System.Net.Http.Headers;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-public class CelestiaBodyGenerator : MonoBehaviour
+public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
 {
     [Header ("Body config")]
     public CelestialBody body;  // Celestial body to generate
@@ -73,7 +74,11 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
             // TODO SHADING
 
-            body.surfaceMaterial = new Material(Shader.Find("Standard"));
+            Material terrainMatInstance = new Material(bodyConfig.shading.terrainMaterial);
+
+            body.surfaceMaterial = terrainMatInstance;
+
+            //body.surfaceMaterial = new Material(Shader.Find("Standard"));
 
             _terrainHolder = GetOrCreateMeshObject(_previewMesh, body.surfaceMaterial);
 
@@ -104,11 +109,12 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
         float[] heights = bodyConfig.shape.CalculateHeights(_vertexBuffer);
 
-        Shape.ShapeConfig shapeCon = bodyConfig.shape.GetShapeConfig();
+        Shape.ShapeConfig shapeCon = bodyConfig.shape.GetConfig();
 
         // Perturb vertices to give rougher appearance
         if (shapeCon.perturbVertices && bodyConfig.shape.perturbCompute)
         {
+            Debug.Log("Perturbing vertices");
             ComputeShader perturbShader = bodyConfig.shape.perturbCompute;
             float maxPerturbStrength = shapeCon.perturbStrength * edgeLength / 2;
 
@@ -142,8 +148,11 @@ public class CelestiaBodyGenerator : MonoBehaviour
         surfaceMesh.RecalculateNormals();
 
 
-        // TODO: SHADING NOISE DATA
-        
+        // Shading noise data
+        bodyConfig.shading.Initialize(bodyConfig.shape);
+        Vector4[] shadingData = bodyConfig.shading.GenerateShadingData(_vertexBuffer);
+        surfaceMesh.SetUVs(0, shadingData);
+
         var normals = surfaceMesh.normals;
         var crudeTangents = new Vector4[surfaceMesh.vertices.Length];
         for (int i = 0; i < vertices.Length; i++)
@@ -160,7 +169,6 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
     (Vector3[] vertices, int[] triangles) CreateSphereVertsTris(int resolution)
     {
-
         // If not created, create a dict storing sphere meshes
         if (_sphereGenerators == null)
         {
@@ -177,8 +185,8 @@ public class CelestiaBodyGenerator : MonoBehaviour
 
         var vertices = new Vector3[sphereGenerator.Vertices.Length];    // Init vertices =size to sphere
         var triangles = new int[sphereGenerator.Triangles.Length];      // "" triangles
-        Array.Copy(sphereGenerator.Vertices, vertices, sphereGenerator.Vertices.Length);    // Copy vertices
-        Array.Copy(sphereGenerator.Triangles, triangles, sphereGenerator.Triangles.Length); // "" Triangles
+        Array.Copy(sphereGenerator.Vertices, vertices, vertices.Length);    // Copy vertices
+        Array.Copy(sphereGenerator.Triangles, triangles, triangles.Length); // "" Triangles
         return (vertices, triangles);
     }
 
@@ -214,6 +222,13 @@ public class CelestiaBodyGenerator : MonoBehaviour
     {
         _physicsUpdated = true;
         Debug.LogWarning("PhysicsUpdate not implemented");
+    }
+
+    public void OnShadingUpdate()
+    {
+        Debug.Log("Shading update");
+        _shadingUpdated = true;
+        HandleEditModeGeneration();
     }
 
 
@@ -266,29 +281,19 @@ public class CelestiaBodyGenerator : MonoBehaviour
     }
 
 
-    private void InitializeMeshComponents()
-    {
-        meshFilter = gameObject.AddComponent<MeshFilter>();
-        meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        meshCollider = gameObject.AddComponent<MeshCollider>();
+    //private void InitializeMeshComponents()
+    //{
+    //    meshFilter = gameObject.AddComponent<MeshFilter>();
+    //    meshRenderer = gameObject.AddComponent<MeshRenderer>();
+    //    meshCollider = gameObject.AddComponent<MeshCollider>();
 
-        if (meshRenderer.sharedMaterial == null)
-        {
-            meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
-        }
-    }
+    //    if (meshRenderer.sharedMaterial == null)
+    //    {
+    //        meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
+    //    }
+    //}
 
-    private void GenerateBody()
-    {
-        if (bodyConfig.shape != null)
-        {
-            _generatedMesh = bodyConfig.shape.GenerateMesh(100, 10f);
-
-            meshFilter.mesh = _generatedMesh;
-            meshCollider.sharedMesh = _generatedMesh;
-        }
-    }
-
+    
     private void ReleaseAllBuffers()
     {
         ComputeHelper.Release(_vertexBuffer);

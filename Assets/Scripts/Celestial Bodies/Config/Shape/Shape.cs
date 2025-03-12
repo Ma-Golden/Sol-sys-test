@@ -16,12 +16,6 @@ namespace CelestialBodies.Config.Shape
         public ComputeShader heightCompute;
         private ComputeBuffer _heightBuffer;
 
-
-        //public ShapeConfig shapeConfig; // set in editor
-        public abstract Mesh GenerateMesh(int resolution, float radius);
-
-        //private static System.Random _prng = new System.Random();
-
         public virtual float[] CalculateHeights (ComputeBuffer vertexBuffer)
         {
             // Set data
@@ -63,14 +57,24 @@ namespace CelestialBodies.Config.Shape
         // Abstract methods - to be overridden by derived classes
         public abstract void InitConfig();
 
-        public abstract ShapeConfig GetShapeConfig();
+        public abstract ShapeConfig GetConfig();
         public abstract void SetConfig(ShapeConfig shapeConfig);
+
+        
+
 
         public abstract class ShapeConfig
         {
             public bool random = false;
-            public int seed = 0;
-            public bool perturbVertices = false;
+            public int seed { get; set; } = 0;
+         
+            public void SetSeed(int newSeed)
+            {
+                seed = newSeed;
+            }
+
+
+                public bool perturbVertices = false;
             [Range(0, 1)] public float perturbStrength = 0.36f;
 
             public float noiseScale = 3.0f;

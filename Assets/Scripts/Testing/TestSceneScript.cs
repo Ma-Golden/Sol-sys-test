@@ -26,8 +26,8 @@ public class TestSceneScript : MonoBehaviour
         celestialBody.celestiaBodyGenerator = celestialBody.gameObject.AddComponent<CelestiaBodyGenerator>();
         celestialBody.celestiaBodyGenerator.bodyConfig = _cs;
         celestialBody.celestiaBodyGenerator.body = celestialBody;
-        Debug.Log("Celestial Body Created");
 
+        // TODO CHECK THIS
         celestialBody.celestiaBodyGenerator.HandleEditModeGeneration();
 
         //// Create spher mesh with resolution

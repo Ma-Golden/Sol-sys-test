@@ -18,9 +18,6 @@ public class CelestialBody : MonoBehaviour
 
     public Material surfaceMaterial;
 
-
-
-
     // TODO: name of cbody 
     // N.B CHECK METHOD FOR CALCULATING FORCES
 
