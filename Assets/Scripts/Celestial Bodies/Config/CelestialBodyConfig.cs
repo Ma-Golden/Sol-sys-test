@@ -17,6 +17,12 @@ namespace CelestialBodies.Config
         public Shading.Shading shading;
         //public PhysicalProperties.PhysicalProperties physicalProperties;
 
+
+        // TODO: check placement of radous + other physical properties
+        public float radius = 5;
+
+
+
         public void Init(CelestialBodyType type)
         {
             bodyName = testNames[Random.Range(0, testNames.Length)];
@@ -46,7 +52,6 @@ namespace CelestialBodies.Config
 
         public void UpdateCBodySettings(CelestialBodyType newType)
         {
-            Debug.Log("Updating Celestial Body Settings");
             bodyType = newType;
             
             (Shape.Shape sp, Shading.Shading sd) = SystemSavingUtils.Instance.CreateFeatures(newType);

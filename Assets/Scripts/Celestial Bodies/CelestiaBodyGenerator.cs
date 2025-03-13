@@ -30,7 +30,6 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
     // Compute buffer to stores vertices sent to GPU
     private ComputeBuffer _vertexBuffer;
 
-
     // Store different sphere meshes for different LOD levels
     private static Dictionary<int, SphereMesh> _sphereGenerators;
 
@@ -52,17 +51,13 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
     //private Mesh[] _lodMeshes;
 
 
+    public float BodyScale => bodyConfig.radius;
+
+
     // Allow update of shape, shading etc from edit mode
     public void HandleEditModeGeneration()
     {
         // TODO: Implement this
-
-        // TEST HARD CODING OF UPDATED TO TRUE
-        //if (!_shapeUpdated)
-        //{
-        //    Debug.Log("Setting shape updated to true for test");
-        //    _shapeUpdated = true;
-        //}
 
         if (_shapeUpdated)
         {
@@ -85,8 +80,12 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
         }
         else if (_shadingUpdated)
         {
-            Debug.Log("Shading Update");
-            Debug.Log("NOT IMPLEMENTED");
+            Debug.Log("Shading Update (NOT IMPLEMENTED");
+        }
+
+        if (bodyConfig.shading != null && body.surfaceMaterial != null)
+        {
+            bodyConfig.shading.SetSurfaceProperties(body.surfaceMaterial, _heightMinMax, BodyScale);
         }
 
         ReleaseAllBuffers();
@@ -101,12 +100,6 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
         float edgeLength = (vertices[triangles[0]] - vertices[triangles[1]]).magnitude;
 
         // Set heights
-        if (bodyConfig.shape == null)
-        {
-            Debug.LogError("No shape assigned to body config");
-            return new Vector2(0, 0);
-        }
-
         float[] heights = bodyConfig.shape.CalculateHeights(_vertexBuffer);
 
         Shape.ShapeConfig shapeCon = bodyConfig.shape.GetConfig();
@@ -179,7 +172,7 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
             _sphereGenerators.Add(resolution, new SphereMesh(resolution));
         }
 
-        // Create sphere mehs
+        // Create sphere mesh
         SphereMesh sphereGenerator = _sphereGenerators[resolution];
 
         var vertices = new Vector3[sphereGenerator.Vertices.Length];    // Init vertices =size to sphere
@@ -219,7 +212,7 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
 
     public void OnPhysicsUpdate()
     {
-        _physicsUpdated = true;
+        //_physicsUpdated = true;
         Debug.LogWarning("PhysicsUpdate not implemented");
     }
 
@@ -235,7 +228,7 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
     {
         _shapeUpdated = true;
         _shadingUpdated = true;
-        _physicsUpdated = true;
+//        _physicsUpdated = true;
 
 
         // TODO IMPLEMENT CHECKING OF GAME MODE HERE
@@ -247,7 +240,6 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
     // If none exists, then creates object with that name
     GameObject GetOrCreateMeshObject (Mesh surfaceMesh, Material material)
     {
-
         // Find/create object
         Transform child = transform.Find("Terrain Mesh");
         if (!child)

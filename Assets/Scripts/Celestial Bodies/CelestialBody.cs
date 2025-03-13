@@ -5,7 +5,7 @@ public class CelestialBody : MonoBehaviour
     public CelestiaBodyGenerator celestiaBodyGenerator;
 
     // Essential Vars for all cBodies
-    public float mass = 1f;     // TODO: ADJUST MASS SCALIN
+    public float mass = 1f;     // TODO: ADJUST MASS SCALING
     public Vector3 velocity;
     public Vector3 position;
     public Transform sphereMesh; // Reference to the sphere mesh of the cbody
@@ -28,10 +28,6 @@ public class CelestialBody : MonoBehaviour
         celestiaBodyGenerator = gameObject.AddComponent<CelestiaBodyGenerator>();
         celestiaBodyGenerator.body = this;
     }
-
-
-
-
 
     private void UpdateColliderSize()
     {

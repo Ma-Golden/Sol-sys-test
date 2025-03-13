@@ -6,7 +6,8 @@ using JetBrains.Annotations;
 
 namespace CelestialBodies.Config.Shape
 {
-    [Serializable][CreateAssetMenu(fileName = "Shape", menuName = "Scriptable Objects/Shape")]
+    [Serializable]
+    [CreateAssetMenu(fileName = "Shape", menuName = "Scriptable Objects/Shape")]
     public abstract class Shape : ScriptableObject
     {
         // Observers
@@ -16,7 +17,7 @@ namespace CelestialBodies.Config.Shape
         public ComputeShader heightCompute;
         private ComputeBuffer _heightBuffer;
 
-        public virtual float[] CalculateHeights (ComputeBuffer vertexBuffer)
+        public virtual float[] CalculateHeights(ComputeBuffer vertexBuffer)
         {
             // Set data
             SetShapeData();
@@ -33,12 +34,12 @@ namespace CelestialBodies.Config.Shape
             return heights;
         }
 
-        protected virtual void SetShapeData ()
+        protected virtual void SetShapeData()
         {
             // overriden by child class
         }
 
-        public virtual void ReleaseBuffers ()
+        public virtual void ReleaseBuffers()
         {
             ComputeHelper.Release(_heightBuffer);
         }
@@ -51,7 +52,7 @@ namespace CelestialBodies.Config.Shape
 
         public void UnsubscribeAll()
         {
-           Observers?.Clear();
+            Observers?.Clear();
         }
 
         // Abstract methods - to be overridden by derived classes
@@ -60,21 +61,21 @@ namespace CelestialBodies.Config.Shape
         public abstract ShapeConfig GetConfig();
         public abstract void SetConfig(ShapeConfig shapeConfig);
 
-        
+
 
 
         public abstract class ShapeConfig
         {
             public bool random = false;
             public int seed { get; set; } = 0;
-         
+
             public void SetSeed(int newSeed)
             {
                 seed = newSeed;
             }
 
 
-                public bool perturbVertices = false;
+            public bool perturbVertices = false;
             [Range(0, 1)] public float perturbStrength = 0.36f;
 
             public float noiseScale = 3.0f;

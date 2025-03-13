@@ -15,10 +15,43 @@ MonoBehaviour:
   perturbCompute: {fileID: 7200000, guid: cef2cb53f4a0c29479ac3830875d4c3f, type: 3}
   heightCompute: {fileID: 7200000, guid: d33f03bf1e4c12c4d96ba68ebdafd4c2, type: 3}
   shapeConfig:
-    random: 0
-    seed: 0
-    perturbVertices: 1
-    perturbStrength: 0.36
-    noiseScale: 3
-    noiseStrength: 2
-    continentFrequency: 1
+    random: 1
+    perturbVertices: 0
+    perturbStrength: 0.702
+    noiseScale: 1
+    noiseStrength: 24
+    oceanDepthMultiplier: 1.44
+    oceanFloorDepth: 1.63
+    oceanFloorSmoothing: 2.85
+    mountainBlend: 1.75
+    baseMountainHeight: 2.42
+    minMountainHeight: 0.15
+    maxMountainHeight: -0.51
+    continentNoise:
+      numLayers: 4
+      lacunarity: 2
+      persistence: 0.5
+      scale: 1
+      elevation: 1
+      verticalShift: 1.5
+      offset: {x: 0, y: 0, z: 0}
+    maskNoise:
+      numLayers: 4
+      lacunarity: 2
+      persistence: 0.5
+      scale: 1
+      elevation: 1
+      verticalShift: 0
+      offset: {x: 0, y: 0, z: 0}
+    ridgeNoise:
+      numLayers: 5
+      lacunarity: 2
+      persistence: 0.5
+      scale: 1
+      power: 2
+      elevation: 1
+      gain: 1
+      verticalShift: 0
+      peakSmoothing: 0
+      offset: {x: 0, y: 0, z: 0}
+    testParams: {x: 0, y: 0, z: 0, w: 0}

@@ -42,7 +42,7 @@ namespace CelestialBodies.Config.Shading
         {
             material.SetVector("heightMinMax", heightMinMax);
             //material.SetFloat("oceanLevel", oceanLevel);
-            //material.SetFloat("bodyScale", bodyScale);
+            material.SetFloat("bodyScale", bodyScale);
 
             //SetCraterBiomesSettings(material);
 

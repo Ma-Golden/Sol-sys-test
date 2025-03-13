@@ -20,6 +20,9 @@ namespace CelestialBodies.Config.Shape
             shapeConfig.continentNoise.SetComputeValues(heightCompute, prng, "_continents");
             shapeConfig.ridgeNoise.SetComputeValues(heightCompute, prng, "_ridges");
             shapeConfig.maskNoise.SetComputeValues(heightCompute, prng, "_mask");
+
+
+
         }
 
         public override void InitConfig()
@@ -60,10 +63,6 @@ namespace CelestialBodies.Config.Shape
             public float minMountainHeight = -0.8f;
             public float maxMountainHeight = 0.8f;
             
-            // TODO check if needed
-            public float continentFrequency = 1.0f;
-
-
             [Header("Noise settings")]
             public SimpleNoiseSettings continentNoise = new SimpleNoiseSettings();
 
@@ -75,6 +74,7 @@ namespace CelestialBodies.Config.Shape
 
             public void UpdateMountainHeights()
             {
+                Debug.Log("Updating mountain heights");
                 if (random)
                 {
                     PRNG random = new PRNG(seed);

@@ -16,7 +16,6 @@ public class TestSceneScript : MonoBehaviour
 
     private void Start()
     {
-
         // 'Load' / create new test system
 
         //_ssc = SystemSavingUtils.Instance.LoadTestSystem("TestSystem");
@@ -26,7 +25,6 @@ public class TestSceneScript : MonoBehaviour
             {
                 systemName = "TestSystem"
             };
-            Debug.Log("Adding new celestial body settings");
             _ssc.AddNewCelestialBodySettings(cBodyType);
         }
 
@@ -43,8 +41,10 @@ public class TestSceneScript : MonoBehaviour
             Debug.LogError("celestialBody.celestiaBodyGenerator is null");
             return;
         }
-
-
+        else
+        {
+              Debug.Log("celestialBody.celestiaBodyGenerator is not null");
+        }
 
         //        cBodyType = CelestialBodyConfig.CelestialBodyType.Planet;
 
@@ -56,19 +56,6 @@ public class TestSceneScript : MonoBehaviour
         _cs.Init(cBodyType);
         
         SystemSavingUtils.Instance.currentSystemConfig = _ssc;
-
-
-        //// Intialize Celestial Body
-        //celestialBody = new GameObject("TestCbody").AddComponent<CelestialBody>();
-        //celestialBody.celestiaBodyGenerator = celestialBody.gameObject.AddComponent<CelestiaBodyGenerator>();
-        //celestialBody.celestiaBodyGenerator.bodyConfig = _cs;
-        //celestialBody.celestiaBodyGenerator.body = celestialBody;
-
-        //// TODO CHECK THIS
-        //celestialBody.celestiaBodyGenerator.HandleEditModeGeneration();
-
-        ////// Create spher mesh with resolution
-        ////SphereMesh sphereMesh = new SphereMesh(resolution);
     }
 
     private void OnDestroy()

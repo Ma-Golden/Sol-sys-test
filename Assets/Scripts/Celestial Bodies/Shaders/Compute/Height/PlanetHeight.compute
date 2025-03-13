@@ -31,6 +31,7 @@ void CSMain (uint id : SV_DispatchThreadID)
     float3 pos = vertices[id];
     
     float continentShape = simpleNoise(pos, noiseParams_continents);
+    
     continentShape = smoothMax(continentShape, -oceanFloorDepth, oceanFloorSmoothing);
     
     if (continentShape < 0)
@@ -40,16 +41,10 @@ void CSMain (uint id : SV_DispatchThreadID)
     
     float ridgeNoise = smoothedRidgidNoise(pos, noiseParams_mountains);
         
-    //float mask = Blend(0, mountainBlend, simpleNoise(pos, noiseParams_mask));
+    float mask = Blend(0, mountainBlend, simpleNoise(pos, noiseParams_mask));
     
-    // compute final height
-    //float finalHeight = 1 + (continentShape * 0.01 + ridgeNoise * 0.01 * mask) / 4;
+    float finalHeight = 1 + (continentShape * 0.01 + ridgeNoise + 0.01 * mask) / 4;
     
-    // TEST HEIGHT
-    //float finalHeight = 1 + continentShape * 0.05;
-    
-    float finalHeight = 1 + (continentShape * 0.01 + ridgeNoise * 0.01) / 4;
-
     //Set terrain data
     heights[id] = (finalHeight);
 }
