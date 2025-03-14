@@ -157,7 +157,9 @@ MonoBehaviour:
   storePath: 
   testStorePath: 
   PlanetShape: {fileID: 11400000, guid: 24173c40477e2e747ab3bcc62b53d83d, type: 2}
+  MoonShape: {fileID: 11400000, guid: d7116e3d320746d48af8f3748369a8ec, type: 2}
   PlanetShading: {fileID: 11400000, guid: 2075ab29c6872134fb252be3c69f7db2, type: 2}
+  MoonShading: {fileID: 11400000, guid: 9f25ce2d6506a6540ba2b4670b71092b, type: 2}
 --- !u!4 &1367424533
 Transform:
   m_ObjectHideFlags: 0

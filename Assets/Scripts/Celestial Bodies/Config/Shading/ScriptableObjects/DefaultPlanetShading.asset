@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: DefaultPlanetShading
   m_EditorClassIdentifier: 
   shadingDataCompute: {fileID: 0}
-  terrainMaterial: {fileID: 2100000, guid: 564c3d0a8c5d6cd4598506277d4613ec, type: 2}
+  terrainMaterial: {fileID: 2100000, guid: 85c4852f5cea32f46b70b8271083659c, type: 2}
   shadingSettings:
     randomize: 1
     seed: 0
     realisticColors: 1
-    mainColor: {r: 0.5754717, g: 0.1981577, b: 0.1981577, a: 1}
+    mainColor: {r: 0, g: 0, b: 0, a: 1}
     baseGreenColors:
       shoreColLow: {r: 0, g: 0, b: 0, a: 0}
       shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
@@ -47,14 +47,14 @@ MonoBehaviour:
       steepLow: {r: 0, g: 0, b: 0, a: 0}
       steepHigh: {r: 0, g: 0, b: 0, a: 0}
     randomColors:
-      shoreColLow: {r: 0, g: 0, b: 0, a: 0}
-      shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
-      flatColLowA: {r: 0, g: 0, b: 0, a: 0}
-      flatColHighA: {r: 0, g: 0, b: 0, a: 0}
-      flatColLowB: {r: 0, g: 0, b: 0, a: 0}
-      flatColHighB: {r: 0, g: 0, b: 0, a: 0}
-      steepLow: {r: 0, g: 0, b: 0, a: 0}
-      steepHigh: {r: 0, g: 0, b: 0, a: 0}
+      shoreColLow: {r: 0, g: 0, b: 0, a: 1}
+      shoreColHigh: {r: 0, g: 0, b: 0, a: 1}
+      flatColLowA: {r: 0, g: 0, b: 0, a: 1}
+      flatColHighA: {r: 0, g: 0, b: 0, a: 1}
+      flatColLowB: {r: 0, g: 0, b: 0, a: 1}
+      flatColHighB: {r: 0, g: 0, b: 0, a: 1}
+      steepLow: {r: 0, g: 0, b: 0, a: 1}
+      steepHigh: {r: 0, g: 0, b: 0, a: 1}
     greenHRange: {x: -0.1, y: 0.02}
     redHRange: {x: -0.08, y: 0.02}
     blueHRange: {x: -0.01, y: 0.02}

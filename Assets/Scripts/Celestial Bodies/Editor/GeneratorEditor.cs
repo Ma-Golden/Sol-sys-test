@@ -24,12 +24,26 @@ public class GeneratorEditor : Editor
     public override void OnInspectorGUI()
     {
         // Get relevant config data
-        Shading.ShadingSettings shadingC = generator.bodyConfig.shading.GetConfig();
+        Shading.ShadingConfig shadingC = generator.bodyConfig.shading.GetConfig();
         Shape.ShapeConfig shapeC = generator.bodyConfig.shape.GetConfig();
         // TODO: phys, ocean etc
 
         CelestialBodyConfig.CelestialBodyType newValue = 
             (CelestialBodyConfig.CelestialBodyType)EditorGUILayout.EnumPopup(generator.bodyConfig.bodyType);
+
+
+        if (generator == null)
+        {
+            Debug.LogError("Generator is null");
+            return;
+        }
+
+        if (generator.bodyConfig == null)
+        {
+            Debug.LogError("Generator body config is null");
+            return;
+        }
+
 
         // TODO CHECK THIS
         if (newValue != generator.bodyConfig.bodyType)

@@ -77,12 +77,12 @@ namespace CelestialBodies.Config.Shading
 
         // MEMENTO PATTERN
         public abstract void InitConfig();
-        public abstract ShadingSettings GetConfig();
+        public abstract ShadingConfig GetConfig();
 
-        public abstract void SetConfig(ShadingSettings ss);
+        public abstract void SetConfig(ShadingConfig ss);
 
         [Serializable]
-        public abstract class ShadingSettings
+        public abstract class ShadingConfig
         {
             public bool randomize;
             public int seed = 0;

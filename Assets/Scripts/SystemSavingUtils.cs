@@ -18,11 +18,13 @@ public class SystemSavingUtils : MonoBehaviour
     // N.B TESTING ONLY -> HARDCODED SHAPES
     [Header("Shapes")]
     public PlanetShape PlanetShape;
-
+    public MoonShape MoonShape;
 
 
     [Header("Shading")]
     public Shading PlanetShading;
+    public Shading MoonShading;
+
 
     private void Awake()
     {
@@ -42,6 +44,15 @@ public class SystemSavingUtils : MonoBehaviour
             case CelestialBodyConfig.CelestialBodyType.Planet:
                 shape = PlanetShape;
                 shading = PlanetShading; 
+                break;
+            case CelestialBodyConfig.CelestialBodyType.Moon:
+                Debug.Log("Moon shape (Create Features)");
+                shape = MoonShape;
+                
+                Debug.Log("Moon shading (Create Features)");
+                shading = MoonShading;
+                
+                
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

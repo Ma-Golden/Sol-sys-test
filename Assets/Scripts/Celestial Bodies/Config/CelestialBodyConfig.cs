@@ -60,7 +60,22 @@ namespace CelestialBodies.Config
             shading = sd;
             //physics = ph;
 
+
+            if (shape == null)
+            {
+                Debug.LogError("Shape is null");
+            }
+
+            if (shading == null)
+            {
+                Debug.LogError("Shading is null");
+            }
+
+
+            Debug.Log("shape init config");
             sp.InitConfig();
+            
+            Debug.Log("shading init config");
             sd.InitConfig();
             //ph.InitSettings();
 

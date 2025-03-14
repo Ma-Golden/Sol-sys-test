@@ -22,12 +22,12 @@ namespace CelestialBodies.Config.Shading
             }
         }
 
-        public override ShadingSettings GetConfig()
+        public override ShadingConfig GetConfig()
         {
             return shadingSettings;
         }
 
-        public override void SetConfig(ShadingSettings ss)
+        public override void SetConfig(ShadingConfig ss)
         {
             shadingSettings = (PlanetShadingSettings)ss;
 
@@ -165,7 +165,7 @@ namespace CelestialBodies.Config.Shading
 
 
         [Serializable]
-        public class PlanetShadingSettings : ShadingSettings
+        public class PlanetShadingSettings : ShadingConfig
         {
             public PlanetColors baseGreenColors;
             public PlanetColors baseRedColors;

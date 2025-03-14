@@ -21,8 +21,6 @@ namespace CelestialBodies.Config.Shape
             shapeConfig.ridgeNoise.SetComputeValues(heightCompute, prng, "_ridges");
             shapeConfig.maskNoise.SetComputeValues(heightCompute, prng, "_mask");
 
-
-
         }
 
         public override void InitConfig()
