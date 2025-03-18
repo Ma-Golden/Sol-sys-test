@@ -20,37 +20,37 @@ MonoBehaviour:
     perturbStrength: 0.702
     noiseScale: 1.03
     noiseStrength: 24
-    oceanDepthMultiplier: 1.78
+    oceanDepthMultiplier: 1.88
     oceanFloorDepth: 1.63
     oceanFloorSmoothing: 2.85
-    mountainBlend: 1.75
-    baseMountainHeight: 2.42
+    mountainBlend: 3.71
+    baseMountainHeight: 3.8
     minMountainHeight: 0.15
-    maxMountainHeight: -0.51
+    maxMountainHeight: 0.57
     continentNoise:
-      numLayers: 4
+      numLayers: 6
       lacunarity: 2
       persistence: 0.5
       scale: 1
-      elevation: 1
-      verticalShift: 1.5
+      elevation: 2.65
+      verticalShift: 0.5
       offset: {x: 0, y: 0, z: 0}
     maskNoise:
-      numLayers: 4
-      lacunarity: 2
+      numLayers: 7
+      lacunarity: 1.6
       persistence: 0.5
-      scale: 1
+      scale: 2
       elevation: 1
-      verticalShift: 0
+      verticalShift: -0.1
       offset: {x: 0, y: 0, z: 0}
     ridgeNoise:
       numLayers: 5
       lacunarity: 2
       persistence: 0.5
-      scale: 1
+      scale: 1.5
       power: 2
       elevation: 1
-      gain: 1
+      gain: 4
       verticalShift: 0
       peakSmoothing: 0
       offset: {x: 0, y: 0, z: 0}

@@ -13,13 +13,41 @@ namespace CelestialBodies.Config.Shape
         protected override void SetShapeData()
         {
             PRNG prng = new PRNG(shapeConfig.seed);
+
+            SetCraterSettings(prng, shapeConfig.seed, shapeConfig.random);
+
             // TODO : use these in compute shader
             shapeConfig.shapeNoise.SetComputeValues(heightCompute, prng, "_shape");
-            shapeConfig.ridgeNoise.SetComputeValues(heightCompute, prng, "_ridges");
-            shapeConfig.ridgeNoise2.SetComputeValues(heightCompute, prng, "_ridges2");
+            shapeConfig.ridgeNoise.SetComputeValues(heightCompute, prng, "_ridge");
+            shapeConfig.ridgeNoise2.SetComputeValues(heightCompute, prng, "_ridge2");
 
             // TODO RUN WITH TESTER (SIN WAVE
             heightCompute.SetFloat("testValue", shapeConfig.testHeight);
+        }
+
+
+        void SetCraterSettings(PRNG prng, int seed, bool randomizeValues)
+        {
+            if (randomizeValues)
+            {
+                var chance = new Chance(prng);
+                if (chance.Percent(70))
+                { // Medium amount of mostly small to medium craters
+                    shapeConfig.craterSettings.SetComputeValues(heightCompute, seed, prng.Range(100, 700), new Vector2(0.01f, 0.1f), 0.57f);
+                }
+                else if (chance.Percent(15))
+                { // Many small craters
+                    shapeConfig.craterSettings.SetComputeValues(heightCompute, seed, prng.Range(800, 1800), new Vector2(0.01f, 0.08f), 0.74f);
+                }
+                else if (chance.Percent(15))
+                { // A few large craters
+                    shapeConfig.craterSettings.SetComputeValues(heightCompute, seed, prng.Range(50, 150), new Vector2(0.01f, 0.2f), 0.4f);
+                }
+            }
+            else
+            {
+                shapeConfig.craterSettings.SetComputeValues(heightCompute, seed);
+            }
         }
 
 
@@ -56,6 +84,7 @@ namespace CelestialBodies.Config.Shape
             public float testHeight = 1f;
 
             [Header("Noise settings")]
+            public CraterSettings craterSettings = new CraterSettings();
             public SimpleNoiseSettings shapeNoise = new SimpleNoiseSettings();
             public RidgeNoiseSettings ridgeNoise = new RidgeNoiseSettings();
             public RidgeNoiseSettings ridgeNoise2 = new RidgeNoiseSettings();

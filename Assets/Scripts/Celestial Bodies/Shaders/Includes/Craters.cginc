@@ -1,4 +1,4 @@
-#include "/Math.cginc"
+#include "./Math.cginc"
 
 struct Crater {
     float3 centre;

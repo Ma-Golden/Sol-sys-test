@@ -6,6 +6,7 @@ StructuredBuffer<float3> vertices;
 RWStructuredBuffer<float> heights;
 uint numVertices;
 
+// Test value for checking working pipeline
 float testValue;
 
 // Noise settings
@@ -20,6 +21,31 @@ void CSMain (uint id : SV_DispatchThreadID)
     {
         return;
     }
+    
+    static const float elevationMultiplier = 0.01;
     float3 vertexPos = vertices[id];
-    heights[id] = 1 + sin(vertexPos.y * testValue) * 0.05;
+    
+    // Craters
+    float craterDepth = calculateCraterDepth(vertexPos);
+
+    // Lof-freq noise to add deformation to base sphere shape
+    float shapeNoise = simpleNoise(vertexPos, noiseParams_shape);
+    
+    // Ridge noise
+    float ridgeNoise = smoothedRidgidNoise(vertexPos, noiseParams_ridge);
+    float ridge2 = smoothedRidgidNoise(vertexPos, noiseParams_ridge2);
+    
+    
+    float noiseSum = (shapeNoise + ridgeNoise + ridge2) * elevationMultiplier;
+    // float noiseSum = (shapeNoise + ridgeNoise + ridge2) * elevationMultiplier;
+   
+    // Check ridge mask
+
+    // Test heights    
+    //heights[id] = 1 + sin(vertexPos.y * testValue) * 0.05;
+
+    // TEST FORMULA: SET TEST VALUE TO 0 TO NEGATE SIN SECTION
+    float finalHeight = 1 + craterDepth + noiseSum + sin(vertexPos.y * testValue);
+    heights[id] = finalHeight;
+    
 }
