@@ -31,7 +31,7 @@ namespace CelestialBodies.Config.Shading
         // Set shading properties on terrain
         public virtual void SetSurfaceProperties(Material material, Vector2 heightMinMax, float bodyScale)
         {
-
+            // Overriden by child class
         }
 
         // Generate Vector4[] of shading data. This is stored in mesh uvs and used to help shade the body

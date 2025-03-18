@@ -189,7 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolution: 3
   celestialBody: {fileID: 1939330747}
-  cBodyType: 0
+  cBodyType: 1
 --- !u!1 &1939330746
 GameObject:
   m_ObjectHideFlags: 0

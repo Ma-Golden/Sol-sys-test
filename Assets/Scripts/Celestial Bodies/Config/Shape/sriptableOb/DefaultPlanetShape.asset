@@ -32,7 +32,7 @@ MonoBehaviour:
       lacunarity: 2
       persistence: 0.5
       scale: 1
-      elevation: 2.65
+      elevation: 5.66
       verticalShift: 0.5
       offset: {x: 0, y: 0, z: 0}
     maskNoise:
@@ -50,7 +50,7 @@ MonoBehaviour:
       scale: 1.5
       power: 2
       elevation: 1
-      gain: 4
+      gain: 1
       verticalShift: 0
       peakSmoothing: 0
       offset: {x: 0, y: 0, z: 0}

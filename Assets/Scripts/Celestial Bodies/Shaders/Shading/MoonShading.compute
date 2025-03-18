@@ -1,0 +1,31 @@
+#pragma kernel CSMain
+
+#include "../Includes/FractalNoise.cginc"
+#include "../Includes/Math.cginc"
+
+StructuredBuffer<float3> vertices;
+RWStructuredBuffer<float4> shadingData;
+
+uint numVertices;
+
+float4 noiseParams_detailWarp[3];
+float4 noiseParams_detail[3];
+
+float4 params;
+
+[numthreads(512, 1, 1)]
+void CSMain (uint id : SV_DispatchThreadID)
+{
+    if (id >= numVertices)
+    {
+        return;
+    }
+ 
+    float3 pos = vertices[id];
+    
+    float domainWarp = simpleNoise(pos, noiseParams_detailWarp);
+    
+    float detailNoise = simpleNoise(pos + domainWarp * 0.1, noiseParams_detail);
+    
+    shadingData[id] = float4(0, 0, detailNoise, 0);
+}

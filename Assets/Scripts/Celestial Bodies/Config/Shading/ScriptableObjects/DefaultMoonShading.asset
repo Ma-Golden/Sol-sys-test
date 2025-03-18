@@ -13,10 +13,37 @@ MonoBehaviour:
   m_Name: DefaultMoonShading
   m_EditorClassIdentifier: 
   shadingDataCompute: {fileID: 0}
-  terrainMaterial: {fileID: 2100000, guid: 85c4852f5cea32f46b70b8271083659c, type: 2}
+  terrainMaterial: {fileID: 2100000, guid: 7841c419b02f0424aa763d3ee8b2552c, type: 2}
   shadingConfig:
     randomize: 0
     seed: 0
     realisticColors: 0
-    mainColor: {r: 0.7830189, g: 0.5946511, b: 0.5946511, a: 1}
+    mainColor: {r: 0.3207547, g: 0.24569711, b: 0.21333215, a: 1}
     dummyVar: 0
+    baseMoonColours:
+      primaryColorA: {r: 0, g: 0, b: 0, a: 0}
+      secondaryColorA: {r: 0, g: 0, b: 0, a: 0}
+      primaryColorB: {r: 0, g: 0, b: 0, a: 0}
+      secondaryColorB: {r: 0, g: 0, b: 0, a: 0}
+    randomMooncolours:
+      primaryColorA: {r: 0, g: 0, b: 0, a: 0}
+      secondaryColorA: {r: 0, g: 0, b: 0, a: 0}
+      primaryColorB: {r: 0, g: 0, b: 0, a: 0}
+      secondaryColorB: {r: 0, g: 0, b: 0, a: 0}
+    colourHRange: {x: 0, y: 0}
+    detailNoise:
+      numLayers: 4
+      lacunarity: 2
+      persistence: 0.5
+      scale: 1
+      elevation: 1
+      verticalShift: 0
+      offset: {x: 0, y: 0, z: 0}
+    detailWarpNoise:
+      numLayers: 4
+      lacunarity: 2
+      persistence: 0.5
+      scale: 1
+      elevation: 1
+      verticalShift: 0
+      offset: {x: 0, y: 0, z: 0}

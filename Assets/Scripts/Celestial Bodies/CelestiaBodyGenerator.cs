@@ -80,11 +80,13 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
         }
         else if (_shadingUpdated)
         {
-            Debug.Log("Shading Update (NOT IMPLEMENTED");
+            _shadingUpdated = false;
+            GenerateShading(_previewMesh);
         }
 
         if (bodyConfig.shading != null && body.surfaceMaterial != null)
         {
+            bodyConfig.shading.Initialize(bodyConfig.shape);
             bodyConfig.shading.SetSurfaceProperties(body.surfaceMaterial, _heightMinMax, BodyScale);
         }
 
@@ -157,6 +159,15 @@ public class CelestiaBodyGenerator : MonoBehaviour, ICelestialObserver
 
         return new Vector2(minHeight, maxHeight);
     }
+
+    private void GenerateShading(Mesh mesh)
+    {
+        ComputeHelper.CreateStructuredBuffer<Vector3>(ref _vertexBuffer, mesh.vertices);
+        bodyConfig.shading.Initialize(bodyConfig.shape);
+        Vector4[] shadingData = bodyConfig.shading.GenerateShadingData(_vertexBuffer);
+        mesh.SetUVs(0, shadingData);
+    }
+
 
 
     (Vector3[] vertices, int[] triangles) CreateSphereVertsTris(int resolution)

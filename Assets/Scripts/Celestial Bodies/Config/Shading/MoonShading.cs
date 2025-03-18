@@ -37,12 +37,70 @@ namespace CelestialBodies.Config.Shading
             return shadingConfig;
         }
 
+        public override void SetSurfaceProperties(Material material, Vector2 heightMinMax, float bodyScale)
+        {
+            material.SetVector("heightMinMax", heightMinMax);
+            material.SetFloat("bodyScale", bodyScale);
+
+            // CraterBiomeSettings
+
+            if (shadingConfig.randomize)
+            {
+                // SetRandomColors();
+                // ApplyColours(material, shadinConfig.RandomMoonColours);
+            }
+            else 
+            {
+                // Apply colours
+            }
+
+            shadingConfig.mainColor = Color.gray;
+        }
+
+        protected override void SetShadingDataComputeProperties()
+        {
+            SetShadingNoise();
+        }
+
+        private void SetShadingNoise()
+        {
+            const string detailWarpNoiseSuffix = "_detailWarp";
+            const string detailNoiseSuffix = "_detail";
+
+            PRNG prng = new PRNG(shadingConfig.seed);
+            PRNG prng2 = new PRNG(shadingConfig.seed);
+
+
+            if (shadingConfig.randomize)
+            {
+                SimpleNoiseSettings randomizedDetailWarpNoise = new SimpleNoiseSettings
+                {
+                    scale = prng.Range(1f, 3f),
+                    elevation = prng.Range(1f, 5f)
+                };
+
+                randomizedDetailWarpNoise.SetComputeValues(shadingDataCompute, prng2, detailWarpNoiseSuffix);
+
+                shadingConfig.detailNoise.SetComputeValues(shadingDataCompute, prng2, detailNoiseSuffix);
+            } else
+            {
+                shadingConfig.detailWarpNoise.SetComputeValues(shadingDataCompute, prng, detailWarpNoiseSuffix);
+                shadingConfig.detailNoise.SetComputeValues(shadingDataCompute, prng2, detailNoiseSuffix);
+            }
+        }
 
         [Serializable]
         public class MoonShadingSettings : ShadingConfig
         {
             // Dummy setup to test shape stuff
             public int dummyVar = 0;
+
+            public MoonColors baseMoonColours;
+            public MoonColors randomMooncolours;
+            public Vector2 colourHRange;
+
+            public SimpleNoiseSettings detailNoise = new SimpleNoiseSettings();
+            public SimpleNoiseSettings detailWarpNoise = new SimpleNoiseSettings();
         }
 
         [Serializable]
