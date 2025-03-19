@@ -25,6 +25,9 @@ public class SystemSavingUtils : MonoBehaviour
     public Shading PlanetShading;
     public Shading MoonShading;
 
+    [Header("Ocean")]
+    public Ocean baseOcean;
+
 
     private void Awake()
     {
@@ -32,12 +35,15 @@ public class SystemSavingUtils : MonoBehaviour
     }
 
     // N.B ONLY RETURNS SHAPE ATM
-    public (Shape shape, Shading shading) CreateFeatures(CelestialBodyConfig.CelestialBodyType celestialBodyType)
+    public (Shape shape, Shading shading, Ocean ocean) CreateFeatures(CelestialBodyConfig.CelestialBodyType celestialBodyType)
     {
         Shape shape = null;
         Shading shading = null;
+        Ocean ocean = null;
         
         // TODO: add more features
+
+        ocean = (baseOcean);
 
         switch (celestialBodyType)
         {
@@ -48,15 +54,12 @@ public class SystemSavingUtils : MonoBehaviour
             case CelestialBodyConfig.CelestialBodyType.Moon:
                 Debug.Log("Moon shape (Create Features)");
                 shape = MoonShape;
-                
                 Debug.Log("Moon shading (Create Features)");
                 shading = MoonShading;
-                
-                
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        return (shape, shading);
+        return (shape, shading, ocean);
     }
 };

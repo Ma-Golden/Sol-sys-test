@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a845c96b6f27764b8504af1c56fa75f, type: 3}
+  m_Name: BaseOcean
+  m_EditorClassIdentifier: 
+  oceanSettings:
+    randomizeShading: 0
+    randomizeHeight: 0
+    shadingSeed: 0
+    heightSeed: 0
+    realisticColors: 1
+    hueRange: 0.05
+    hasOcean: 1
+    oceanLevel: 0.55
+    baseOceanLevel: 0.5
+    minOceanLevel: 0.3
+    maxOceanLevel: 0.85
+    depthMultiplier: 10
+    alphaMultiplier: 70
+    baseShallowCol: {r: 0, g: 0, b: 0, a: 0}
+    baseDepthCol: {r: 0, g: 0, b: 0, a: 0}
+    randomShallowCol: {r: 0, g: 0, b: 0, a: 1}
+    randomDepthCol: {r: 0, g: 0, b: 0, a: 1}
+    specularCol: {r: 1, g: 1, b: 1, a: 1}
+    waveStrength: 0.15
+    waveScale: 15
+    waveSpeed: 0.5
+    smoothness: 0.92
+    testParams: {x: 0, y: 0, z: 0, w: 0}
+  waveNormalA: {fileID: 2800000, guid: 99f1e8efd8bdf714299af0134fb60eec, type: 3}
+  waveNormalB: {fileID: 2800000, guid: 6500fee0fbf1c2e40a5fab5e44d6be47, type: 3}

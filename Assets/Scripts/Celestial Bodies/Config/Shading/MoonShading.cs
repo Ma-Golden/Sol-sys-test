@@ -11,7 +11,7 @@ namespace CelestialBodies.Config.Shading
     {
         private ComputeBuffer _pointBuffer;
 
-        [SerializeField] protected MoonShadingSettings shadingConfig;
+        [SerializeField] protected MoonshadingConfig shadingConfig;
 
         public override void InitConfig()
         {
@@ -24,7 +24,7 @@ namespace CelestialBodies.Config.Shading
 
         public override void SetConfig(ShadingConfig ss)
         {
-            shadingConfig = (MoonShadingSettings)ss;
+            shadingConfig = (MoonshadingConfig)ss;
 
             if (Observers == null) return;
             foreach (ICelestialObserver observer in Observers)
@@ -37,18 +37,20 @@ namespace CelestialBodies.Config.Shading
             return shadingConfig;
         }
 
-        public override void SetSurfaceProperties(Material material, Vector2 heightMinMax, float bodyScale)
+        public override void SetSurfaceProperties(Material material, Vector2 heightMinMax, float bodyScale, float oceanLevel)
         {
             material.SetVector("heightMinMax", heightMinMax);
             material.SetFloat("bodyScale", bodyScale);
 
             // CraterBiomeSettings
+            SetCraterBiome(material);
 
             if (shadingConfig.randomize)
             {
                 // SetRandomColors();
                 // ApplyColours(material, shadinConfig.RandomMoonColours);
-                ApplyColors(material, shadingConfig.baseMoonColours);
+                SetRandColors();
+                ApplyColors(material, shadingConfig.randomMooncolours);
             }
             else 
             {
@@ -57,6 +59,54 @@ namespace CelestialBodies.Config.Shading
             }
 
             shadingConfig.mainColor = Color.gray;
+        }
+
+
+        private void SetCraterBiome(Material material)
+        {
+            PRNG prng = new PRNG(shadingConfig.seed);
+
+            Vector4 biomesValues = new Vector4(
+                prng.SignedValueBiasExtremes(0.3f),
+                prng.SignedValueBiasExtremes(0.3f) * 0.4f,
+                prng.SignedValueBiasExtremes(0.3f) * 0.3f,
+                prng.SignedValueBiasExtremes(0.3f) * 0.7f
+                );
+
+            material.SetVector("_RandomBiomeValues", biomesValues);
+            var warpStrength = prng.SignedValueBiasCentre(0.65f) * 30f;
+            material.SetFloat("_BiomeBlendStrength", prng.Range(2f, 12) + Mathf.Abs (warpStrength) / 2);
+            material.SetFloat("_BiomeWarpStrength", warpStrength);
+        }
+
+        private void SetRandColors()
+        {
+            PRNG random = new PRNG(shadingConfig.seed);
+            if (shadingConfig.realisticColors)
+            {
+                var deltaH = random.Range(shadingConfig.colourHRange.x, shadingConfig.colourHRange.y);
+                MoonColors colors = shadingConfig.baseMoonColours;
+
+                shadingConfig.randomMooncolours.primaryColorA =
+                    ColorHelper.TweakHSV(colors.primaryColorA, deltaH, 0, 0);
+                shadingConfig.randomMooncolours.secondaryColorA =
+                    ColorHelper.TweakHSV(colors.secondaryColorA, deltaH, 0, 0);
+                shadingConfig.randomMooncolours.primaryColorB =
+                    ColorHelper.TweakHSV(colors.primaryColorB, deltaH, 0, 0);
+                shadingConfig.randomMooncolours.secondaryColorB =
+                    ColorHelper.TweakHSV(colors.secondaryColorB, deltaH, 0, 0);
+            }
+            else
+            {
+                shadingConfig.randomMooncolours.primaryColorA =
+                    ColorHelper.Random(random, 0.45f, 0.6f, 0.7f, 0.8f);
+                shadingConfig.randomMooncolours.secondaryColorA =
+                    ColorHelper.TweakHSV(shadingConfig.randomMooncolours.primaryColorA, random.SignedValue() * 0.2f, random.SignedValue() * 0.15f, random.Range(-0.25f, -0.2f));
+                shadingConfig.randomMooncolours.primaryColorB =
+                    ColorHelper.Random(random, 0.45f, 0.6f, 0.7f, 0.8f);
+                shadingConfig.randomMooncolours.secondaryColorB =
+                    ColorHelper.TweakHSV(shadingConfig.randomMooncolours.primaryColorB, random.SignedValue() * 0.2f, random.SignedValue() * 0.15f, random.Range(-0.25f, -0.2f));
+            }
         }
 
 
@@ -110,7 +160,7 @@ namespace CelestialBodies.Config.Shading
         }
 
         [Serializable]
-        public class MoonShadingSettings : ShadingConfig
+        public class MoonshadingConfig : ShadingConfig
         {
             // Dummy setup to test shape stuff
             public int dummyVar = 0;

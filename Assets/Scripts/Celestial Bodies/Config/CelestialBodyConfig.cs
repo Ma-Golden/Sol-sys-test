@@ -15,6 +15,7 @@ namespace CelestialBodies.Config
         // Base class for setting shape, shading, and physical properties
         public Shape.Shape shape;
         public Shading.Shading shading;
+        public Ocean ocean;
         //public PhysicalProperties.PhysicalProperties physicalProperties;
 
 
@@ -54,10 +55,11 @@ namespace CelestialBodies.Config
         {
             bodyType = newType;
             
-            (Shape.Shape sp, Shading.Shading sd) = SystemSavingUtils.Instance.CreateFeatures(newType);
+            (Shape.Shape sp, Shading.Shading sd, Ocean oc) = SystemSavingUtils.Instance.CreateFeatures(newType);
 
             shape = sp;
             shading = sd;
+            ocean = oc;
             //physics = ph;
 
 
@@ -72,15 +74,23 @@ namespace CelestialBodies.Config
             }
 
 
-            Debug.Log("shape init config");
+            if (ocean == null)
+            {
+                Debug.LogError("Ocean is null");
+            }
+
+
             sp.InitConfig();
-            
-            Debug.Log("shading init config");
             sd.InitConfig();
+
+            oc.InitSettings();
             //ph.InitSettings();
 
-        }
+            // Enables ocean by default on planets only
+            Ocean.OceanSettings os = ocean.GetSettings();
+            os.hasOcean = bodyType == CelestialBodyType.Planet;
 
+        }
 
         [Serializable]
         public enum CelestialBodyType // Possible types of celestial bodies

@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Debug.Log("GameManager instance initialized");
             // TODO: JSON CONVERT STUFF
         }
         else 
@@ -31,6 +32,12 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public Camera GetMainCamera()
+    {
+        return Camera.main;
+    }
+
 
     public void LoadScene(int index)
     {

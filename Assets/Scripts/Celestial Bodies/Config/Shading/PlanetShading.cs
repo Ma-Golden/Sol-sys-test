@@ -38,14 +38,17 @@ namespace CelestialBodies.Config.Shading
             }
         }
 
-        public override void SetSurfaceProperties(Material material, Vector2 heightMinMax, float bodyScale)
+        public override void SetSurfaceProperties(Material material, Vector2 heightMinMax, float bodyScale, float oceanLevel)
         {
+            
+            Debug.Log("Setting surface properties");
             material.SetVector("heightMinMax", heightMinMax);
-            //material.SetFloat("oceanLevel", oceanLevel);
+            material.SetFloat("oceanLevel", oceanLevel);
             material.SetFloat("bodyScale", bodyScale);
 
-            //SetCraterBiomesSettings(material);
+            SetCraterBiomesSettings(material);
 
+            Debug.Log("Randomize shading: " + shadingSettings.randomize);
             if (shadingSettings.randomize)
             {
                 SetRandomColors();
@@ -147,22 +150,18 @@ namespace CelestialBodies.Config.Shading
 
         void ApplyColours(Material material, PlanetColors colors)
         {
-            material.SetColor("_ShoreLow", colors.shoreColLow);
-            material.SetColor("_ShoreHigh", colors.shoreColHigh);
+            material.SetColor("ShoreLow", colors.shoreColLow);
+            material.SetColor("ShoreHigh", colors.shoreColHigh);
 
-            material.SetColor("_FlatLowA", colors.flatColLowA);
-            material.SetColor("_FlatHighA", colors.flatColHighA);
+            material.SetColor("FlatLowA", colors.flatColLowA);
+            material.SetColor("FlatHighA", colors.flatColHighA);
 
-            material.SetColor("_FlatLowB", colors.flatColLowB);
-            material.SetColor("_FlatHighB", colors.flatColHighB);
+            material.SetColor("FlatLowB", colors.flatColLowB);
+            material.SetColor("FlatHighB", colors.flatColHighB);
 
-            material.SetColor("_SteepLow", colors.steepLow);
-            material.SetColor("_SteepHigh", colors.steepHigh);
+            material.SetColor("SteepLow", colors.steepLow);
+            material.SetColor("SteepHigh", colors.steepHigh);
         }
-
-
-
-
 
         [Serializable]
         public class PlanetShadingSettings : ShadingConfig

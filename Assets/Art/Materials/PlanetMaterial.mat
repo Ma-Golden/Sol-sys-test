@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PlanetMaterial
+  m_Shader: {fileID: 4800000, guid: 47dfa0312449e1b48b87c58192d0d94b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 2644ecfb285495744bd282e3c840d049, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMapFlat:
+        m_Texture: {fileID: 2800000, guid: 761438998eee97b47a23db0041920359, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMapSteep:
+        m_Texture: {fileID: 2800000, guid: 9997748e0dd64ce43817f77dc7c3246a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _FlatColBlend: 0.52
+    - _FlatColBlendNoise: 0.426
+    - _FlatToSteepBlend: 0.1
+    - _FlatToSteepNoise: 0.022
+    - _FresnelPow: 100
+    - _FresnelStrengthFar: 0
+    - _FresnelStrengthNear: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0
+    - _GlossyReflections: 1
+    - _MaxFlatHeight: 0.514
+    - _Metallic: 0
+    - _Mode: 0
+    - _NoiseScale: 1
+    - _NoiseScale2: 1
+    - _NoiseZoomL: 0.5
+    - _NoiseZoomM: 50
+    - _NoiseZoomS: 70
+    - _NoiseZoomXL: 0.1
+    - _NormalMapFlatScale: 10
+    - _NormalMapSteepScale: 10
+    - _NormalMapStrength: 0.51
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _ShoreBlend: 0.076
+    - _ShoreHeight: 0.05
+    - _SmoothnessTextureChannel: 0
+    - _SnowBlend: 0.1
+    - _SnowHighlight: 1.2
+    - _SnowLongitude: 0.8
+    - _SnowNoiseA: 5
+    - _SnowNoiseB: 4
+    - _SnowSpecular: 1
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SteepBandStrength: 0.5
+    - _SteepBands: 8
+    - _SteepnessThreshold: 0.073
+    - _UVSec: 0
+    - _UseSnowyPoles: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlatHighA: {r: 0.16078432, g: 0.27450982, b: 0.28627452, a: 1}
+    - _FlatHighB: {r: 0.11372549, g: 0.1882353, b: 0.20392157, a: 1}
+    - _FlatLowA: {r: 0.2509804, g: 0.36078432, b: 0.26666668, a: 1}
+    - _FlatLowB: {r: 0.21960784, g: 0.3137255, b: 0.30980393, a: 1}
+    - _FresnelCol: {r: 1, g: 1, b: 1, a: 1}
+    - _ShoreHigh: {r: 0.8156863, g: 0.92941177, b: 0.6745098, a: 1}
+    - _ShoreLow: {r: 0.6745098, g: 0.7921569, b: 0.5137255, a: 1}
+    - _SnowCol: {r: 1, g: 1, b: 1, a: 1}
+    - _SteepHigh: {r: 0.6627451, g: 0.6862745, b: 0.54901963, a: 1}
+    - _SteepLow: {r: 0.20754719, g: 0.19286224, b: 0.20387596, a: 1}
+    - _TestParams: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

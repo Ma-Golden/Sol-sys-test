@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 222428272}
   - component: {fileID: 222428271}
+  - component: {fileID: 222428273}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -216,6 +217,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 98.767, y: 0, z: 0}
+--- !u!114 &222428273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222428270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8780676cf7ef47749bc14c34349158ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camToTrack: {fileID: 0}
+  trackCamera: 1
 --- !u!1 &794503659
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,9 +243,10 @@ GameObject:
   - component: {fileID: 794503662}
   - component: {fileID: 794503661}
   - component: {fileID: 794503660}
+  - component: {fileID: 794503664}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -326,6 +342,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 9.988, y: 0, z: 0}
+--- !u!114 &794503664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794503659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245de247ff5ac95418fdcb1a9cdf2d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+  - {fileID: 11400000, guid: b254ef55d3b74114c921f371c050f5bc, type: 2}
+--- !u!1001 &1095208043
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 654435270834244227, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_Name
+      value: Game_Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953634361832497555, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 865ab40c27f02ee42a5cdb052726a15f, type: 3}
 --- !u!1 &1367424531
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,6 +454,7 @@ MonoBehaviour:
   MoonShape: {fileID: 11400000, guid: d7116e3d320746d48af8f3748369a8ec, type: 2}
   PlanetShading: {fileID: 11400000, guid: 2075ab29c6872134fb252be3c69f7db2, type: 2}
   MoonShading: {fileID: 11400000, guid: 9f25ce2d6506a6540ba2b4670b71092b, type: 2}
+  baseOcean: {fileID: 11400000, guid: a92d3021da4929040bc3735f7cbb900d, type: 2}
 --- !u!4 &1367424533
 Transform:
   m_ObjectHideFlags: 0
@@ -396,7 +484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolution: 3
   celestialBody: {fileID: 1939330747}
-  cBodyType: 1
+  cBodyType: 0
 --- !u!1 &1939330746
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,3 +869,4 @@ SceneRoots:
   - {fileID: 1939330748}
   - {fileID: 794503663}
   - {fileID: 222428272}
+  - {fileID: 1095208043}

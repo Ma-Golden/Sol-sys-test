@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CelestialBody : MonoBehaviour
 {
-    public CelestiaBodyGenerator celestiaBodyGenerator;
+    public CelestialBodyGenerator celestiaBodyGenerator;
 
     // Essential Vars for all cBodies
     public float mass = 1f;     // TODO: ADJUST MASS SCALING
@@ -25,7 +25,7 @@ public class CelestialBody : MonoBehaviour
         //_rb = gameObject.AddComponent<Rigidbody>();
         //_rb.iskinematic = true;
 
-        celestiaBodyGenerator = gameObject.AddComponent<CelestiaBodyGenerator>();
+        celestiaBodyGenerator = gameObject.AddComponent<CelestialBodyGenerator>();
         celestiaBodyGenerator.body = this;
     }
 

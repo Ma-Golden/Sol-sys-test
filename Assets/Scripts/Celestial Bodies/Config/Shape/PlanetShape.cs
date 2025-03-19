@@ -21,6 +21,11 @@ namespace CelestialBodies.Config.Shape
             shapeConfig.ridgeNoise.SetComputeValues(heightCompute, prng, "_ridges");
             shapeConfig.maskNoise.SetComputeValues(heightCompute, prng, "_mask");
 
+            heightCompute.SetFloat("oceanDepthMultiplier", shapeConfig.oceanDepthMultiplier);
+            heightCompute.SetFloat("oceanFloorDepth", shapeConfig.oceanFloorDepth);
+            heightCompute.SetFloat("oceanFloorSmoothing", shapeConfig.oceanFloorSmoothing);
+            heightCompute.SetFloat("mountainBlend", shapeConfig.mountainBlend);
+            heightCompute.SetVector("params", shapeConfig.testParams);
         }
 
         public override void InitConfig()
