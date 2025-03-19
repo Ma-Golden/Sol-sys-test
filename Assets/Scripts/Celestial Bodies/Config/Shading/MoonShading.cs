@@ -48,13 +48,33 @@ namespace CelestialBodies.Config.Shading
             {
                 // SetRandomColors();
                 // ApplyColours(material, shadinConfig.RandomMoonColours);
+                ApplyColors(material, shadingConfig.baseMoonColours);
             }
             else 
             {
                 // Apply colours
+                ApplyColors(material, shadingConfig.baseMoonColours);
             }
 
             shadingConfig.mainColor = Color.gray;
+        }
+
+
+        /*
+         		
+		float4 primaryColorA;
+		float4 secondaryColorA;
+		float4 primaryColorB;
+		float4 secondaryColorB;
+         
+         */
+
+        void ApplyColors(Material material, MoonColors colors)
+        {
+            material.SetColor("primaryColorA", colors.primaryColorA);
+            material.SetColor("secondaryColorA", colors.secondaryColorA);
+            material.SetColor("primaryColorB", colors.primaryColorB);
+            material.SetColor("secondaryColorB", colors.secondaryColorB);
         }
 
         protected override void SetShadingDataComputeProperties()
