@@ -232,6 +232,7 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
 
     private void SetPhysicalProperties()
     {
+        // Updates physical properties of the bodies transform.
         Transform bodyTransform = transform;
         bodyTransform.position = body.position;
         bodyTransform.localScale = bodyConfig.radius * Vector3.one;

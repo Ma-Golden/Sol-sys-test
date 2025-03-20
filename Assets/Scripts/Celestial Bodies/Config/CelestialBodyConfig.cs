@@ -16,12 +16,14 @@ namespace CelestialBodies.Config
         public Shape.Shape shape;
         public Shading.Shading shading;
         public Ocean ocean;
+        public Physics physics;
+
+
         //public PhysicalProperties.PhysicalProperties physicalProperties;
 
 
         // TODO: check placement of radous + other physical properties
         public float radius = 5;
-
 
 
         public void Init(CelestialBodyType type)

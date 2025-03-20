@@ -17,7 +17,7 @@ public class PlanetSelector : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (UnityEngine.Physics.Raycast(ray, out RaycastHit hit))
             {
                 CelestialBody cbody = hit.collider.GetComponent<CelestialBody>();
                 if (cbody != null)

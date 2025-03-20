@@ -29,16 +29,16 @@ public class CelestialBody : MonoBehaviour
         celestiaBodyGenerator.body = this;
     }
 
-    private void UpdateColliderSize()
-    {
-        Debug.Log("Updating collider size");
-        if (sphereMesh != null)
-        {
-            float radius = sphereMesh.localScale.x /2f;
-            Debug.Log("Setting collider Radius: " + radius);
-            sphereCollider.radius = radius;
-        }
-    }
+    //private void UpdateColliderSize()
+    //{
+    //    Debug.Log("Updating collider size");
+    //    if (sphereMesh != null)
+    //    {
+    //        float radius = sphereMesh.localScale.x /2f;
+    //        Debug.Log("Setting collider Radius: " + radius);
+    //        sphereCollider.radius = radius;
+    //    }
+    //}
 
     private void FixedUpdate()
     {
