@@ -2,6 +2,7 @@ using CelestialBodies;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Android;
 
@@ -22,7 +23,7 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     public bool relativeToBody;
     public CelestialBody centralBody;   // Centre of simulation, most often the sun
     public int centralBodyIndex;        // Index of central body in celestialBodies array
-    public float width = 100; // TODO: CHECK
+    public float lineWidth = 100; // TODO: CHECK
 
     private VirtualBody[] _virtualBodies; // Virtual bodies for physics calculations
 
@@ -48,13 +49,48 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     public void StartSimulation()
     {
         StopSimulation();
+        
+        // TODO check deselect body
+
+        _bodies = FindObjectsOfType<CelestialBody>();
+        int numBodies = _bodies.Length;
+        _virtualBodies = new VirtualBody[numBodies];
+        _orbitPoints = new List<List<Vector3>>(numBodies);
+        _orbitSizes = new List<int>(numBodies);
+        _lineRenderers = new LineRenderer[numBodies];
+
+        _referenceFrameIndex = 0;
+        _referenceBodyInitialPosition = Vector3.zero;
 
 
+        for (var i = 0; i < numBodies; i++)
+        {
+            _orbitSizes.Add(ComputeOrbitSize());
+            _orbitPoints.Add(new List<Vector3>(_orbitSizes[i]));
+
+            _virtualBodies[i] = new VirtualBody(_bodies[i]);
+
+            if (_bodies[i] == centralBody && relativeToBody)
+            {
+                _referenceFrameIndex = i;
+                _referenceBodyInitialPosition = _virtualBodies[i].Position;
+            }
+
+            // Setup orbit visualization
+            _lineRenderers[i] = _bodies[i].gameObject.AddComponent<LineRenderer>();
+            _lineRenderers[i].positionCount = 0;
+            // TODO: SET COLOUR BASED ON BODY COLOUR
+            _lineRenderers[i].startColor = Color.white;
+            _lineRenderers[i].endColor = _bodies[i].celestiaBodyGenerator.bodyConfig.shading.GetConfig().mainColor;
+            _lineRenderers[i].widthMultiplier = lineWidth;
+        }
+
 
         // CONTINUE HERE
         // CONTINUE HERE
         // CONTINUE HERE
         // CONTINUE HERE
+        // START COROUTINE SIM LOOP
         // CONTINUE HERE
         // CONTINUE HERE
         // CONTINUE HERE
@@ -62,9 +98,21 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
 
     }
 
+    // TODO:EXPLAIN
+    private int ComputeOrbitSize()
+    {
+        return Mathf.Clamp(Mathf.CeilToInt(400 / timeStep), 100, 4000);
+    }
+
+
+    private IEnumerator SimulationLoop()
+    {
+        return null;
+    }
 
 
 
+    
 
 
     public void StopSimulation()
@@ -110,6 +158,13 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
 
 
     // virtual body class to decouple gravity calculations from GameObjects
+
+    // CLASS FOR KEPLERIAN PHYSICS
+
+    
+
+
+
     public class VirtualBody
     {
         public Vector3 Position;
