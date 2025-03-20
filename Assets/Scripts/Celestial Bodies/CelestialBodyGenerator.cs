@@ -84,8 +84,16 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
             GenerateShading(_previewMesh);
         }
 
+        if (_physicsUpdated)
+        {
+            SetPhysicalProperties();
+        }
+
+
         if (bodyConfig.shading != null && body.surfaceMaterial != null)
         {
+            SetPhysicalProperties();
+            
             bodyConfig.shading.Initialize(bodyConfig.shape);
 
 
@@ -95,9 +103,7 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
             Debug.Log("Setting surface properties");
             bodyConfig.shading.SetSurfaceProperties(body.surfaceMaterial, _heightMinMax, BodyScale, testOceanLevel);
         
-        
-        
-        
+            
         }
 
         ReleaseAllBuffers();
@@ -221,6 +227,19 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
             ? UnityEngine.Rendering.IndexFormat.UInt16
             : UnityEngine.Rendering.IndexFormat.UInt32;
     }
+
+    // TODO: LOOK INTO PHYSICS CONFIG AS SEPERATE
+
+    private void SetPhysicalProperties()
+    {
+        Transform bodyTransform = transform;
+        bodyTransform.position = body.position;
+        bodyTransform.localScale = bodyConfig.radius * Vector3.one;
+
+        // TODO SET MASS
+    }
+
+
 
 
     public void OnShapeUpdate()
