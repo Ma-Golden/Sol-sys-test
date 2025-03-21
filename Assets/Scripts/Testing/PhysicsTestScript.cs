@@ -20,6 +20,13 @@ public class PhysicsTestScript : MonoBehaviour
 
     private void Start()
     {
+    
+        // CONTINUE FROM HERE
+        // CONTINUE FROM HERE
+        // CONTINUE FROM HERE
+
+        // NEED TO SET PARAMS IN THE EDITOR
+        
         if (!centralBody || orbitingBodies.Length == 0)
         {
             Debug.LogError("Central body or orbiting bodies not set");
@@ -74,19 +81,4 @@ public class PhysicsTestScript : MonoBehaviour
         
         return body;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
