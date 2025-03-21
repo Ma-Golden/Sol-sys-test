@@ -6,7 +6,19 @@ public class KeplerianPhysics : IPhysicsModel
 {
     public void InitializeBodies(VirtualBody[] bodies)
     {
-        throw new System.NotImplementedException();
+        // Get keplerian params from initial state of the body
+        foreach (var body in bodies)
+        {
+            OrbitalElements.ComputeFromState(body);
+        }
+    }
+
+    public void UpdateBodies(VirtualBody[] bodies, float timeStep)
+    {
+        foreach (var body in bodies)
+        {
+            body.Position = OrbitalElements.ComputePositionAtTime(body, timeStep);
+        }
     }
 
     public static class OrbitalElements
@@ -87,21 +99,34 @@ public class KeplerianPhysics : IPhysicsModel
             float M = el.meanAnomalyAtEpoch + 2f * Mathf.PI * (t / el.orbitalPeriod);
             M = M % (2f * Mathf.PI);
 
-//            float E = SolveKeplerEquation
+            float E = SolveKeplersEquation(M, el.eccentricity, 1e-6f);
 
+            float x = el.semiMajorAxis * (Mathf.Cos(E) - el.eccentricity);
+            float y = el.semiMajorAxis * Mathf.Sqrt(1 - el.eccentricity * el.eccentricity) * Mathf.Sin(E);
 
-
-
-            return Vector3.zero;
+            Vector3 pos = new Vector3(x, y, 0);
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.right, el.periapisDirection);
+            return el.orbitCenter + rotation * pos;
         }
 
         private static float SolveKeplersEquation(float M, float e, float tolerance)
         {
+            // LEARN
+            // LEARN
 
-            // CONTINUE HERE
-            // CONTINUE HERE
-            // CONTINUE HERE
-            return 0f;
+            float E = M;
+
+            // TODO: WHY 10
+            for (int i = 0; i < 10; i++)
+            {
+                float delta = (E - e * Mathf.Sin(E) - M) / (1 - e * Mathf.Cos(E));
+                E -= delta;
+                if (Mathf.Abs(delta) < tolerance)
+                {
+                    break;
+                }
+            }
+            return E;
         }
 
 

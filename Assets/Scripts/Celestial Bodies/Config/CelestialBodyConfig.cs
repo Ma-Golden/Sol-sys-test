@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 namespace CelestialBodies.Config
 {
     [Serializable]
-    public class CelestialBodyConfig
+    public class CelestialBodyConfig : ScriptableObject
     {
         public string bodyName;
         private static readonly string[] testNames = { "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto" };

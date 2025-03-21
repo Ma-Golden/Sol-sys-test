@@ -2,6 +2,7 @@ using CelestialBodies.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /*
@@ -164,6 +165,8 @@ namespace CBodies.PostProcessing.PlanetEffects
                         //atmosphereEffect = new AtmosphereEffect();
                         break;
                     case CelestialBodyConfig.CelestialBodyType.Moon:
+                        break;
+                    case CelestialBodyConfig.CelestialBodyType.Star:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

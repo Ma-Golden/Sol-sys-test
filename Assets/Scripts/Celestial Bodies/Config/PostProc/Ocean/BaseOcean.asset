@@ -20,7 +20,7 @@ MonoBehaviour:
     realisticColors: 0
     hueRange: 0.05
     hasOcean: 1
-    oceanLevel: 0.55
+    oceanLevel: 0.82
     baseOceanLevel: 0.5
     minOceanLevel: 0.3
     maxOceanLevel: 0.85

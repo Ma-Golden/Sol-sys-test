@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public GameMode currentGameMode = GameMode.Menu;
 
 
+    public bool tempPause = false;
+
+
+
     // TODO: Testing
     [Tooltip("Target frame rate of game")]
     public float targetRate = 30.0f;

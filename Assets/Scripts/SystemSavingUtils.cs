@@ -19,11 +19,12 @@ public class SystemSavingUtils : MonoBehaviour
     [Header("Shapes")]
     public PlanetShape PlanetShape;
     public MoonShape MoonShape;
-
+    public StarShape StarShape;
 
     [Header("Shading")]
-    public Shading PlanetShading;
-    public Shading MoonShading;
+    public PlanetShading PlanetShading;
+    public MoonShading MoonShading;
+    public StarShading StarShading;
 
     [Header("Ocean")]
     public Ocean baseOcean;
@@ -52,10 +53,12 @@ public class SystemSavingUtils : MonoBehaviour
                 shading = PlanetShading; 
                 break;
             case CelestialBodyConfig.CelestialBodyType.Moon:
-                Debug.Log("Moon shape (Create Features)");
                 shape = MoonShape;
-                Debug.Log("Moon shading (Create Features)");
                 shading = MoonShading;
+                break;
+            case CelestialBodyConfig.CelestialBodyType.Star:
+                shape = StarShape;
+                shading = StarShading;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

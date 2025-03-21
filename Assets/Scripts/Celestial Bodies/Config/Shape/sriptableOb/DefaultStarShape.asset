@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2afbe8450933a41a5c49366c7ddab6, type: 3}
+  m_Name: DefaultStarShape
+  m_EditorClassIdentifier: 
+  perturbCompute: {fileID: 7200000, guid: cef2cb53f4a0c29479ac3830875d4c3f, type: 3}
+  heightCompute: {fileID: 7200000, guid: d09cb99e624b7934f9f8e4a4884630e2, type: 3}
+  shapeConfig:
+    random: 0
+    perturbVertices: 0
+    perturbStrength: 0.36
+    noiseScale: 3
+    noiseStrength: 2

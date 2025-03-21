@@ -95,15 +95,11 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
             SetPhysicalProperties();
             
             bodyConfig.shading.Initialize(bodyConfig.shape);
-
-
-            Debug.Log("Getting ocean level");
+    
             float testOceanLevel = bodyConfig.ocean.GetSettings().GetOceanLevel();
 
-            Debug.Log("Setting surface properties");
             bodyConfig.shading.SetSurfaceProperties(body.surfaceMaterial, _heightMinMax, BodyScale, testOceanLevel);
         
-            
         }
 
         ReleaseAllBuffers();

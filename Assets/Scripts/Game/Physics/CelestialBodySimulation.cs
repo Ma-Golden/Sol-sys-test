@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Android;
+using UnityEngine.InputSystem;
 
 
 public class bodySimulation : MonoBehaviour, ICelestialObserver
@@ -86,6 +87,10 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
         }
 
 
+
+        StartCoroutine(SimulationLoop());
+
+
         // CONTINUE HERE
         // CONTINUE HERE
         // CONTINUE HERE
@@ -107,13 +112,56 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
 
     private IEnumerator SimulationLoop()
     {
-        return null;
+        _physicsModel.InitializeBodies(_virtualBodies);
+
+        int stepCount = 0;
+
+        while (true)
+        {
+            // IMPLEMENT PAUSING HERE
+            while (GameManager.Instance.tempPause)
+            {
+                yield return null;
+            }
+
+            // CHECK SIMULATION SPEED
+            _physicsModel.UpdateBodies(_virtualBodies, timeStep * simulationSpeed);
+
+            for (var i = 0; i < _virtualBodies.Length; i++)
+            {
+                Vector3 newPos = _virtualBodies[i].Position;
+
+                if (relativeToBody)
+                {
+                    Vector3 referenceFrameOffset = _virtualBodies[_referenceFrameIndex].Position - _referenceBodyInitialPosition;
+                    newPos -= referenceFrameOffset;
+                }
+
+                if (relativeToBody && i == _referenceFrameIndex)
+                {
+                    newPos = _referenceBodyInitialPosition;
+                }
+
+                if (_orbitPoints[i].Count >= _orbitSizes[i])
+                {
+                    _orbitPoints[i].RemoveAt(0);
+                }
+
+                _orbitPoints[i].Add(newPos);
+                _bodies[i].transform.position = newPos;
+
+                // Update orbbit visualisation
+                _lineRenderers[i].positionCount = _orbitPoints[i].Count;
+                _lineRenderers[i].SetPositions(_orbitPoints[i].ToArray());
+            }
+
+            stepCount++;
+            if (stepCount % simulationSpeed != 0) continue;
+
+            stepCount = 0;
+            yield return null;
+        }
     }
-
-
-
-    
-
 
     public void StopSimulation()
     {
@@ -153,18 +201,12 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
 }
     public interface IPhysicsModel
     {
-        //void InitializeBodies(VirtualBody[] bodies);
+        void InitializeBodies(VirtualBody[] bodies);
+        void UpdateBodies(VirtualBody[] bodies, float timeStep);
     }
 
 
     // virtual body class to decouple gravity calculations from GameObjects
-
-    // CLASS FOR KEPLERIAN PHYSICS
-
-    
-
-
-
     public class VirtualBody
     {
         public Vector3 Position;
