@@ -26,6 +26,9 @@ public class SystemSavingUtils : MonoBehaviour
     public MoonShading MoonShading;
     public StarShading StarShading;
 
+    [Header("Physics")]
+    public Physics basePhysics;
+
     [Header("Ocean")]
     public Ocean baseOcean;
 

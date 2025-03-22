@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2db7288e01b6387478767b45f1849401, type: 3}
+  m_Name: BasePhysics
+  m_EditorClassIdentifier: 
+  _physicsSettings:
+    minRadius: 1
+    maxRadius: 40
+    radius: 5
+    initialPosition: {x: 0, y: 0, z: 0}
+    minSpeed: 0.1
+    maxSpeed: 20
+    initialVelocity: {x: 0, y: 5, z: 0}
+    minRotationSpeed: 0
+    maxRotationSpeed: 5
+    initialRotationSpeed: 2

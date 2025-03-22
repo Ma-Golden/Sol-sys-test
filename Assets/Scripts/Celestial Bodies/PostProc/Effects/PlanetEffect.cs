@@ -158,6 +158,9 @@ namespace CBodies.PostProcessing.PlanetEffects
             public EffectHolder(CelestialBodyGenerator generator)
             {
                 this.generator = generator;
+
+
+                Debug.Log("Entering switch statement");
                 switch (generator.bodyConfig.bodyType)
                 {
                     case CelestialBodyConfig.CelestialBodyType.Planet:

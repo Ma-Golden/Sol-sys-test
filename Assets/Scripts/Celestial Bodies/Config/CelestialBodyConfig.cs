@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 namespace CelestialBodies.Config
 {
     [Serializable]
+    [CreateAssetMenu(fileName = "CelestialBodyConfig", menuName = "Scriptable Objects/Celestial Body Config")]
     public class CelestialBodyConfig : ScriptableObject
     {
         public string bodyName;

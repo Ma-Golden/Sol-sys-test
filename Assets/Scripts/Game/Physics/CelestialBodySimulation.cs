@@ -2,6 +2,7 @@ using CelestialBodies;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Android;
@@ -24,7 +25,7 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     public bool relativeToBody;
     public CelestialBody centralBody;   // Centre of simulation, most often the sun
     public int centralBodyIndex;        // Index of central body in celestialBodies array
-    public float lineWidth = 100; // TODO: CHECK
+    public float lineWidth = 1; // TODO: CHECK
 
     private VirtualBody[] _virtualBodies; // Virtual bodies for physics calculations
 
@@ -82,7 +83,12 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
             _lineRenderers[i].positionCount = 0;
             // TODO: SET COLOUR BASED ON BODY COLOUR
             _lineRenderers[i].startColor = Color.white;
-            _lineRenderers[i].endColor = _bodies[i].celestiaBodyGenerator.bodyConfig.shading.GetConfig().mainColor;
+
+            // TODO: SET COLOUR BASED ON BODY COLOUR -> DUMMY CONFIG NEEDED
+            _lineRenderers[i].endColor = Color.red;
+            //_lineRenderers[i].endColor = _bodies[i].celestiaBodyGenerator.bodyConfig.shading.GetConfig().mainColor;
+            
+            
             _lineRenderers[i].widthMultiplier = lineWidth;
         }
 
@@ -96,7 +102,6 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     {
         return Mathf.Clamp(Mathf.CeilToInt(400 / timeStep), 100, 4000);
     }
-
 
     private IEnumerator SimulationLoop()
     {
@@ -118,6 +123,9 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
             for (var i = 0; i < _virtualBodies.Length; i++)
             {
                 Vector3 newPos = _virtualBodies[i].Position;
+
+                // Check values
+
 
                 if (relativeToBody)
                 {
@@ -151,20 +159,55 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
         }
     }
 
+    // public void StopSimulation()
+    // {
+    //     StopAllCoroutines();
+
+    //     if (_bodies == null)
+    //     {
+            
+    //     } 
+
+    //     foreach (var body in _bodies)
+    //     {
+    //         body.transform.position = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig().initialPosition;
+    //     }
+
+    //     foreach (var line in _lineRenderers)
+    //     {
+    //         if (line != null) line.positionCount = 0; // (If active) reset line renderers
+    //     }
+    // }
+
     public void StopSimulation()
     {
         StopAllCoroutines();
-        foreach (var body in _bodies)
+        
+        // Add null checks
+        if (_bodies != null)
         {
-            body.transform.position = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig().initialPosition;
+            foreach (var body in _bodies)
+            {
+                if (body != null && body.celestiaBodyGenerator != null && 
+                    body.celestiaBodyGenerator.bodyConfig != null &&
+                    body.celestiaBodyGenerator.bodyConfig.physics != null)
+                {
+                    body.transform.position = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig().initialPosition;
+                }
+            }
         }
 
-        foreach (var line in _lineRenderers)
+        if (_lineRenderers != null)
         {
-            if (line != null) line.positionCount = 0; // (If active) reset line renderers
+            foreach (var line in _lineRenderers)
+            {
+                if (line != null) 
+                {
+                    line.positionCount = 0;
+                }
+            }
         }
     }
-
 
     public void OnPhysicsUpdate()
     {
@@ -194,20 +237,32 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     }
 
 
-    // virtual body class to decouple gravity calculations from GameObjects
-    public class VirtualBody
-    {
-        public Vector3 Position;
-        public Vector3 Velocity;
-        
-        // TODO: MASS EDITING
-        public readonly float Mass;
+public class VirtualBody
+{
+    public Vector3 Position;
+    public Vector3 Velocity;
+    public readonly float Mass;
 
-        public VirtualBody(CelestialBody body)
-        {
-            Physics.PhysicsSettings physicalConfig = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig();
-            Position = physicalConfig.initialPosition;
-            Velocity = physicalConfig.initialVelocity;
-            Mass = body.mass;
-        }
+    public VirtualBody(CelestialBody body)
+    {
+        if (body == null)
+            throw new ArgumentNullException(nameof(body), "CelestialBody is null");
+            
+        if (body.celestiaBodyGenerator == null)
+            throw new ArgumentNullException("CelestialBodyGenerator is null");
+            
+        if (body.celestiaBodyGenerator.bodyConfig == null)
+            throw new ArgumentNullException("BodyConfig is null");
+            
+        if (body.celestiaBodyGenerator.bodyConfig.physics == null)
+            throw new ArgumentNullException("Physics config is null");
+
+        var physicalConfig = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig();
+        if (physicalConfig == null)
+            throw new ArgumentNullException("PhysicalConfig is null");
+
+        Position = physicalConfig.initialPosition;
+        Velocity = physicalConfig.initialVelocity;
+        Mass = body.mass;
     }
+}
