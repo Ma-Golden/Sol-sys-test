@@ -11,9 +11,16 @@ public class GameManager : MonoBehaviour
     public enum GameMode { Menu, Create, Simulate, Unknown }
     public GameMode currentGameMode = GameMode.Menu;
 
+    public struct Constants
+    {
+        public const float GravityConstant = 6.674f;
+        public const float TimeStep = 0.01f;
+        public const float ScaleFactor = 1.0f;
+    }
+
+    public Constants ProgramConstants;
 
     public bool tempPause = false;
-
 
 
     // TODO: Testing

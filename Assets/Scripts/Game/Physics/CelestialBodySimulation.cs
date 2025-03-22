@@ -86,20 +86,8 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
             _lineRenderers[i].widthMultiplier = lineWidth;
         }
 
-
-
+        // Begin simulating
         StartCoroutine(SimulationLoop());
-
-
-        // CONTINUE HERE
-        // CONTINUE HERE
-        // CONTINUE HERE
-        // CONTINUE HERE
-        // START COROUTINE SIM LOOP
-        // CONTINUE HERE
-        // CONTINUE HERE
-        // CONTINUE HERE
-        // CONTINUE HERE
 
     }
 
