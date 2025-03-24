@@ -38,6 +38,8 @@ namespace CelestialBodies.Config
         {
             shape.Subscribe(observer);
             shading.Subscribe(observer);
+            physics.Subscribe(observer);
+
             //physicalProperties.Subscribe(observer);
 
             observer.OnInitialUpdate();
@@ -53,41 +55,39 @@ namespace CelestialBodies.Config
         }
 
 
-
         public void UpdateCBodySettings(CelestialBodyType newType)
         {
             bodyType = newType;
             
-            (Shape.Shape sp, Shading.Shading sd, Ocean oc) = SystemSavingUtils.Instance.CreateFeatures(newType);
+            (Shape.Shape sp, Shading.Shading sd, Ocean oc, Physics ps) = SystemSavingUtils.Instance.CreateFeatures(newType);
 
             shape = sp;
             shading = sd;
             ocean = oc;
-            //physics = ph;
-
+            physics = ps;
 
             if (shape == null)
             {
                 Debug.LogError("Shape is null");
             }
-
             if (shading == null)
             {
                 Debug.LogError("Shading is null");
             }
-
-
             if (ocean == null)
             {
                 Debug.LogError("Ocean is null");
             }
-
+            if (physics == null)
+            {
+                Debug.LogError("Physics is null");
+            }
 
             sp.InitConfig();
             sd.InitConfig();
 
             oc.InitSettings();
-            //ph.InitSettings();
+            ps.InitSettings();
 
             // Enables ocean by default on planets only
             Ocean.OceanSettings os = ocean.GetSettings();

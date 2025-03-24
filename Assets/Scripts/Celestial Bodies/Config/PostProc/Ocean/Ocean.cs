@@ -65,9 +65,6 @@ public class Ocean : ScriptableObject
     }
 
 
-
-
-
     [Serializable]
     public class OceanSettings
     {
@@ -137,6 +134,7 @@ public class Ocean : ScriptableObject
         }
     }
 
+    // Memento pattern
     public void InitSettings()
     {
         _settingsUpToDate = false;

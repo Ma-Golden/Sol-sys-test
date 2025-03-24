@@ -36,7 +36,7 @@ public class PhysicsTestScript : MonoBehaviour
         for (int i = 0; i < orbitingBodies.Length; i++)
         {
             // Test position with set distance
-            float dist = orbitDistance + i * 20f; // slight offset for spacing
+            float dist = orbitDistance + i * 40f; // slight offset for spacing
             
             Vector3 position = new Vector3(dist, 0, 0);
 
@@ -56,8 +56,8 @@ public class PhysicsTestScript : MonoBehaviour
 
         // Start sim with keplerian physics
         simulation.centralBody = central;
-        simulation.SetPhysicsModel(new KeplerMotion());
-//        simulation.SetPhysicsModel(new NBodyPhysics());
+//        simulation.SetPhysicsModel(new KeplerMotion());
+        simulation.SetPhysicsModel(new NBodyPhysics());
   
         simulation.StartSimulation(allBodies);
     }

@@ -4,15 +4,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [Serializable][CreateAssetMenu]
 public class Physics : ScriptableObject
 {
     [CanBeNull] private List<ICelestialObserver> _observers = new List<ICelestialObserver>();
 
     [SerializeField] private PhysicsSettings _physicsSettings;
-
-
 
 
     public void InitSettings()
@@ -50,7 +47,6 @@ public class Physics : ScriptableObject
     {
         _observers = null;
     }
-
 
     [Serializable]
     public class PhysicsSettings

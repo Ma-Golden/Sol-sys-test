@@ -39,13 +39,20 @@ public class SystemSavingUtils : MonoBehaviour
     }
 
     // N.B ONLY RETURNS SHAPE ATM
-    public (Shape shape, Shading shading, Ocean ocean) CreateFeatures(CelestialBodyConfig.CelestialBodyType celestialBodyType)
+    public (Shape shape, Shading shading, Ocean ocean, Physics physics) CreateFeatures(CelestialBodyConfig.CelestialBodyType celestialBodyType)
     {
         Shape shape = null;
         Shading shading = null;
         Ocean ocean = null;
-        
-        // TODO: add more features
+        Physics physics = null;
+
+        // TODO:
+        // !TODO: fix physics getphysicalconfig
+        // TODO:
+        // !TODO:    ADD SPECIFIC PHYSICS FOR EACH CELESTIAL BODY TYPE
+        // TODO:
+        // TODO:
+        // TODO:
 
         ocean = (baseOcean);
 
@@ -54,18 +61,22 @@ public class SystemSavingUtils : MonoBehaviour
             case CelestialBodyConfig.CelestialBodyType.Planet:
                 shape = PlanetShape;
                 shading = PlanetShading; 
+                ocean = baseOcean;
+                physics = basePhysics;
                 break;
             case CelestialBodyConfig.CelestialBodyType.Moon:
                 shape = MoonShape;
                 shading = MoonShading;
+                physics = basePhysics;
                 break;
             case CelestialBodyConfig.CelestialBodyType.Star:
                 shape = StarShape;
                 shading = StarShading;
+                physics = basePhysics;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        return (shape, shading, ocean);
+        return (shape, shading, ocean, physics);
     }
 };

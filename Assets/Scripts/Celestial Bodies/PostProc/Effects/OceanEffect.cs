@@ -22,9 +22,12 @@ public class OceanEffect
         material.SetVector("oceanCentre", centre);
         material.SetFloat("oceanRadius", radius);
 
-        Debug.Log("Ocean radius: " + radius);
-        Debug.Log("Planet Scale: " + generator.BodyScale);
+        material.SetVector("oceanCentre", centre);
+        material.SetFloat("oceanRadius", radius);
 
+
+        Debug.Log("Within OceanEffect UpdateSettings");
+        Debug.Log("Ocean radius: " + radius + "Planet Scale:  + generator.BodyScale");
 
         material.SetFloat("planetScale", generator.BodyScale);
 
