@@ -426,8 +426,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   celestiaBodyGenerator: {fileID: 0}
-  mass: 1
-  velocity: {x: 0, y: 0, z: 0}
+  mass: 10
+  velocity: {x: 0, y: -50, z: 0}
   position: {x: 0, y: 0, z: 0}
   sphereMesh: {fileID: 0}
   surfaceMaterial: {fileID: 0}
@@ -440,7 +440,7 @@ Transform:
   m_GameObject: {fileID: 885540604}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.92, y: 0, z: -0.08}
+  m_LocalPosition: {x: 25, y: 0, z: -0.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -533,13 +533,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1317574732}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -25, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &1317574736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,7 +672,7 @@ MonoBehaviour:
   relativeToBody: 1
   centralBody: {fileID: 2032113832}
   centralBodyIndex: 0
-  lineWidth: 100
+  lineWidth: 1
 --- !u!4 &1539728144
 Transform:
   m_ObjectHideFlags: 0
@@ -923,7 +923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   celestiaBodyGenerator: {fileID: 0}
-  mass: 1
+  mass: 10000
   velocity: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   sphereMesh: {fileID: 0}

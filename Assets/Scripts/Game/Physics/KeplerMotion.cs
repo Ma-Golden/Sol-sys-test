@@ -1,310 +1,125 @@
+using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
-
-using UnityEngine;
-
-public class KeplerianPhysics : IPhysicsModel
+public class KeplerMotion : IPhysicsModel
 {
+    private float accumulatedTime = 0f;
+    private Dictionary<VirtualBody, OrbitalElements> orbitalElements;
+    
+
+
     public void InitializeBodies(VirtualBody[] bodies)
     {
-        // Nothing needs to be done here as we'll compute orbital elements on-the-fly
+        orbitalElements = new Dictionary<VirtualBody, OrbitalElements>();
+        accumulatedTime = 0f;
+
+        // Central body must be first in array
+        for (int i = 0; i < bodies.Length; i++)
+        {
+            // Calculate orbital elements for each body
+            Vector3 r = bodies[i].Position - bodies[0].Position;
+            Vector3 v = bodies[i].Velocity;
+
+            
+            float periapsis = r.magnitude;    // Initial distance as periapsis (Closest point)
+            float apoapsis = periapsis;       // Estimate for apoapsis // TODO: More robust calculation of apoapsis
+
+            orbitalElements[bodies[i]] = new OrbitalElements{
+                Periapsis = periapsis,
+                Apoapsis = apoapsis,
+                InitialTime = 0, // Start 'counting' from now
+                Period = 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow((periapsis + apoapsis) / 2, 3) / (bodies[0].Mass * 6.674f))
+            };
+        }
     }
 
     public void UpdateBodies(VirtualBody[] bodies, float timeStep)
     {
-        // Skip the first body (assumed to be the central body)
+        if (bodies.Length < 2) return; // Need at least central and orbiting body
+
+        // timeStep already includes simulation speed from bodySimulation
+        accumulatedTime += timeStep;
+        Vector3 centalPos = bodies[0].Position; // Set sun as center
+
+        // For each orbiting body
         for (int i = 1; i < bodies.Length; i++)
         {
-            Vector3 newPosition = ComputePosition(bodies[0], bodies[i], timeStep);
-            
-            // Validate position before assigning
-            if (!HasNaN(newPosition))
-            {
-                bodies[i].Position = newPosition;
-            }
-            else
-            {
-                Debug.LogWarning($"Calculated NaN position for body {i}. Skipping update.");
-            }
+            if (!orbitalElements.ContainsKey(bodies[i])) continue; // Skip if body not initialized
+
+            var elements = orbitalElements[bodies[i]];
+
+            // Calculate position on orbit using simulation time
+            float t = (accumulatedTime % elements.Period) / elements.Period;
+            Vector3 orbitPos = CalculatePointOnOrbit(elements.Periapsis, elements.Apoapsis, t);
+            bodies[i].Position = centalPos + new Vector3(orbitPos.x, 0, orbitPos.y);
         }
     }
 
-    private Vector3 ComputePosition(VirtualBody centralBody, VirtualBody orbitingBody, float timeStep)
+    // Try double for increased accuracy
+    private Vector2 CalculatePointOnOrbit (double periapsis, double apoapsis, float t)
     {
-        // Calculate the gravitational parameter (G * M)
-        float mu = centralBody.Mass;
-        
-        // Get initial position and velocity relative to central body
-        Vector3 r0 = orbitingBody.Position - centralBody.Position;
-        Vector3 v0 = orbitingBody.Velocity;
-        
-        float r0Mag = r0.magnitude;
-        
-        // Guard against division by zero
-        if (r0Mag < 1e-6f)
-        {
-            Debug.LogWarning("Body too close to central body. Using a minimum safe distance.");
-            r0 = new Vector3(1e-6f, 0, 0);
-            r0Mag = 1e-6f;
-        }
-        
-        // Calculate orbital elements using current state
-        Vector3 h = Vector3.Cross(r0, v0);                    // Angular momentum vector
-        Vector3 n = Vector3.Cross(Vector3.up, h);             // Node vector
-        Vector3 e = Vector3.Cross(v0, h) / mu - r0 / r0Mag;   // Eccentricity vector
-        
-        float eMag = e.magnitude;                             // Eccentricity
-        
-        // Clamp eccentricity to avoid numerical issues
-        eMag = Mathf.Clamp(eMag, 0, 0.999f);
-        
-        // Calculate semi-major axis
-        float v0Mag = v0.magnitude;
-        float a;
-        
-        // Energy equation
-        float energy = (v0Mag * v0Mag / 2) - (mu / r0Mag);
-        
-        // Handle different orbit types
-        if (Mathf.Abs(energy) < 1e-10f)  // Parabolic
-        {
-            a = float.MaxValue;
-            Debug.LogWarning("Near-parabolic orbit detected. Using elliptical approximation.");
-            eMag = 0.9f;  // Force slightly elliptical
-        }
-        else if (energy >= 0)  // Hyperbolic
-        {
-            Debug.LogWarning("Hyperbolic orbit detected. Using elliptical approximation.");
-            eMag = 0.9f;  // Force slightly elliptical
-            a = 100f;     // Use large semi-major axis
-        }
-        else  // Elliptical
-        {
-            a = -mu / (2 * energy);
-        }
-        
-        // Calculate orbital period
-        float period = 2 * Mathf.PI * Mathf.Sqrt(a * a * a / mu);
-        
-        // Calculate initial true anomaly
-        float trueAnomaly0 = Mathf.Acos(Mathf.Clamp(Vector3.Dot(e, r0) / (eMag * r0Mag), -1f, 1f));
-        if (Vector3.Dot(r0, v0) < 0)
-        {
-            trueAnomaly0 = 2 * Mathf.PI - trueAnomaly0;
-        }
-        
-        // Calculate initial mean anomaly
-        float E0 = 2 * Mathf.Atan(Mathf.Tan(trueAnomaly0 / 2) * Mathf.Sqrt((1 - eMag) / (1 + eMag)));
-        float M0 = E0 - eMag * Mathf.Sin(E0);
-        
-        // Advance mean anomaly by timeStep
-        float M = M0 + (2 * Mathf.PI * timeStep / period);
-        
-        // Solve Kepler's equation for eccentric anomaly
-        float E = SolveKepler(M, eMag);
-        
-        // Calculate new true anomaly
-        float trueAnomaly = 2 * Mathf.Atan(Mathf.Sqrt((1 + eMag) / (1 - eMag)) * Mathf.Tan(E / 2));
-        
-        // Calculate distance from focus
-        float r = a * (1 - eMag * Mathf.Cos(E));
-        
-        // Determine orientation vectors for the orbital plane
-        Vector3 xAxis = e.normalized;
-        Vector3 zAxis = h.normalized;
-        Vector3 yAxis = Vector3.Cross(zAxis, xAxis);
-        
-        // Calculate position in orbital plane
-        Vector3 positionInPlane = r * new Vector3(Mathf.Cos(trueAnomaly), Mathf.Sin(trueAnomaly), 0);
-        
-        // Transform to world space
-        Vector3 position = centralBody.Position + 
-                           positionInPlane.x * xAxis + 
-                           positionInPlane.y * yAxis;
-        
-        return position;
+        double semiMajorLength = (apoapsis + periapsis) / 2;
+        double linearEccentricity = semiMajorLength - periapsis; // Distance bet centre and focus
+        double eccentricity = linearEccentricity / semiMajorLength; // (0 = perfect circle)
+        double semiMinorLength = Math.Sqrt(Math.Pow(semiMajorLength, 2) - Math.Pow(linearEccentricity, 2));
+
+        double meanAnomaly = t * Mathf.PI * 2;
+        double eccentricAnomaly = SolveKepler(meanAnomaly, eccentricity);
+
+        // Calculate position on the ellipse
+        double pointX = semiMajorLength * (Math.Cos(eccentricAnomaly) - eccentricity);
+        double pointY = semiMinorLength * Math.Sin(eccentricAnomaly);
+
+        return new Vector2((float)pointX, (float)pointY);
     }
-    
-    private float SolveKepler(float M, float e)
+
+    private double SolveKepler(double meanAnomaly, double eccentricity, int maxIterations = 100)
     {
-        // Ensure M is in the range [0, 2π)
-        M = M % (2 * Mathf.PI);
-        if (M < 0) M += 2 * Mathf.PI;
-        
-        // Initial guess
-        float E = M;
-        
-        // For low eccentricity, M is a good approximation
-        if (e < 0.1f)
+        const double h = 0.0001;
+        const double acceptableError = 0.00000001;
+        double guess = meanAnomaly;
+
+
+        // Newton-Rhapson method
+        for (int i = 0; i < maxIterations; i++)
         {
-            E = M;
-        }
-        // For high eccentricity, better initial guess
-        else if (M < Mathf.PI)
-        {
-            E = M + e / 2;
-        }
-        else
-        {
-            E = M - e / 2;
-        }
-        
-        // Newton-Raphson iteration
-        for (int i = 0; i < 10; i++)
-        {
-            float E_next = E - (E - e * Mathf.Sin(E) - M) / (1 - e * Mathf.Cos(E));
-            
-            // Check for convergence
-            if (Mathf.Abs(E_next - E) < 1e-6f)
+            double y = KeplerEquation(guess, meanAnomaly, eccentricity);
+
+            // If within error bounds
+            if (Math.Abs(y) < acceptableError)
             {
-                return E_next;
+                break;
             }
-            
-            E = E_next;
+
+            // Update guess to vlaue of x where the slope of the function intersects the x-axis
+            double slope = (KeplerEquation(guess + h, meanAnomaly, eccentricity) - y) / h;
+            double step = y / slope;
+            guess -= step;
         }
-        
-        return E;  // Return best approximation after iterations
+        return guess;
     }
-    
-    private bool HasNaN(Vector3 v)
+
+    // Kepler's equation: M = E - e * sin(E)
+    // M = mean anomaly (angle to where body would be if its orbit was actually circular)
+    // E is the Eccentric Anomaly (angle to where the body is on the ellipse)
+    // e : eccentricity (0 = perfect circle etc.)
+    private double KeplerEquation(double E, double M, double e)
     {
-        return float.IsNaN(v.x) || float.IsNaN(v.y) || float.IsNaN(v.z);
+        return M - E + e * Math.Sin(E);
     }
+
+    private struct OrbitalElements
+    {
+        public float Periapsis { get; set; }
+        public float Apoapsis { get; set; }
+        public float InitialTime;
+        public float Period;
+
+    }
+
+
 }
-
-// public class KeplerianPhysics : IPhysicsModel
-// {
-//     public void InitializeBodies(VirtualBody[] bodies)
-//     {
-//         // Get keplerian params from initial state of the body
-//         foreach (var body in bodies)
-//         {
-//             OrbitalElements.ComputeFromState(body);
-//         }
-//     }
-
-//     public void UpdateBodies(VirtualBody[] bodies, float timeStep)
-//     {
-//         foreach (var body in bodies)
-//         {
-//             body.Position = OrbitalElements.ComputePositionAtTime(body, timeStep);
-//         }
-//     }
-
-//     public static class OrbitalElements
-//     {
-//         public static float mu = 1; // TODO: use acutal G * M for central body
-
-
-//         public struct Elements
-//         {
-//             public float semiMajorAxis;
-//             public float eccentricity;
-//             public float meanAnomalyAtEpoch;
-//             public float orbitalPeriod;
-//             public float initialTime;
-//             public Vector3 orbitCenter; // For elliptical orbits
-//             public Vector3 periapisDirection; // Unit vector to periapis
-//         }
-
-//         private static Dictionary<VirtualBody, Elements> bodyElements = new();
-
-//         // Calculates the keplerian parameters of a body given its initial state
-//         public static void ComputeFromState(VirtualBody body)
-//         {
-
-//             // LEARN WHAT THE F IS GOING ON HERE
-//             // LEARN WHAT THE F IS GOING ON HERE
-//             // LEARN WHAT THE F IS GOING ON HERE
-
-//             Vector3 r = body.Position;
-//             Vector3 v = body.Velocity;
-            
-//             float rMag = r.magnitude;
-//             float vMag = v.magnitude;
-
-//             float specificEngery = (vMag * vMag) / 2 - mu / rMag;
-//             float a = -mu / (2f * specificEngery); // Semi-major axis
-
-//             Vector3 h = Vector3.Cross(r, v); // Specifi angular momentum
-//             Vector3 eVec = (Vector3.Cross(v, h) / mu) - (r / rMag); // Eccentricity vector
-//             float e = eVec.magnitude; // Eccentricity
-
-//             float period = 2 * Mathf.PI * Mathf.Sqrt(a * a * a / mu);
-
-//             float trueAnomaly = Mathf.Acos(Vector3.Dot(eVec.normalized, r.normalized));
-
-//             if (Vector3.Dot(r, v) < 0)
-//             {
-//                 trueAnomaly = 2f * Mathf.PI - trueAnomaly;
-//             }
-
-//             float E = 2f * Mathf.Atan(Mathf.Tan(trueAnomaly / 2f) / Mathf.Sqrt((1f + e) / (1f - e))); // Eccentric anomaly
-
-//             float M = E - e * Mathf.Sin(E);
-
-
-//             bodyElements[body] = new Elements
-//             {
-//                 semiMajorAxis = a,
-//                 eccentricity = e,
-//                 meanAnomalyAtEpoch = M,
-//                 orbitalPeriod = period,
-//                 initialTime = Time.time,
-//                 // TODO : CHECK THIS
-//                 orbitCenter = Vector3.zero, // ORIGIN ASSUMED
-//                 //orbitCenter = body.Position,
-//                 periapisDirection = eVec.normalized
-//             };
-//         }
-
-//         public static Vector3 ComputePositionAtTime(VirtualBody body, float timeStep)
-//         {
-//             if (!bodyElements.TryGetValue(body, out Elements el))
-//             {
-//                 return body.Position;
-//             }
-
-//             float t = Time.time - el.initialTime;
-//             float M = el.meanAnomalyAtEpoch + 2f * Mathf.PI * (t / el.orbitalPeriod);
-//             M = M % (2f * Mathf.PI);
-
-//             float E = SolveKeplersEquation(M, el.eccentricity, 1e-6f);
-
-//             float x = el.semiMajorAxis * (Mathf.Cos(E) - el.eccentricity);
-//             float y = el.semiMajorAxis * Mathf.Sqrt(1 - el.eccentricity * el.eccentricity) * Mathf.Sin(E);
-
-//             Vector3 pos = new Vector3(x, y, 0);
-//             Quaternion rotation = Quaternion.FromToRotation(Vector3.right, el.periapisDirection);
-//             return el.orbitCenter + rotation * pos;
-//         }
-
-//         private static float SolveKeplersEquation(float M, float e, float tolerance)
-//         {
-//             // LEARN
-//             // LEARN
-
-//             float E = M;
-
-//             // TODO: WHY 10
-//             for (int i = 0; i < 10; i++)
-//             {
-//                 float delta = (E - e * Mathf.Sin(E) - M) / (1 - e * Mathf.Cos(E));
-//                 E -= delta;
-//                 if (Mathf.Abs(delta) < tolerance)
-//                 {
-//                     break;
-//                 }
-//             }
-//             return E;
-//         }
-
-
-
-//     }
-
-
-
-// }

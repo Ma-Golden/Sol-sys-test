@@ -14,7 +14,7 @@ public class PhysicsTestScript : MonoBehaviour
     [Header("Physics Properties")]
     public float centralmass = 10f;
     public float orbitDistance = 10f;
-    public float orbitSpeed = 1f;
+    public float orbitSpeed = 5f;
 
 
     private void Start()
@@ -44,8 +44,10 @@ public class PhysicsTestScript : MonoBehaviour
             float dist = orbitDistance + i * 5f; // slight offset for spacing
             Vector3 position = new Vector3(dist, 0, 0);
 
-
-            Vector3 velocity = new Vector3(0, orbitSpeed / Mathf.Sqrt(i + 1), 0);
+            // Calculate proper orbital velocity for circular orbit
+            // v = sqrt(GM/r) where G is gravitational constant, M is central mass, r is distance
+            float orbitalVelocity = Mathf.Sqrt(centralmass * 6.674f / dist);
+            Vector3 velocity = new Vector3(0, orbitalVelocity, 0);
 
             // No need to keep the return unless you want to use the CelestialBody later
             _ = FakeBodyWrapper(orbitingBodies[i], position, velocity, 1f);
@@ -56,7 +58,7 @@ public class PhysicsTestScript : MonoBehaviour
 
         // Start sim with keplerian physics
         simulation.centralBody = central;
-        simulation.SetPhysicsModel(new KeplerianPhysics());
+        simulation.SetPhysicsModel(new KeplerMotion());
 //        simulation.SetPhysicsModel(new NBodyPhysics());
   
         simulation.StartSimulation();
@@ -104,7 +106,7 @@ public class PhysicsTestScript : MonoBehaviour
         var bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
         bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Planet); // This should set up all required components
 
-        var physicsWrapper = new Physics();
+        var physicsWrapper = ScriptableObject.CreateInstance<Physics>();
         var settings = new Physics.PhysicsSettings();
 
         settings.initialPosition = pos;

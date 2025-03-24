@@ -25,7 +25,7 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     public bool relativeToBody;
     public CelestialBody centralBody;   // Centre of simulation, most often the sun
     public int centralBodyIndex;        // Index of central body in celestialBodies array
-    public float lineWidth = 1; // TODO: CHECK
+    public float lineWidth = 1f; // TODO: CHECK
 
     private VirtualBody[] _virtualBodies; // Virtual bodies for physics calculations
 
@@ -80,6 +80,10 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
 
             // Setup orbit visualization
             _lineRenderers[i] = _bodies[i].gameObject.AddComponent<LineRenderer>();
+            _lineRenderers[i].material = new Material(Shader.Find("Sprites/Default"));
+            
+            _lineRenderers[i].alignment = LineAlignment.TransformZ;
+
             _lineRenderers[i].positionCount = 0;
             // TODO: SET COLOUR BASED ON BODY COLOUR
             _lineRenderers[i].startColor = Color.white;
@@ -87,8 +91,7 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
             // TODO: SET COLOUR BASED ON BODY COLOUR -> DUMMY CONFIG NEEDED
             _lineRenderers[i].endColor = Color.red;
             //_lineRenderers[i].endColor = _bodies[i].celestiaBodyGenerator.bodyConfig.shading.GetConfig().mainColor;
-            
-            
+
             _lineRenderers[i].widthMultiplier = lineWidth;
         }
 
