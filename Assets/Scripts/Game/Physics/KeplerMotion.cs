@@ -20,7 +20,12 @@ public class KeplerMotion : IPhysicsModel
         // Central body must be first in array
         for (int i = 0; i < bodies.Length; i++)
         {
+
+            Vector3 centralPos = bodies[0].Position;
+            Vector3 orbitingPos = bodies[i].Position;
+
             // Calculate orbital elements for each body
+                        // Current orbiting.pos - Central.pos
             Vector3 r = bodies[i].Position - bodies[0].Position;
             Vector3 v = bodies[i].Velocity;
 

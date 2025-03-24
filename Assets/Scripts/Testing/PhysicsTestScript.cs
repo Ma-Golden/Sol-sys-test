@@ -13,7 +13,7 @@ public class PhysicsTestScript : MonoBehaviour
 
     [Header("Physics Properties")]
     public float centralmass = 10f;
-    public float orbitDistance = 10f;
+    public float orbitDistance = 40f;
     public float orbitSpeed = 5f;
 
 
@@ -25,23 +25,19 @@ public class PhysicsTestScript : MonoBehaviour
             return;
         }
     
-        if (simulation == null)
-        {
-            Debug.LogError("Simulation not set in PhysicsTestScript");
-            return;
-        }
-    
-        Debug.Log("Starting physics setup");
-    
-        centralBody.transform.position = Vector3.zero;
+        centralBody.transform.position = Vector3.zero; // Central body at world origin
         CelestialBody central = FakeBodyWrapper(centralBody, Vector3.zero, Vector3.zero, centralmass);
 
-        Debug.Log("Central body setup complete");
+        // Setup all bodies array, add central body as first entry
+        CelestialBody[] allBodies = new CelestialBody[orbitingBodies.Length + 1];
+        allBodies[0] = central;
 
         // Setup orbiting bodies
         for (int i = 0; i < orbitingBodies.Length; i++)
         {
-            float dist = orbitDistance + i * 5f; // slight offset for spacing
+            // Test position with set distance
+            float dist = orbitDistance + i * 20f; // slight offset for spacing
+            
             Vector3 position = new Vector3(dist, 0, 0);
 
             // Calculate proper orbital velocity for circular orbit
@@ -50,7 +46,9 @@ public class PhysicsTestScript : MonoBehaviour
             Vector3 velocity = new Vector3(0, orbitalVelocity, 0);
 
             // No need to keep the return unless you want to use the CelestialBody later
-            _ = FakeBodyWrapper(orbitingBodies[i], position, velocity, 1f);
+            CelestialBody orbiting = FakeBodyWrapper(orbitingBodies[i], position, velocity, 1f);
+            allBodies[i + 1] = orbiting;
+            //_ = FakeBodyWrapper(orbitingBodies[i], position, velocity, 1f);
         }
 
 //        KeplerianPhysics.OrbitalElements.mu = centralmass;
@@ -61,7 +59,7 @@ public class PhysicsTestScript : MonoBehaviour
         simulation.SetPhysicsModel(new KeplerMotion());
 //        simulation.SetPhysicsModel(new NBodyPhysics());
   
-        simulation.StartSimulation();
+        simulation.StartSimulation(allBodies);
     }
 
     private CelestialBody FakeBodyWrapper(GameObject go, Vector3 pos, Vector3 vel, float mass)

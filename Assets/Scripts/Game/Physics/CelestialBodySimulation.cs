@@ -27,7 +27,6 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     public int centralBodyIndex;        // Index of central body in celestialBodies array
     public float lineWidth = 1f; // TODO: CHECK
 
-    private VirtualBody[] _virtualBodies; // Virtual bodies for physics calculations
 
     private List<List<Vector3>> _orbitPoints;
     private List<int> _orbitSizes;
@@ -35,10 +34,10 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     private Vector3 _referenceBodyInitialPosition;
     private IPhysicsModel _physicsModel;
 
-
     // check if needed
     private CelestialBody[] _bodies;
     private LineRenderer[] _lineRenderers;
+    private VirtualBody[] _virtualBodies; // Virtual bodies for physics calculations
 
 
     // Allow settings of physics model
@@ -48,13 +47,13 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
     }
 
 
-    public void StartSimulation()
+    public void StartSimulation(CelestialBody[] orderedBodies)
     {
         StopSimulation();
-        
-        // TODO check deselect body
 
-        _bodies = FindObjectsOfType<CelestialBody>();
+        // TODO check deselect 
+
+        _bodies = orderedBodies;
         int numBodies = _bodies.Length;
         _virtualBodies = new VirtualBody[numBodies];
         _orbitPoints = new List<List<Vector3>>(numBodies);
@@ -79,20 +78,18 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
             }
 
             // Setup orbit visualization
-            _lineRenderers[i] = _bodies[i].gameObject.AddComponent<LineRenderer>();
+             _lineRenderers[i] = _bodies[i].gameObject.AddComponent<LineRenderer>();
             _lineRenderers[i].material = new Material(Shader.Find("Sprites/Default"));
-            
             _lineRenderers[i].alignment = LineAlignment.TransformZ;
-
             _lineRenderers[i].positionCount = 0;
-            // TODO: SET COLOUR BASED ON BODY COLOUR
-            _lineRenderers[i].startColor = Color.white;
+            _lineRenderers[i].widthMultiplier = lineWidth;
 
             // TODO: SET COLOUR BASED ON BODY COLOUR -> DUMMY CONFIG NEEDED
+            _lineRenderers[i].startColor = Color.white;
             _lineRenderers[i].endColor = Color.red;
+
             //_lineRenderers[i].endColor = _bodies[i].celestiaBodyGenerator.bodyConfig.shading.GetConfig().mainColor;
 
-            _lineRenderers[i].widthMultiplier = lineWidth;
         }
 
         // Begin simulating
