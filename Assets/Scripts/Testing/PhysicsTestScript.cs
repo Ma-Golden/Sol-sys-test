@@ -36,17 +36,17 @@ public class PhysicsTestScript : MonoBehaviour
         for (int i = 0; i < orbitingBodies.Length; i++)
         {
             // Test position with set distance
-            float dist = orbitDistance + i * 40f; // slight offset for spacing
+            float dist = orbitDistance + i * 10f; // slight offset for spacing
             
             Vector3 position = new Vector3(dist, 0, 0);
 
             // Calculate proper orbital velocity for circular orbit
             // v = sqrt(GM/r) where G is gravitational constant, M is central mass, r is distance
             float orbitalVelocity = Mathf.Sqrt(centralmass * 6.674f / dist);
-            Vector3 velocity = new Vector3(0, orbitalVelocity, 0);
+            Vector3 velocity = new Vector3(0, 0, orbitalVelocity);
 
             // No need to keep the return unless you want to use the CelestialBody later
-            CelestialBody orbiting = FakeBodyWrapper(orbitingBodies[i], position, velocity, 1f);
+            CelestialBody orbiting = FakeBodyWrapper(orbitingBodies[i], position, velocity, 100f);
             allBodies[i + 1] = orbiting;
             //_ = FakeBodyWrapper(orbitingBodies[i], position, velocity, 1f);
         }

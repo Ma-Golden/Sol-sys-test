@@ -7,6 +7,11 @@ public class GameManager : MonoBehaviour
     // Following Singleton pattern for persistent game manager
     public static GameManager Instance;
 
+    [Tooltip("Target frame rate of game")]
+    [Range(30, 300)]
+    public int targetFrameRate = 60;
+
+
     // Enumerate for game mode
     public enum GameMode { Menu, Create, Simulate, Unknown }
     public GameMode currentGameMode = GameMode.Menu;
@@ -43,6 +48,16 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Start()
+    {
+        // Disable V-Sync
+        QualitySettings.vSyncCount = 0;
+
+        // Set target frame rate
+        Application.targetFrameRate = targetFrameRate;
+    }
+    
 
     public Camera GetMainCamera()
     {

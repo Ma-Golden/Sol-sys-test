@@ -242,15 +242,13 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
     public void OnShapeUpdate()
     {
         _shapeUpdated = true;
-        //
-
         HandleEditModeGeneration();
     }
 
     public void OnPhysicsUpdate()
     {
-        //_physicsUpdated = true;
-        Debug.LogWarning("PhysicsUpdate not implemented");
+        _physicsUpdated = true;
+        HandleEditModeGeneration();
     }
 
     public void OnShadingUpdate()

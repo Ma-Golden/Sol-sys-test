@@ -16,7 +16,7 @@ MonoBehaviour:
   terrainMaterial: {fileID: 2100000, guid: d57afa0d82a5ed942b0010caab281ea5, type: 2}
   shadingSettings:
     randomize: 0
-    seed: -4842
+    seed: 0
     realisticColors: 1
     mainColor: {r: 0.33333334, g: 0.36078432, b: 0.2509804, a: 1}
     baseGreenColors:
@@ -47,14 +47,14 @@ MonoBehaviour:
       steepLow: {r: 0.050980393, g: 0, b: 0.2901961, a: 1}
       steepHigh: {r: 0.64705884, g: 0.6313726, b: 0.72156864, a: 1}
     randomColors:
-      shoreColLow: {r: 0.77770215, g: 0.9245925, b: 0.6892351, a: 1}
-      shoreColHigh: {r: 0.5330362, g: 0.62780136, b: 0.6021606, a: 1}
-      flatColLowA: {r: 0.3948246, g: 0.72678727, b: 0.3397434, a: 1}
-      flatColHighA: {r: 0.5253905, g: 0.46950132, b: 0.2771244, a: 1}
-      flatColLowB: {r: 0.32283992, g: 0.7013813, b: 0.46643606, a: 1}
-      flatColHighB: {r: 0.21757802, g: 0.48062325, b: 0.48571426, a: 1}
-      steepLow: {r: 0.357842, g: 0.276684, b: 0.4352108, a: 1}
-      steepHigh: {r: 0.17001674, g: 0.12072585, b: 0.16232881, a: 1}
+      shoreColLow: {r: 0.88361126, g: 0.9137255, b: 0.76862746, a: 1}
+      shoreColHigh: {r: 0.49011678, g: 0.69411767, b: 0.45882353, a: 1}
+      flatColLowA: {r: 0.49011678, g: 0.69411767, b: 0.45882353, a: 1}
+      flatColHighA: {r: 0.32980782, g: 0.6226415, b: 0.28488788, a: 1}
+      flatColLowB: {r: 0.6018416, g: 0.8018868, b: 0.5711552, a: 1}
+      flatColHighB: {r: 0.18028907, g: 0.46666667, b: 0.16078433, a: 1}
+      steepLow: {r: 0.045653827, g: 0.2901961, b: 0, a: 1}
+      steepHigh: {r: 0.64572126, g: 0.72156864, b: 0.6313726, a: 1}
     greenHRange: {x: -0.1, y: 0.02}
     redHRange: {x: -0.08, y: 0.02}
     blueHRange: {x: -0.01, y: 0.75}

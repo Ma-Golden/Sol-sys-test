@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 81f714daf7144784b8a2f42f1cd30927, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -534,9 +534,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   celestiaBodyGenerator: {fileID: 0}
-  mass: 10
-  velocity: {x: 0, y: 50, z: 0}
-  position: {x: 0, y: 0, z: 0}
+  mass: 100
+  velocity: {x: 0, y: 0, z: -30}
+  position: {x: 0, y: 25, z: 0}
   sphereMesh: {fileID: 0}
   surfaceMaterial: {fileID: 0}
 --- !u!4 &885540606
@@ -641,13 +641,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1317574732}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07709853, y: 0.015929163, z: -0.0012319402, w: 0.9968955}
-  m_LocalPosition: {x: 0, y: 20, z: -75}
+  m_LocalRotation: {x: 0.27978194, y: -0.3495384, z: 0.11020901, w: 0.887355}
+  m_LocalPosition: {x: 69, y: 60, z: -60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 8.845, y: 1.831, z: 0}
+  m_LocalEulerAnglesHint: {x: 35, y: -43, z: 0}
 --- !u!114 &1317574736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,8 +759,8 @@ MonoBehaviour:
   - {fileID: 885540604}
   - {fileID: 1594840133}
   simulation: {fileID: 1539728143}
-  centralmass: 10
-  orbitDistance: 35
+  centralmass: 10000
+  orbitDistance: 20
   orbitSpeed: 1
 --- !u!114 &1539728143
 MonoBehaviour:
@@ -827,8 +827,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   celestiaBodyGenerator: {fileID: 0}
-  mass: 10
-  velocity: {x: 0, y: 50, z: 0}
+  mass: 100
+  velocity: {x: 0, y: 0, z: -30}
   position: {x: 0, y: 0, z: 0}
   sphereMesh: {fileID: 0}
   surfaceMaterial: {fileID: 0}
@@ -841,7 +841,7 @@ Transform:
   m_GameObject: {fileID: 1594840133}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 60, y: 0, z: 0}
+  m_LocalPosition: {x: 50, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   celestiaBodyGenerator: {fileID: 0}
-  mass: 0
+  mass: 10000000
   velocity: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   sphereMesh: {fileID: 0}

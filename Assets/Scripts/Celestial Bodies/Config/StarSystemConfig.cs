@@ -22,7 +22,10 @@ namespace CelestialBodies.Config
         // Add and init new settings to config list
         public int AddNewCelestialBodySettings(CelestialBodyConfig.CelestialBodyType type)
         {
-            CelestialBodyConfig newBody = new CelestialBodyConfig();
+            //CelestialBodyConfig newBody = new CelestialBodyConfig();
+            
+            CelestialBodyConfig newBody = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+
             // Init config values
             newBody.Init(type);
 

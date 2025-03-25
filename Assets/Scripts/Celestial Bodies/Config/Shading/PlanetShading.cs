@@ -92,10 +92,12 @@ namespace CelestialBodies.Config.Shading
                 switch (n)
                 {
                     case 0:
+                        Debug.Log("Random Green");
                         colors = shadingSettings.baseGreenColors;
                         deltaH = random.Range(shadingSettings.greenHRange.x, shadingSettings.greenHRange.y);
                         break;
                     case 1:
+                        Debug.Log("Random Red");
                         colors = shadingSettings.baseRedColors;
                         deltaH = random.Range(shadingSettings.redHRange.x, shadingSettings.redHRange.y);
                         break;
@@ -150,17 +152,17 @@ namespace CelestialBodies.Config.Shading
 
         void ApplyColours(Material material, PlanetColors colors)
         {
-            material.SetColor("ShoreLow", colors.shoreColLow);
-            material.SetColor("ShoreHigh", colors.shoreColHigh);
+            material.SetColor("_ShoreLow", colors.shoreColLow);
+            material.SetColor("_ShoreHigh", colors.shoreColHigh);
 
-            material.SetColor("FlatLowA", colors.flatColLowA);
-            material.SetColor("FlatHighA", colors.flatColHighA);
+            material.SetColor("_FlatLowA", colors.flatColLowA);
+            material.SetColor("_FlatHighA", colors.flatColHighA);
 
-            material.SetColor("FlatLowB", colors.flatColLowB);
-            material.SetColor("FlatHighB", colors.flatColHighB);
+            material.SetColor("_FlatLowB", colors.flatColLowB);
+            material.SetColor("_FlatHighB", colors.flatColHighB);
 
-            material.SetColor("SteepLow", colors.steepLow);
-            material.SetColor("SteepHigh", colors.steepHigh);
+            material.SetColor("_SteepLow", colors.steepLow);
+            material.SetColor("_SteepHigh", colors.steepHigh);
         }
 
         [Serializable]

@@ -26,7 +26,11 @@ namespace CelestialBodies.Config.Shading
         {
             shadingConfig = (MoonshadingConfig)ss;
 
-            if (Observers == null) return;
+            if (Observers == null)
+            { 
+                Debug.Log("Observers is null (moon shading)");
+                return; 
+            } 
             foreach (ICelestialObserver observer in Observers)
             {
                 observer.OnShadingUpdate();

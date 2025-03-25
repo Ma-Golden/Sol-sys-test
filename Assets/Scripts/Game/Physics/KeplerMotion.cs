@@ -29,7 +29,6 @@ public class KeplerMotion : IPhysicsModel
             Vector3 r = bodies[i].Position - bodies[0].Position;
             Vector3 v = bodies[i].Velocity;
 
-            
             float periapsis = r.magnitude;    // Initial distance as periapsis (Closest point)
             float apoapsis = periapsis;       // Estimate for apoapsis // TODO: More robust calculation of apoapsis
 

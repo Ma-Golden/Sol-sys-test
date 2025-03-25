@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: BaseOcean
   m_EditorClassIdentifier: 
   oceanSettings:
-    randomizeShading: 0
+    randomizeShading: 1
     randomizeHeight: 0
-    shadingSeed: 0
+    shadingSeed: 4559
     heightSeed: -200
     realisticColors: 0
     hueRange: 0.05
@@ -28,8 +28,8 @@ MonoBehaviour:
     alphaMultiplier: 300
     baseShallowCol: {r: 0.3137255, g: 0.9411765, b: 0.75686276, a: 0}
     baseDepthCol: {r: 0, g: 0.08627451, b: 0.2627451, a: 0}
-    randomShallowCol: {r: 0.3137255, g: 0.9411765, b: 0.63529414, a: 1}
-    randomDepthCol: {r: 0, g: 0.13725491, b: 0.2627451, a: 1}
+    randomShallowCol: {r: 0.24062698, g: 0.80899495, b: 0.68367213, a: 1}
+    randomDepthCol: {r: 0.10708125, g: 0.34107944, b: 0.3748935, a: 1}
     specularCol: {r: 1, g: 1, b: 1, a: 1}
     waveStrength: 0.558
     waveScale: 10
