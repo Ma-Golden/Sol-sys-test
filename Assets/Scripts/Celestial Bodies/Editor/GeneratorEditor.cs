@@ -19,7 +19,6 @@ public class GeneratorEditor : Editor
     private UnityEditor.Editor physicsEditor;
     // ocean, atmos etc.
 
-
     private bool shapeFoldout;
     private bool shadingFoldout;
     private bool oceanFoldout;
@@ -105,15 +104,12 @@ public class GeneratorEditor : Editor
 
     void Regenerate(Shape.ShapeConfig spCon, Shading.ShadingConfig shCon, Physics.PhysicsSettings phCon, Ocean.OceanSettings oCon)
     {
-
         generator.bodyConfig.ocean.SetSettings(oCon);
         generator.bodyConfig.shape.SetConfig(spCon);
         generator.bodyConfig.shading.SetConfig(shCon);
         generator.bodyConfig.physics.SetSettings(phCon);
         EditorApplication.QueuePlayerLoopUpdate();
-
     }
-
 
     private void DrawConfigEditors()
     {
@@ -121,9 +117,6 @@ public class GeneratorEditor : Editor
         DrawConfigEditor(generator.bodyConfig.shading, ref shadingFoldout, ref shadingEditor);
         DrawConfigEditor(generator.bodyConfig.ocean, ref oceanFoldout, ref oceanEditor);
     }
-
-
-
 
     void DrawConfigEditor(Object settings, ref bool foldout, ref Editor editor)
     {

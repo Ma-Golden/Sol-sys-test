@@ -67,19 +67,9 @@ namespace CelestialBodies.Config.Shape
         public abstract class ShapeConfig
         {
             public bool random = false;
-            public int seed { get; set; } = 0;
-
-            public void SetSeed(int newSeed)
-            {
-                seed = newSeed;
-            }
-
-
+            public int seed = 0;
             public bool perturbVertices = false;
             [Range(0, 1)] public float perturbStrength = 0.36f;
-
-            public float noiseScale = 3.0f;
-            public float noiseStrength = 2.0f;
 
             public void RandomizeShape(bool rand)
             {

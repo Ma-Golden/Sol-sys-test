@@ -488,7 +488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolution: 3
   celestialBody: {fileID: 1939330747}
-  cBodyType: 2
+  cBodyType: 0
 --- !u!114 &1367424535
 MonoBehaviour:
   m_ObjectHideFlags: 0

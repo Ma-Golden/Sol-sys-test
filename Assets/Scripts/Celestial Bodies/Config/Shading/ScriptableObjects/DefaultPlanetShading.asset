@@ -15,46 +15,46 @@ MonoBehaviour:
   shadingDataCompute: {fileID: 0}
   terrainMaterial: {fileID: 2100000, guid: d57afa0d82a5ed942b0010caab281ea5, type: 2}
   shadingSettings:
-    randomize: 1
-    seed: -6495
-    realisticColors: 0
-    mainColor: {r: 0.7695021, g: 0.35728982, b: 0.6573995, a: 1}
+    randomize: 0
+    seed: -4842
+    realisticColors: 1
+    mainColor: {r: 0.33333334, g: 0.36078432, b: 0.2509804, a: 1}
     baseGreenColors:
-      shoreColLow: {r: 0, g: 0, b: 0, a: 0}
-      shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
-      flatColLowA: {r: 0, g: 0, b: 0, a: 0}
-      flatColHighA: {r: 0.21698111, g: 0.0010234982, b: 0.0010234982, a: 0}
-      flatColLowB: {r: 0, g: 0, b: 0, a: 0}
-      flatColHighB: {r: 0, g: 0, b: 0, a: 0}
-      steepLow: {r: 0, g: 0, b: 0, a: 0}
-      steepHigh: {r: 0, g: 0, b: 0, a: 0}
+      shoreColLow: {r: 0.7921569, g: 0.6666667, b: 0.5137255, a: 1}
+      shoreColHigh: {r: 0.92941177, g: 0.81960785, b: 0.6745098, a: 1}
+      flatColLowA: {r: 0.33333334, g: 0.36078432, b: 0.2509804, a: 1}
+      flatColHighA: {r: 0.16078432, g: 0.28627452, b: 0.1882353, a: 1}
+      flatColLowB: {r: 0.21960784, g: 0.3137255, b: 0.22745098, a: 1}
+      flatColHighB: {r: 0.11372549, g: 0.20392157, b: 0.14117648, a: 1}
+      steepLow: {r: 0.28627452, g: 0.27058825, b: 0.30588236, a: 1}
+      steepHigh: {r: 0.6862745, g: 0.5882353, b: 0.54901963, a: 1}
     baseRedColors:
-      shoreColLow: {r: 0, g: 0, b: 0, a: 0}
-      shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
-      flatColLowA: {r: 0, g: 0, b: 0, a: 0}
-      flatColHighA: {r: 0, g: 0, b: 0, a: 0}
-      flatColLowB: {r: 0, g: 0, b: 0, a: 0}
-      flatColHighB: {r: 0, g: 0, b: 0, a: 0}
-      steepLow: {r: 0, g: 0, b: 0, a: 0}
-      steepHigh: {r: 0, g: 0, b: 0, a: 0}
+      shoreColLow: {r: 0.63529414, g: 0.5019608, b: 0.2784314, a: 1}
+      shoreColHigh: {r: 0.87058824, g: 0.6862745, b: 0.4, a: 1}
+      flatColLowA: {r: 0.7490196, g: 0.5372549, b: 0.3647059, a: 1}
+      flatColHighA: {r: 0.47058824, g: 0.21176471, b: 0.17254902, a: 1}
+      flatColLowB: {r: 0.7490196, g: 0.45490196, b: 0.21568628, a: 1}
+      flatColHighB: {r: 0.47058824, g: 0.16470589, b: 0.11764706, a: 1}
+      steepLow: {r: 0.5, g: 0.4221698, b: 0.4221698, a: 1}
+      steepHigh: {r: 0.92156863, g: 0.7921569, b: 0.59607846, a: 1}
     baseBlueColors:
-      shoreColLow: {r: 0, g: 0, b: 0, a: 0}
-      shoreColHigh: {r: 0, g: 0, b: 0, a: 0}
-      flatColLowA: {r: 0, g: 0, b: 0, a: 0}
-      flatColHighA: {r: 0, g: 0, b: 0, a: 0}
-      flatColLowB: {r: 0, g: 0, b: 0, a: 0}
-      flatColHighB: {r: 0, g: 0, b: 0, a: 0}
-      steepLow: {r: 0, g: 0, b: 0, a: 0}
-      steepHigh: {r: 0, g: 0, b: 0, a: 0}
+      shoreColLow: {r: 0.76862746, g: 0.8352941, b: 0.9137255, a: 1}
+      shoreColHigh: {r: 0.5058824, g: 0.45882353, b: 0.69411767, a: 0.972549}
+      flatColLowA: {r: 0.5058824, g: 0.45882353, b: 0.69411767, a: 1}
+      flatColHighA: {r: 0.3524387, g: 0.28488788, b: 0.6226415, a: 1}
+      flatColLowB: {r: 0.6173016, g: 0.5711552, b: 0.8018868, a: 1}
+      flatColHighB: {r: 0.24313726, g: 0.16078432, b: 0.46666667, a: 1}
+      steepLow: {r: 0.050980393, g: 0, b: 0.2901961, a: 1}
+      steepHigh: {r: 0.64705884, g: 0.6313726, b: 0.72156864, a: 1}
     randomColors:
-      shoreColLow: {r: 0.6949004, g: 0.7504365, b: 0.9299419, a: 1}
-      shoreColHigh: {r: 0.6539227, g: 0.7015667, b: 0.7190395, a: 1}
-      flatColLowA: {r: 0.7695021, g: 0.35728982, b: 0.6573995, a: 1}
-      flatColHighA: {r: 0.5457591, g: 0.28559586, b: 0.23606214, a: 1}
-      flatColLowB: {r: 0.7517519, g: 0.40400314, b: 0.31396455, a: 1}
-      flatColHighB: {r: 0.5121337, g: 0.2359084, b: 0.30367526, a: 1}
-      steepLow: {r: 0.34625366, g: 0.56221074, b: 0.5613561, a: 1}
-      steepHigh: {r: 0.11824808, g: 0.21732745, b: 0.17173195, a: 1}
+      shoreColLow: {r: 0.77770215, g: 0.9245925, b: 0.6892351, a: 1}
+      shoreColHigh: {r: 0.5330362, g: 0.62780136, b: 0.6021606, a: 1}
+      flatColLowA: {r: 0.3948246, g: 0.72678727, b: 0.3397434, a: 1}
+      flatColHighA: {r: 0.5253905, g: 0.46950132, b: 0.2771244, a: 1}
+      flatColLowB: {r: 0.32283992, g: 0.7013813, b: 0.46643606, a: 1}
+      flatColHighB: {r: 0.21757802, g: 0.48062325, b: 0.48571426, a: 1}
+      steepLow: {r: 0.357842, g: 0.276684, b: 0.4352108, a: 1}
+      steepHigh: {r: 0.17001674, g: 0.12072585, b: 0.16232881, a: 1}
     greenHRange: {x: -0.1, y: 0.02}
     redHRange: {x: -0.08, y: 0.02}
     blueHRange: {x: -0.01, y: 0.75}

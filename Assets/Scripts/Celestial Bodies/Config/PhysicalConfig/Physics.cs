@@ -8,9 +8,7 @@ using UnityEngine;
 public class Physics : ScriptableObject
 {
     [CanBeNull] private List<ICelestialObserver> _observers = new List<ICelestialObserver>();
-
     [SerializeField] private PhysicsSettings _physicsSettings;
-
 
     public void InitSettings()
     {

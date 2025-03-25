@@ -16,25 +16,25 @@ MonoBehaviour:
     randomizeShading: 0
     randomizeHeight: 0
     shadingSeed: 0
-    heightSeed: 0
+    heightSeed: -200
     realisticColors: 0
     hueRange: 0.05
     hasOcean: 1
-    oceanLevel: 0.82
-    baseOceanLevel: 0.5
-    minOceanLevel: 0.3
-    maxOceanLevel: 0.85
-    depthMultiplier: 10
-    alphaMultiplier: 70
-    baseShallowCol: {r: 0.41651833, g: 0.429727, b: 0.4528302, a: 0}
-    baseDepthCol: {r: 0.28057137, g: 0.42343822, b: 0.9150943, a: 0}
-    randomShallowCol: {r: 0.6320754, g: 0.22957455, b: 0.22957455, a: 1}
-    randomDepthCol: {r: 0.5754717, g: 0.3936009, b: 0.3936009, a: 1}
+    oceanLevel: 0.52
+    baseOceanLevel: 0.52
+    minOceanLevel: 0.15
+    maxOceanLevel: 1.5
+    depthMultiplier: 100
+    alphaMultiplier: 300
+    baseShallowCol: {r: 0.3137255, g: 0.9411765, b: 0.75686276, a: 0}
+    baseDepthCol: {r: 0, g: 0.08627451, b: 0.2627451, a: 0}
+    randomShallowCol: {r: 0.3137255, g: 0.9411765, b: 0.63529414, a: 1}
+    randomDepthCol: {r: 0, g: 0.13725491, b: 0.2627451, a: 1}
     specularCol: {r: 1, g: 1, b: 1, a: 1}
-    waveStrength: 0.15
-    waveScale: 15
+    waveStrength: 0.558
+    waveScale: 10
     waveSpeed: 0.5
-    smoothness: 0.92
+    smoothness: 0.647
     testParams: {x: 0, y: 0, z: 0, w: 0}
   waveNormalA: {fileID: 2800000, guid: 99f1e8efd8bdf714299af0134fb60eec, type: 3}
   waveNormalB: {fileID: 2800000, guid: 6500fee0fbf1c2e40a5fab5e44d6be47, type: 3}

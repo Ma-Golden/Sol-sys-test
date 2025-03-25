@@ -18,7 +18,7 @@ namespace CelestialBodies.Config.Shape
 
             // shape config
             shapeConfig.continentNoise.SetComputeValues(heightCompute, prng, "_continents");
-            shapeConfig.ridgeNoise.SetComputeValues(heightCompute, prng, "_ridges");
+            shapeConfig.ridgeNoise.SetComputeValues(heightCompute, prng, "_mountains");
             shapeConfig.maskNoise.SetComputeValues(heightCompute, prng, "_mask");
 
             heightCompute.SetFloat("oceanDepthMultiplier", shapeConfig.oceanDepthMultiplier);
