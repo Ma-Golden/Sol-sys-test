@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4672042001758637739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7728567400927472116}
+  - component: {fileID: 701547954301211567}
+  m_Layer: 0
+  m_Name: SystemSavingUtils
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7728567400927472116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4672042001758637739}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -94.155075, y: 42.99521, z: -346.31262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &701547954301211567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4672042001758637739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb6aa1a2c495654da008c3afc10d38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSystemConfig: {fileID: 0}
+  storePath: 
+  testStorePath: 
+  PlanetShape: {fileID: 11400000, guid: 24173c40477e2e747ab3bcc62b53d83d, type: 2}
+  MoonShape: {fileID: 11400000, guid: d7116e3d320746d48af8f3748369a8ec, type: 2}
+  StarShape: {fileID: 11400000, guid: 1bc0a2b8dde0a294dbdd7c30082fe3c4, type: 2}
+  PlanetShading: {fileID: 11400000, guid: 2075ab29c6872134fb252be3c69f7db2, type: 2}
+  MoonShading: {fileID: 11400000, guid: 9f25ce2d6506a6540ba2b4670b71092b, type: 2}
+  StarShading: {fileID: 11400000, guid: a0f1095fb4afab7448a3bd8b9245a705, type: 2}
+  basePhysics: {fileID: 11400000, guid: 4a0131d5137941542a0f89570783ad4a, type: 2}
+  baseOcean: {fileID: 11400000, guid: a92d3021da4929040bc3735f7cbb900d, type: 2}

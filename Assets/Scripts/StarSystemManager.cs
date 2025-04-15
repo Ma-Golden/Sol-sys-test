@@ -5,21 +5,27 @@ using UnityEngine;
 
 public class StarSystemManager : MonoBehaviour
 {
-    public static StarSystemManager Instance;
+    public enum PhysicsModelType
+    {
+        Keplerian,
+        NBody,
+        // Add more physics models here in the future
+    }
 
+
+    public static StarSystemManager Instance;
 
     [Header("Simulation")]
     public bodySimulation simulationController;
     public bool autoStartSimulation = false;
-    
+
     [Header("System Configuration")]
     public StarSystemConfig systemConfig;
     private List<CelestialBody> systemBodies = new List<CelestialBody>();
 
-    [Header("Physics Model")]
-    public bool useKeplerianPhysics = true;
+    [Tooltip("Current physics model used for simulation")]
+    public PhysicsModelType currentPhysicsModelType = PhysicsModelType.Keplerian;
     private IPhysicsModel currentPhysicsModel;
-
 
     [Header("Reference Body")]
     public bool simulateRelativeToStar = true;
@@ -38,13 +44,12 @@ public class StarSystemManager : MonoBehaviour
         }
     }
 
-
     private void Start()
     {
         // Initialize physics model based on selection
-        currentPhysicsModel = useKeplerianPhysics ? new KeplerMotion() : new NBodyPhysics();
+        UpdatePhysicsModel();
 
-        // Set the physcis model on the simulation controller
+        // Set the physics model on the simulation controller
         if (simulationController != null)
         {
             simulationController.SetPhysicsModel(currentPhysicsModel); // update physics model
@@ -61,7 +66,27 @@ public class StarSystemManager : MonoBehaviour
         {
             StartSimulation();
         }
-    } // Start ()
+    }
+
+    /// <summary>
+    /// Updates the physics model based on the selected model type
+    /// </summary>
+    private void UpdatePhysicsModel()
+    {
+        switch (currentPhysicsModelType)
+        {
+            case PhysicsModelType.Keplerian:
+                currentPhysicsModel = new KeplerMotion();
+                break;
+            case PhysicsModelType.NBody:
+                currentPhysicsModel = new NBodyPhysics();
+                break;
+            // Add cases for additional physics models here
+            default:
+                currentPhysicsModel = new KeplerMotion();
+                break;
+        }
+    }
 
     public void AddBody(CelestialBody body)
     {
@@ -92,7 +117,6 @@ public class StarSystemManager : MonoBehaviour
 
     public void StartSimulation()
     {
-
         if (simulationController != null && systemBodies.Count > 0)
         {
             // Configure simulation
@@ -109,7 +133,7 @@ public class StarSystemManager : MonoBehaviour
 
             Debug.Log($"Started simulation with {systemBodies.Count} bodies");
         }
-        else 
+        else
         {
             Debug.LogWarning("Cannot start simulation: No bodies in system or simulation controller not assigned");
         }
@@ -121,7 +145,7 @@ public class StarSystemManager : MonoBehaviour
         {
             simulationController.StopSimulation();
             simulationController.simulating = false;
-            Debug.Log("Simulation stoppped");
+            Debug.Log("Simulation stopped");
         }
     }
 
@@ -137,23 +161,48 @@ public class StarSystemManager : MonoBehaviour
         }
     }
 
-    // TODO: change this to multiple other possible models
-
-    public void SwitchPhysicsModel(bool useKepler)
+    /// <summary>
+    /// Switch to a different physics model
+    /// </summary>
+    /// <param name="modelType">The physics model type to use</param>
+    public void SwitchPhysicsModel(PhysicsModelType modelType)
     {
-        useKeplerianPhysics = useKepler;
-        currentPhysicsModel = useKeplerianPhysics ? new KeplerMotion() : new NBodyPhysics();
-
-        if (simulationController != null)
+        // Only switch if it's a different model
+        if (currentPhysicsModelType != modelType)
         {
-            simulationController.SetPhysicsModel(currentPhysicsModel);
+            currentPhysicsModelType = modelType;
+            UpdatePhysicsModel();
 
-            // If simulation is running, restart it with new physics
-            if (simulationController.simulating)
+            if (simulationController != null)
             {
-                StopSimulation();
-                StartSimulation();
+                simulationController.SetPhysicsModel(currentPhysicsModel);
+
+                // If simulation is running, restart it with new physics
+                if (simulationController.simulating)
+                {
+                    StopSimulation();
+                    StartSimulation();
+                }
             }
+
+            Debug.Log($"Switched physics model to {modelType}");
+        }
+    }
+
+    /// <summary>
+    /// Switch physics model by index (useful for UI dropdowns)
+    /// </summary>
+    /// <param name="index">Index of the physics model in the enum</param>
+    public void SwitchPhysicsModelByIndex(int index)
+    {
+        if (index >= 0 && index < System.Enum.GetValues(typeof(PhysicsModelType)).Length)
+        {
+            PhysicsModelType newModel = (PhysicsModelType)index;
+            SwitchPhysicsModel(newModel);
+        }
+        else
+        {
+            Debug.LogError($"Invalid physics model index: {index}");
         }
     }
 
@@ -169,7 +218,7 @@ public class StarSystemManager : MonoBehaviour
         systemBodies.Clear();
         StopSimulation();
 
-        // Set the sytem config
+        // Set the system config
         systemConfig = config;
 
         // TODO: Instantiate bodies from config
@@ -194,8 +243,24 @@ public class StarSystemManager : MonoBehaviour
             // and its CelestialBody generator and creating appropriate config objects
 
             SystemSavingUtils.Instance.currentSystemConfig = systemConfig;
-            Debug.Log("System saved to config");;
+            Debug.Log("System saved to config");
         }
     }
-}
 
+    /// <summary>
+    /// Returns a list of available physics model names for UI display
+    /// </summary>
+    /// <returns>List of physics model names</returns>
+    public static List<string> GetPhysicsModelNames()
+    {
+        List<string> modelNames = new List<string>();
+        System.Array values = System.Enum.GetValues(typeof(PhysicsModelType));
+
+        foreach (var value in values)
+        {
+            modelNames.Add(value.ToString());
+        }
+
+        return modelNames;
+    }
+}

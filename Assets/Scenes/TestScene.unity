@@ -424,7 +424,6 @@ GameObject:
   - component: {fileID: 1367424533}
   - component: {fileID: 1367424532}
   - component: {fileID: 1367424534}
-  - component: {fileID: 1367424535}
   m_Layer: 0
   m_Name: SystemUtils
   m_TagString: Untagged
@@ -444,11 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb6aa1a2c495654da008c3afc10d38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSystemConfig:
-    systemName: Test
-    celestialBodyConfigs: []
-    lastCamPos: {x: 0, y: 0, z: 0}
-    lastCamZoom: 0
+  currentSystemConfig: {fileID: 0}
   storePath: 
   testStorePath: 
   PlanetShape: {fileID: 11400000, guid: 24173c40477e2e747ab3bcc62b53d83d, type: 2}
@@ -489,26 +484,6 @@ MonoBehaviour:
   resolution: 3
   celestialBody: {fileID: 1939330747}
   cBodyType: 1
---- !u!114 &1367424535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367424531}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ce6d6e487c9724281ff1201f57f341, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centralBody: {fileID: 0}
-  orbitingBodies:
-  - {fileID: 0}
-  - {fileID: 0}
-  simulation: {fileID: 0}
-  centralmass: 10
-  orbitDistance: 10
-  orbitSpeed: 1
 --- !u!1 &1939330746
 GameObject:
   m_ObjectHideFlags: 0

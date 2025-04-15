@@ -22,8 +22,15 @@ public class GameManager : MonoBehaviour
         public const float TimeStep = 0.01f;
         public const float ScaleFactor = 1.0f;
     }
-
     public Constants ProgramConstants;
+
+
+    public float GetGravityConstant()
+    {
+        return Constants.GravityConstant;
+    }
+
+
 
     public bool tempPause = false;
 
