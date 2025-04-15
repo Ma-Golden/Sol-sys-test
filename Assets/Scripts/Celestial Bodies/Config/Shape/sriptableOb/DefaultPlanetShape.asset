@@ -16,11 +16,11 @@ MonoBehaviour:
   heightCompute: {fileID: 7200000, guid: d33f03bf1e4c12c4d96ba68ebdafd4c2, type: 3}
   shapeConfig:
     random: 1
-    seed: 20362
+    seed: 35538
     perturbVertices: 0
     perturbStrength: 0.549
     oceanDepthMultiplier: 1.57
-    oceanFloorDepth: 1.51
+    oceanFloorDepth: 1.3
     oceanFloorSmoothing: 0
     mountainBlend: 0.83
     baseMountainHeight: 0
@@ -28,10 +28,10 @@ MonoBehaviour:
     maxMountainHeight: 0.05
     continentNoise:
       numLayers: 6
-      lacunarity: 2.1
+      lacunarity: 1.14
       persistence: 0.4
       scale: 1
-      elevation: 2.6
+      elevation: 0.6
       verticalShift: -0.66
       offset: {x: 0, y: 0, z: 0}
     maskNoise:
@@ -40,7 +40,7 @@ MonoBehaviour:
       persistence: 0.82
       scale: 3.96
       elevation: 0.26
-      verticalShift: -0.2033086
+      verticalShift: -0.07594702
       offset: {x: 0, y: 0, z: 0}
     ridgeNoise:
       numLayers: 3

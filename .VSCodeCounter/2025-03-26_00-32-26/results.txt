@@ -1,0 +1,148 @@
+Date : 2025-03-26 00:32:26
+Directory : c:\Users\markg\UnityProjects\SolSys Project
+Total : 84 files,  8510 codes, 830 comments, 2039 blanks, all 11379 lines
+
+Languages
++-----------+------------+------------+------------+------------+------------+
+| language  | files      | code       | comment    | blank      | total      |
++-----------+------------+------------+------------+------------+------------+
+| C#        |         44 |      3,420 |        375 |        900 |      4,695 |
+| ShaderLab |         19 |      2,907 |        125 |        766 |      3,798 |
+| HLSL      |         18 |      1,429 |        330 |        369 |      2,128 |
+| JSON      |          3 |        754 |          0 |          4 |        758 |
++-----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                    | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                       |         84 |      8,510 |        830 |      2,039 |     11,379 |
+| Assets                                                                                                                  |         82 |      7,911 |        830 |      2,037 |     10,778 |
+| Assets\Scripts                                                                                                          |         61 |      4,821 |        716 |      1,260 |      6,797 |
+| Assets\Scripts (Files)                                                                                                  |          2 |        120 |         16 |         34 |        170 |
+| Assets\Scripts\Celestial Bodies                                                                                         |         43 |      3,504 |        529 |        905 |      4,938 |
+| Assets\Scripts\Celestial Bodies (Files)                                                                                 |          6 |        481 |         83 |        158 |        722 |
+| Assets\Scripts\Celestial Bodies\Config                                                                                  |         12 |        992 |         55 |        251 |      1,298 |
+| Assets\Scripts\Celestial Bodies\Config (Files)                                                                          |          2 |         99 |         11 |         33 |        143 |
+| Assets\Scripts\Celestial Bodies\Config\PhysicalConfig                                                                   |          1 |         54 |          0 |         13 |         67 |
+| Assets\Scripts\Celestial Bodies\Config\PostProc                                                                         |          1 |        127 |          2 |         26 |        155 |
+| Assets\Scripts\Celestial Bodies\Config\PostProc\Ocean                                                                   |          1 |        127 |          2 |         26 |        155 |
+| Assets\Scripts\Celestial Bodies\Config\Shading                                                                          |          4 |        465 |         30 |        111 |        606 |
+| Assets\Scripts\Celestial Bodies\Config\Shape                                                                            |          4 |        247 |         12 |         68 |        327 |
+| Assets\Scripts\Celestial Bodies\Editor                                                                                  |          1 |        163 |          7 |         34 |        204 |
+| Assets\Scripts\Celestial Bodies\Noise                                                                                   |          3 |        140 |         20 |         30 |        190 |
+| Assets\Scripts\Celestial Bodies\PostProc                                                                                |          4 |        327 |         23 |         72 |        422 |
+| Assets\Scripts\Celestial Bodies\PostProc (Files)                                                                        |          1 |        108 |          9 |         20 |        137 |
+| Assets\Scripts\Celestial Bodies\PostProc\Effects                                                                        |          3 |        219 |         14 |         52 |        285 |
+| Assets\Scripts\Celestial Bodies\Shaders                                                                                 |         17 |      1,401 |        341 |        360 |      2,102 |
+| Assets\Scripts\Celestial Bodies\Shaders\Compute                                                                         |          4 |        102 |         14 |         38 |        154 |
+| Assets\Scripts\Celestial Bodies\Shaders\Compute (Files)                                                                 |          1 |         29 |          0 |          7 |         36 |
+| Assets\Scripts\Celestial Bodies\Shaders\Compute\Height                                                                  |          3 |         73 |         14 |         31 |        118 |
+| Assets\Scripts\Celestial Bodies\Shaders\Includes                                                                        |          7 |        816 |        276 |        192 |      1,284 |
+| Assets\Scripts\Celestial Bodies\Shaders\PostProc                                                                        |          1 |        114 |         10 |         26 |        150 |
+| Assets\Scripts\Celestial Bodies\Shaders\Shading                                                                         |          2 |         52 |          5 |         22 |         79 |
+| Assets\Scripts\Celestial Bodies\Shaders\Surface                                                                         |          3 |        317 |         36 |         82 |        435 |
+| Assets\Scripts\Game                                                                                                     |          9 |        576 |         57 |        175 |        808 |
+| Assets\Scripts\Game (Files)                                                                                             |          1 |         81 |          5 |         26 |        112 |
+| Assets\Scripts\Game\Lighting                                                                                            |          1 |         14 |          0 |          2 |         16 |
+| Assets\Scripts\Game\Physics                                                                                             |          4 |        325 |         37 |        106 |        468 |
+| Assets\Scripts\Game\UI                                                                                                  |          3 |        156 |         15 |         41 |        212 |
+| Assets\Scripts\Testing                                                                                                  |          2 |        118 |         22 |         50 |        190 |
+| Assets\Scripts\Utils                                                                                                    |          5 |        503 |         92 |         96 |        691 |
+| Assets\Shaders                                                                                                          |          1 |         75 |          3 |         19 |         97 |
+| Assets\TextMesh Pro                                                                                                     |         20 |      3,015 |        111 |        758 |      3,884 |
+| Assets\TextMesh Pro\Shaders                                                                                             |         19 |      2,860 |        111 |        756 |      3,727 |
+| Assets\TextMesh Pro\Sprites                                                                                             |          1 |        155 |          0 |          2 |        157 |
+| Packages                                                                                                                |          2 |        599 |          0 |          2 |        601 |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------+-----------+------------+------------+------------+------------+
+| filename                                                                                                                | language  | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+-----------+------------+------------+------------+------------+
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\CelestialBody.cs                            | C#        |         52 |         16 |         17 |         85 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\CelestialBodyGenerator.cs                   | C#        |        238 |         48 |         89 |        375 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\CelestialObservers.cs                       | C#        |         10 |          0 |          2 |         12 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\CelestialBodyConfig.cs               | C#        |         76 |          5 |         22 |        103 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\PhysicalConfig\Physics.cs            | C#        |         54 |          0 |         13 |         67 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\PostProc\Ocean\Ocean.cs              | C#        |        127 |          2 |         26 |        155 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\Shading\MoonShading.cs               | C#        |        147 |         13 |         30 |        190 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\Shading\PlanetShading.cs             | C#        |        173 |          1 |         31 |        205 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\Shading\Shading.cs                   | C#        |         69 |         10 |         23 |        102 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\Shading\StarShading.cs               | C#        |         76 |          6 |         27 |        109 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\Shape\MoonShape.cs                   | C#        |         75 |          2 |         17 |         94 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\Shape\PlanetShape.cs                 | C#        |         73 |          3 |         18 |         94 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\Shape\Shape.cs                       | C#        |         57 |          6 |         19 |         82 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\Shape\StarShape.cs                   | C#        |         42 |          1 |         14 |         57 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Config\StarSystemConfig.cs                  | C#        |         23 |          6 |         11 |         40 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Editor\GeneratorEditor.cs                   | C#        |        163 |          7 |         34 |        204 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\NBodySim.cs                                 | C#        |         10 |          2 |          5 |         17 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Noise\CraterSettings.cs                     | C#        |         63 |          8 |         16 |         87 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Noise\RidgeNoiseSettings.cs                 | C#        |         38 |          5 |          7 |         50 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Noise\SimpleNoiseSettings.cs                | C#        |         39 |          7 |          7 |         53 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\PostProc\CustomPostProcessing.cs            | C#        |        108 |          9 |         20 |        137 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\PostProc\Effects\OceanEffect.cs             | C#        |         41 |          0 |         10 |         51 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\PostProc\Effects\PlanetEffect.cs            | C#        |        162 |         14 |         34 |        210 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\PostProc\Effects\PostProcEffect.cs          | C#        |         16 |          0 |          8 |         24 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Compute\Height\MoonHeight.compute   | HLSL      |         27 |         10 |         14 |         51 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Compute\Height\PlanetHeight.compute | HLSL      |         33 |          4 |         14 |         51 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Compute\Height\StarHeight.compute   | HLSL      |         13 |          0 |          3 |         16 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Compute\PerturbPoints.compute       | HLSL      |         29 |          0 |          7 |         36 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Includes\Craters.cginc              | HLSL      |         26 |          1 |          6 |         33 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Includes\FractalNoise.cginc         | HLSL      |        198 |         20 |         36 |        254 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Includes\Math.cginc                 | HLSL      |         80 |         41 |         15 |        136 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Includes\SimplexNoise.cginc         | HLSL      |        112 |         43 |         36 |        191 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Includes\SimplexNoise2.cginc        | HLSL      |        257 |        124 |         59 |        440 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Includes\SimplexNoise3.cginc        | HLSL      |         79 |         28 |         23 |        130 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Includes\Triplanar.cginc            | HLSL      |         64 |         19 |         17 |        100 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\PostProc\Ocean.shader               | ShaderLab |        114 |         10 |         26 |        150 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Shading\MoonShading.compute         | HLSL      |         21 |          0 |         10 |         31 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Shading\PlanetShading.compute       | HLSL      |         31 |          5 |         12 |         48 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Surface\MoonSurface.shader          | ShaderLab |        103 |         12 |         29 |        144 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Surface\PlanetSurface.shader        | ShaderLab |        166 |         22 |         45 |        233 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\Shaders\Surface\StarSurface.shader          | ShaderLab |         48 |          2 |          8 |         58 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\SphereMesh.cs                               | C#        |        127 |         16 |         32 |        175 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Celestial Bodies\cBodySpawn.cs                               | C#        |         44 |          1 |         13 |         58 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\GameManager.cs                                               | C#        |         62 |          7 |         18 |         87 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\Lighting\SunShadowCaster.cs                             | C#        |         14 |          0 |          2 |         16 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\OrbitCameraController.cs                                | C#        |         81 |          5 |         26 |        112 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\Physics\CelestialBodySimulation.cs                      | C#        |        174 |         16 |         55 |        245 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\Physics\GravityManager.cs                               | C#        |         34 |          1 |          7 |         42 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\Physics\KeplerMotion.cs                                 | C#        |         85 |         15 |         30 |        130 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\Physics\NBodyPhysics.cs                                 | C#        |         32 |          5 |         14 |         51 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\UI\EditorUI.cs                                          | C#        |         80 |          6 |         17 |        103 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\UI\MainMenuController.cs                                | C#        |         47 |          6 |         15 |         68 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Game\UI\PlanetSelector.cs                                    | C#        |         29 |          3 |          9 |         41 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\SystemSavingUtils.cs                                         | C#        |         58 |          9 |         16 |         83 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Testing\PhysicsTestScript.cs                                 | C#        |         72 |         16 |         34 |        122 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Testing\TestSceneScript.cs                                   | C#        |         46 |          6 |         16 |         68 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Utils\Chance.cs                                              | C#        |         26 |          0 |          6 |         32 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Utils\ColorHelper.cs                                         | C#        |         71 |          3 |         10 |         84 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Utils\ComputeHelper.cs                                       | C#        |        141 |         52 |         27 |        220 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Utils\ExploreCamera.cs                                       | C#        |         64 |          5 |         14 |         83 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Scripts\Utils\PRNG.cs                                                | C#        |        201 |         32 |         39 |        272 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\Shaders\OutlineShader.shader                                         | ShaderLab |         75 |          3 |         19 |         97 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl                               | HLSL      |        130 |         18 |         31 |        179 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader                  | ShaderLab |        113 |          2 |         31 |        146 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader                        | ShaderLab |        123 |          3 |         30 |        156 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader                               | ShaderLab |        113 |          2 |         31 |        146 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader                          | ShaderLab |        253 |          4 |         70 |        327 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader                              | ShaderLab |        253 |          4 |         65 |        322 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader                   | ShaderLab |        198 |         10 |         51 |        259 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader                   | ShaderLab |        193 |          8 |         52 |        253 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader                       | ShaderLab |         82 |          4 |         21 |        107 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader                    | ShaderLab |        290 |         15 |         85 |        390 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader                           | ShaderLab |        192 |          8 |         51 |        251 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader                   | ShaderLab |        104 |          8 |         28 |        140 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader                          | ShaderLab |        123 |          4 |         33 |        160 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_SDF.shader                                  | ShaderLab |        253 |          4 |         70 |        327 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMP_Sprite.shader                               | ShaderLab |        111 |          0 |         21 |        132 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMPro.cginc                                     | HLSL      |         63 |          2 |         20 |         85 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc                              | HLSL      |        129 |          2 |         35 |        166 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc                          | HLSL      |         62 |          6 |         13 |         81 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc                             | HLSL      |         75 |          7 |         18 |        100 |
+| c:\Users\markg\UnityProjects\SolSys Project\Assets\TextMesh Pro\Sprites\EmojiOne.json                                   | JSON      |        155 |          0 |          2 |        157 |
+| c:\Users\markg\UnityProjects\SolSys Project\Packages\manifest.json                                                      | JSON      |         51 |          0 |          1 |         52 |
+| c:\Users\markg\UnityProjects\SolSys Project\Packages\packages-lock.json                                                 | JSON      |        548 |          0 |          1 |        549 |
+| Total                                                                                                                   |           |      8,510 |        830 |      2,039 |     11,379 |
++-------------------------------------------------------------------------------------------------------------------------+-----------+------------+------------+------------+------------+

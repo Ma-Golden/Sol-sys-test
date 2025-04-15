@@ -210,13 +210,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222428270}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.75908583, y: -0, z: -0, w: 0.6509906}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalRotation: {x: 0.8575775, y: -0, z: -0, w: 0.5143548}
+  m_LocalPosition: {x: 0, y: 23.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 98.767, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 118.091, y: 0, z: 0}
 --- !u!114 &222428273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolution: 3
   celestialBody: {fileID: 1939330747}
-  cBodyType: 0
+  cBodyType: 1
 --- !u!114 &1367424535
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -124,9 +124,6 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
             {
                 Vector3 newPos = _virtualBodies[i].Position;
 
-                // Check values
-
-
                 if (relativeToBody)
                 {
                     Vector3 referenceFrameOffset = _virtualBodies[_referenceFrameIndex].Position - _referenceBodyInitialPosition;
@@ -158,26 +155,6 @@ public class bodySimulation : MonoBehaviour, ICelestialObserver
             yield return null;
         }
     }
-
-    // public void StopSimulation()
-    // {
-    //     StopAllCoroutines();
-
-    //     if (_bodies == null)
-    //     {
-            
-    //     } 
-
-    //     foreach (var body in _bodies)
-    //     {
-    //         body.transform.position = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig().initialPosition;
-    //     }
-
-    //     foreach (var line in _lineRenderers)
-    //     {
-    //         if (line != null) line.positionCount = 0; // (If active) reset line renderers
-    //     }
-    // }
 
     public void StopSimulation()
     {

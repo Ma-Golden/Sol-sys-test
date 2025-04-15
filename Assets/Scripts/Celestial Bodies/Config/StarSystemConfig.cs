@@ -7,7 +7,7 @@ namespace CelestialBodies.Config
 {
     // StarSystemConfig holds the configuration for a star system.
     [Serializable]
-    public class StarSystemConfig
+    public class StarSystemConfig : ScriptableObject
     {
         // TODO check this
         [SerializeField]

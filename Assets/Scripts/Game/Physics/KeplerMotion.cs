@@ -10,8 +10,6 @@ public class KeplerMotion : IPhysicsModel
     private float accumulatedTime = 0f;
     private Dictionary<VirtualBody, OrbitalElements> orbitalElements;
     
-
-
     public void InitializeBodies(VirtualBody[] bodies)
     {
         orbitalElements = new Dictionary<VirtualBody, OrbitalElements>();
@@ -20,17 +18,17 @@ public class KeplerMotion : IPhysicsModel
         // Central body must be first in array
         for (int i = 0; i < bodies.Length; i++)
         {
-
             Vector3 centralPos = bodies[0].Position;
             Vector3 orbitingPos = bodies[i].Position;
 
             // Calculate orbital elements for each body
-                        // Current orbiting.pos - Central.pos
             Vector3 r = bodies[i].Position - bodies[0].Position;
             Vector3 v = bodies[i].Velocity;
 
             float periapsis = r.magnitude;    // Initial distance as periapsis (Closest point)
-            float apoapsis = periapsis;       // Estimate for apoapsis // TODO: More robust calculation of apoapsis
+            //float apoapsis = periapsis;       // Estimate for apoapsis // TODO: More robust calculation of apoapsis
+            float apoapsis = periapsis * 2f;
+
 
             orbitalElements[bodies[i]] = new OrbitalElements{
                 Periapsis = periapsis,
@@ -87,7 +85,6 @@ public class KeplerMotion : IPhysicsModel
         const double acceptableError = 0.00000001;
         double guess = meanAnomaly;
 
-
         // Newton-Rhapson method
         for (int i = 0; i < maxIterations; i++)
         {
@@ -122,8 +119,5 @@ public class KeplerMotion : IPhysicsModel
         public float Apoapsis { get; set; }
         public float InitialTime;
         public float Period;
-
     }
-
-
 }

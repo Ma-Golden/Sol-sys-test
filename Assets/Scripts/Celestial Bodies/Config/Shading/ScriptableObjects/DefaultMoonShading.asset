@@ -15,8 +15,8 @@ MonoBehaviour:
   shadingDataCompute: {fileID: 0}
   terrainMaterial: {fileID: 2100000, guid: a3ad8557f801e3440a345b9d39100d82, type: 2}
   shadingConfig:
-    randomize: 0
-    seed: 0
+    randomize: 1
+    seed: -7828
     realisticColors: 1
     mainColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     dummyVar: 0
@@ -26,10 +26,10 @@ MonoBehaviour:
       primaryColorB: {r: 0.5283019, g: 0.4309956, b: 0.4261303, a: 1}
       secondaryColorB: {r: 0.16037738, g: 0.132387, b: 0.132387, a: 0}
     randomMooncolours:
-      primaryColorA: {r: 0.26709643, g: 0.23921569, b: 0.28235295, a: 1}
-      secondaryColorA: {r: 0.046980686, g: 0.047058824, b: 0.039215688, a: 1}
-      primaryColorB: {r: 0.5224187, g: 0.5283019, b: 0.4261303, a: 1}
-      secondaryColorB: {r: 0.16009852, g: 0.16037738, b: 0.132387, a: 1}
+      primaryColorA: {r: 0.25164828, g: 0.23921569, b: 0.28235295, a: 1}
+      secondaryColorA: {r: 0.047058824, g: 0.04432821, b: 0.039215688, a: 1}
+      primaryColorB: {r: 0.645283, g: 0.6171865, b: 0.5539693, a: 1}
+      secondaryColorB: {r: 0.3283019, g: 0.35686275, b: 0.26449984, a: 1}
     colourHRange: {x: 0, y: 0.4}
     detailNoise:
       numLayers: 4
