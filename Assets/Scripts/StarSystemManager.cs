@@ -21,7 +21,7 @@ public class StarSystemManager : MonoBehaviour
 
     [Header("System Configuration")]
     public StarSystemConfig systemConfig;
-    private List<CelestialBody> systemBodies = new List<CelestialBody>();
+    public List<CelestialBody> systemBodies = new List<CelestialBody>();
 
     [Tooltip("Current physics model used for simulation")]
     public PhysicsModelType currentPhysicsModelType = PhysicsModelType.Keplerian;

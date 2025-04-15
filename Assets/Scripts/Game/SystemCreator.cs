@@ -186,7 +186,7 @@ public class SystemCreator : MonoBehaviour
         float totalMass = primaryMass + secondaryMass;
         Vector3 barycenter = (primaryStar.position * primaryMass + secondaryStar.position * secondaryMass) / totalMass;
 
-        CelestialBody planet = CreatePlanet("Tatooine", planetMass, planetRadius, Color.gray,
+        CelestialBody planet = CreatePlanet("Tatooine", planetMass, planetRadius, Color.gray ,
             barycenter + new Vector3(planetDistance, 0, 0), new Vector3(0, 0, 1.5f));
 
         // Note: For a true binary star simulation, you'd need custom physics logic
