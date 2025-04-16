@@ -129,18 +129,32 @@ public class BodyEditorPanel : MonoBehaviour
     public void SelectBody(CelestialBody body)
     {
         selectedBody = body;
-        selectedGenerator = body?.GetComponent<CelestialBodyGenerator>();
 
-        if (selectedBody != null && selectedGenerator != null)
+        if (selectedBody == null)
         {
-            gameObject.SetActive(true);
-            UpdateUI();
-        }
-        else
-        {
-            Debug.Log("Deselect Body entered");
+            Debug.LogError("SelectBody called with null body");
             DeselectBody();
+            return;
         }
+
+        selectedGenerator = body.GetComponent<CelestialBodyGenerator>();
+
+        if (selectedGenerator == null)
+        {
+            Debug.LogError($"Selected body {body.name} has no CelestialBodyGenerator component");
+            DeselectBody();
+            return;
+        }
+
+        if (selectedGenerator.bodyConfig == null)
+        {
+            Debug.LogError($"Selected body {body.name} has generator but null bodyConfig");
+            DeselectBody();
+            return;
+        }
+
+        gameObject.SetActive(true);
+        UpdateUI();
     }
 
     private void DeselectBody()
@@ -421,7 +435,11 @@ public class BodyEditorPanel : MonoBehaviour
     newBody.celestiaBodyGenerator = generator;
 
     // Create body config
-    CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+    //CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+
+    CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
+
+
 
     // Get selected body type from dropdown if available
     CelestialBodyConfig.CelestialBodyType bodyType = CelestialBodyConfig.CelestialBodyType.Planet;

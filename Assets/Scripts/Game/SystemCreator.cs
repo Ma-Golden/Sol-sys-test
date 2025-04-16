@@ -279,7 +279,10 @@ public class SystemCreator : MonoBehaviour
         body.celestiaBodyGenerator = generator;
 
         // Create star config
-        CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+        // CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+        
+        CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
+        
         bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Star);
         bodyConfig.radius = radius;
 
@@ -338,8 +341,12 @@ public class SystemCreator : MonoBehaviour
         generator.body = body;
         body.celestiaBodyGenerator = generator;
 
+
+        // TODO: Check
         // Create planet config
-        CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+        // CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+        
+        CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
         bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Planet);
         bodyConfig.radius = radius;
 
@@ -399,7 +406,11 @@ public class SystemCreator : MonoBehaviour
         body.celestiaBodyGenerator = generator;
 
         // Create moon config
-        CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+        // TODO: Check
+        // CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
+        
+        CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
+
         bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Moon);
         bodyConfig.radius = radius;
 

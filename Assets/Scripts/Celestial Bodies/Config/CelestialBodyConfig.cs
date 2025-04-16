@@ -7,7 +7,7 @@ namespace CelestialBodies.Config
 {
     [Serializable]
     [CreateAssetMenu(fileName = "CelestialBodyConfig", menuName = "Scriptable Objects/Celestial Body Config")]
-    public class CelestialBodyConfig : ScriptableObject
+    public class CelestialBodyConfig
     {
         public string bodyName;
         private static readonly string[] testNames = { "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto" };

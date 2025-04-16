@@ -68,6 +68,14 @@ public class CelestialBody : MonoBehaviour
     {
         Debug.Log("CelestialBody clicked: " + gameObject.name);
 
+        // Check if generator and bodyconfig are not null
+        if (celestiaBodyGenerator == null || celestiaBodyGenerator.bodyConfig == null)
+        {
+            Debug.LogError($"Body {gameObject.name} has no generator or bodyConfig");
+            return;
+        }
+
+
         BodyEditorPanel bodyEditorPanel = FindFirstObjectByType<BodyEditorPanel>();
         if (bodyEditorPanel != null)
         {
