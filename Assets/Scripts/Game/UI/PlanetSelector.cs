@@ -32,9 +32,19 @@ public class PlanetSelector : MonoBehaviour
     {
         if (_selectedPlanet != null)
         {
-//            _selectedPlanet.Deselect();
+           _selectedPlanet.Deselect();
+        }
+
+        _selectedPlanet = cBody;
+
+        if (_selectedPlanet != null)
+        {
+            _selectedPlanet.Select();
         }
     }
+
+    
+
 
 
 }

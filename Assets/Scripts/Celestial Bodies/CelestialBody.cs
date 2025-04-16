@@ -17,6 +17,8 @@ public class CelestialBody : MonoBehaviour
 
     public Material surfaceMaterial;
 
+    private bool isSelected = false;
+
     //    private Rigidbody _rb;
 
 
@@ -64,12 +66,15 @@ public class CelestialBody : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("CelestialBody clicked" + gameObject.name);
-        EditorUI editorUI = FindFirstObjectByType<EditorUI>();
-        if (editorUI != null) 
+        Debug.Log("CelestialBody clicked: " + gameObject.name);
+
+        BodyEditorPanel bodyEditorPanel = FindFirstObjectByType<BodyEditorPanel>();
+        if (bodyEditorPanel != null)
         {
-            editorUI.SetSelectedBody(this);
+            Debug.Log("bodyPanel.selectbody called");
+            bodyEditorPanel.SelectBody(this);
         }
+
     }
 
     // Set visual cue that body is highlighted
@@ -80,5 +85,27 @@ public class CelestialBody : MonoBehaviour
             sphereRenderer.material = isHighlighted ? outlineMaterial : originalMaterial;
         }
     }
+
+    public void Select()
+    {
+        isSelected = true;
+
+        Highlight(true);
+
+        // Notify editor
+        BodyEditorPanel editorPanel = FindAnyObjectByType<BodyEditorPanel>();
+        if (editorPanel != null)
+        {
+            editorPanel.SelectBody(this);
+        }
+    }
+
+    public void Deselect()
+    {
+        isSelected = false;
+        // Remove visuals
+
+    }
+
 
 }
