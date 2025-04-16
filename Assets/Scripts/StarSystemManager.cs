@@ -16,7 +16,7 @@ public class StarSystemManager : MonoBehaviour
     public static StarSystemManager Instance;
 
     [Header("Simulation")]
-    public bodySimulation simulationController;
+    public CelestialBodySimulation simulationController;
     public bool autoStartSimulation = false;
 
     [Header("System Configuration")]

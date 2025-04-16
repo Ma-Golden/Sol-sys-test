@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SystemEditorPanel : MonoBehaviour
 {
     [Header("System Properties")]
-    public Dropdown physicsModelDropdown;
+    public TMP_Dropdown physicsModelDropdown;
     public Slider simulationSpeedSlider;
     public Toggle relativeToStarToggle;
 
     [Header("Templates")]
-    public Dropdown templateDropdown;
+    public TMP_Dropdown templateDropdown;
     public Button generateButton;
     public Button clearSystemButton;
 

@@ -9,7 +9,7 @@ using UnityEngine.Android;
 using UnityEngine.InputSystem;
 
 
-public class bodySimulation : MonoBehaviour, ICelestialObserver
+public class CelestialBodySimulation : MonoBehaviour, ICelestialObserver
 {
     public bool simulating; // Start/pause simulation
 

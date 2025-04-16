@@ -6,7 +6,7 @@ public class PhysicsTestScript : MonoBehaviour
     public GameObject centralBody;
     public GameObject[] orbitingBodies;
 
-    public bodySimulation simulation;
+    public CelestialBodySimulation simulation;
 
     [Header("Physics Properties")]
     public float centralmass = 10f;
