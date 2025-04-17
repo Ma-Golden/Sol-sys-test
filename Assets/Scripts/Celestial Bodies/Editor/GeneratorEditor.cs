@@ -1,203 +1,203 @@
-using CelestialBodies.Config;
-using CelestialBodies.Config.Shading;
-using CelestialBodies.Config.Shape;
-using PlasticPipe.PlasticProtocol.Messages;
-using System.Runtime.InteropServices;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.XR;
+// using CelestialBodies.Config;
+// using CelestialBodies.Config.Shading;
+// using CelestialBodies.Config.Shape;
+// using PlasticPipe.PlasticProtocol.Messages;
+// using System.Runtime.InteropServices;
+// using UnityEditor;
+// using UnityEngine;
+// using UnityEngine.Rendering;
+// using UnityEngine.XR;
 
 
-[CustomEditor(typeof(CelestialBodyGenerator))]
-public class GeneratorEditor : Editor
-{
-    CelestialBodyGenerator generator;
-    private UnityEditor.Editor shapeEditor;
-    private UnityEditor.Editor shadingEditor;
-    private UnityEditor.Editor oceanEditor;
-    private UnityEditor.Editor physicsEditor;
-    // ocean, atmos etc.
+// [CustomEditor(typeof(CelestialBodyGenerator))]
+// public class GeneratorEditor : Editor
+// {
+//     CelestialBodyGenerator generator;
+//     private UnityEditor.Editor shapeEditor;
+//     private UnityEditor.Editor shadingEditor;
+//     private UnityEditor.Editor oceanEditor;
+//     private UnityEditor.Editor physicsEditor;
+//     // ocean, atmos etc.
 
-    private bool shapeFoldout;
-    private bool shadingFoldout;
-    private bool oceanFoldout;
-    private bool physicsFoldout;
+//     private bool shapeFoldout;
+//     private bool shadingFoldout;
+//     private bool oceanFoldout;
+//     private bool physicsFoldout;
 
-    public override void OnInspectorGUI()
-    {
-        // Get relevant config data
-        Shading.ShadingConfig shadingC = generator.bodyConfig.shading.GetConfig();
-        Shape.ShapeConfig shapeC = generator.bodyConfig.shape.GetConfig();
-        Ocean.OceanSettings oceanC = generator.bodyConfig.ocean.GetSettings();
-        Physics.PhysicsSettings physicsC = generator.bodyConfig.physics.GetPhysicalConfig();
-        // TODO: phys, ocean etc
+//     public override void OnInspectorGUI()
+//     {
+//         // Get relevant config data
+//         Shading.ShadingConfig shadingC = generator.bodyConfig.shading.GetConfig();
+//         Shape.ShapeConfig shapeC = generator.bodyConfig.shape.GetConfig();
+//         Ocean.OceanSettings oceanC = generator.bodyConfig.ocean.GetSettings();
+//         Physics.PhysicsSettings physicsC = generator.bodyConfig.physics.GetPhysicalConfig();
+//         // TODO: phys, ocean etc
 
-        CelestialBodyConfig.CelestialBodyType newValue =
-            (CelestialBodyConfig.CelestialBodyType)EditorGUILayout.EnumPopup(generator.bodyConfig.bodyType);
-
-
-        if (generator == null)
-        {
-            Debug.LogError("Generator is null");
-            return;
-        }
-
-        if (generator.bodyConfig == null)
-        {
-            Debug.LogError("Generator body config is null");
-            return;
-        }
+//         CelestialBodyConfig.CelestialBodyType newValue =
+//             (CelestialBodyConfig.CelestialBodyType)EditorGUILayout.EnumPopup(generator.bodyConfig.bodyType);
 
 
-        // TODO CHECK THIS
-        if (newValue != generator.bodyConfig.bodyType)
-        {
-            generator.bodyConfig.UpdateCBodySettings(newValue);
-            shapeC = generator.bodyConfig.shape.GetConfig();
-            shadingC = generator.bodyConfig.shading.GetConfig();
-            oceanC = generator.bodyConfig.ocean.GetSettings();
-            physicsC = generator.bodyConfig.physics.GetPhysicalConfig();
+//         if (generator == null)
+//         {
+//             Debug.LogError("Generator is null");
+//             return;
+//         }
 
-            // lINK NEW SETTINGS TO GENERATOR
-            generator.bodyConfig.Subscribe(generator);
-            //Regenerate(); 
+//         if (generator.bodyConfig == null)
+//         {
+//             Debug.LogError("Generator body config is null");
+//             return;
+//         }
 
-        }
 
-        using (var check = new EditorGUI.ChangeCheckScope())
-        {
-            DrawDefaultInspector();
-            DrawConfigEditors(); // Adds to editor each config section
-            if (check.changed)
-            {
-                Regenerate(shapeC, shadingC, physicsC, oceanC);
-            }
-        }
+//         // TODO CHECK THIS
+//         if (newValue != generator.bodyConfig.bodyType)
+//         {
+//             generator.bodyConfig.UpdateCBodySettings(newValue);
+//             shapeC = generator.bodyConfig.shape.GetConfig();
+//             shadingC = generator.bodyConfig.shading.GetConfig();
+//             oceanC = generator.bodyConfig.ocean.GetSettings();
+//             physicsC = generator.bodyConfig.physics.GetPhysicalConfig();
 
-        if (GUILayout.Button("Randomize Shape"))
-        {
-            Debug.Log("Randomize Shape button pressed");
-            shapeC.seed = Random.Range(0, 100000);
-            shapeC.RandomizeShape(true);
-            Regenerate(shapeC, shadingC, physicsC, oceanC);
-        }
+//             // lINK NEW SETTINGS TO GENERATOR
+//             generator.bodyConfig.Subscribe(generator);
+//             //Regenerate(); 
 
-        if (GUILayout.Button("Randomize Shading"))
-        {
-            shadingC.RandomizeShading(true);
-            oceanC.RandomizeShading(true);
+//         }
 
-            Regenerate(shapeC, shadingC, physicsC, oceanC);
-        }
+//         using (var check = new EditorGUI.ChangeCheckScope())
+//         {
+//             DrawDefaultInspector();
+//             DrawConfigEditors(); // Adds to editor each config section
+//             if (check.changed)
+//             {
+//                 Regenerate(shapeC, shadingC, physicsC, oceanC);
+//             }
+//         }
 
-        if (GUILayout.Button("Randomize All"))
-        {
-            //            Debug.Log("Randomize All button pressed");
+//         if (GUILayout.Button("Randomize Shape"))
+//         {
+//             Debug.Log("Randomize Shape button pressed");
+//             shapeC.seed = Random.Range(0, 100000);
+//             shapeC.RandomizeShape(true);
+//             Regenerate(shapeC, shadingC, physicsC, oceanC);
+//         }
 
-            shapeC.RandomizeShape(true);
-            shadingC.RandomizeShading(true);
-            oceanC.RandomizeShading(true);
-            Regenerate(shapeC, shadingC, physicsC, oceanC);
-        }
+//         if (GUILayout.Button("Randomize Shading"))
+//         {
+//             shadingC.RandomizeShading(true);
+//             oceanC.RandomizeShading(true);
 
-        var randomizedAny = shapeC.random || shadingC.randomize || oceanC.randomizeShading || oceanC.randomizeHeight;
+//             Regenerate(shapeC, shadingC, physicsC, oceanC);
+//         }
 
-        randomizedAny |= shadingC.seed != 0 || shapeC.seed != 0 || oceanC.shadingSeed != 0 || oceanC.heightSeed != 0;
+//         if (GUILayout.Button("Randomize All"))
+//         {
+//             //            Debug.Log("Randomize All button pressed");
 
-        using (new EditorGUI.DisabledScope(!randomizedAny))
-        {
-            if (GUILayout.Button("Reset Randomization"))
-            {
-                shadingC.RandomizeShading(false);
-                shapeC.RandomizeShape(false);
-                oceanC.RandomizeShading(false);
-                oceanC.RandomizeShape(false);
+//             shapeC.RandomizeShape(true);
+//             shadingC.RandomizeShading(true);
+//             oceanC.RandomizeShading(true);
+//             Regenerate(shapeC, shadingC, physicsC, oceanC);
+//         }
 
-                Regenerate(shapeC, shadingC, physicsC, oceanC);
-            }
+//         var randomizedAny = shapeC.random || shadingC.randomize || oceanC.randomizeShading || oceanC.randomizeHeight;
 
-            var realistic = shadingC.realisticColors && oceanC.realisticColors;
+//         randomizedAny |= shadingC.seed != 0 || shapeC.seed != 0 || oceanC.shadingSeed != 0 || oceanC.heightSeed != 0;
 
-            using (new EditorGUI.DisabledGroupScope(!realistic))
-            {
-                if (GUILayout.Button("Non realistic colors"))
-                {
-                    shadingC.realisticColors = false;
-                    oceanC.realisticColors = false;
-                    Regenerate(shapeC, shadingC, physicsC, oceanC);
-                }
-            }
-            using (new EditorGUI.DisabledGroupScope(realistic))
-            {
-                if (GUILayout.Button("Realistic colors"))
-                {
-                    shadingC.realisticColors = true;
-                    oceanC.realisticColors = true;
-                    Regenerate(shapeC, shadingC, physicsC, oceanC);
-                }
-            }
-        }
+//         using (new EditorGUI.DisabledScope(!randomizedAny))
+//         {
+//             if (GUILayout.Button("Reset Randomization"))
+//             {
+//                 shadingC.RandomizeShading(false);
+//                 shapeC.RandomizeShape(false);
+//                 oceanC.RandomizeShading(false);
+//                 oceanC.RandomizeShape(false);
 
-        SaveState();
-    }
+//                 Regenerate(shapeC, shadingC, physicsC, oceanC);
+//             }
 
-    void Regenerate(Shape.ShapeConfig spCon, Shading.ShadingConfig shCon, Physics.PhysicsSettings phCon, Ocean.OceanSettings oCon)
-    {
-        generator.bodyConfig.ocean.SetSettings(oCon);
-        generator.bodyConfig.shape.SetConfig(spCon);
-        generator.bodyConfig.shading.SetConfig(shCon);
-        generator.bodyConfig.physics.SetSettings(phCon);
-        EditorApplication.QueuePlayerLoopUpdate();
-    }
+//             var realistic = shadingC.realisticColors && oceanC.realisticColors;
 
-    private void DrawConfigEditors()
-    {
-        DrawConfigEditor(generator.bodyConfig.shape, ref shapeFoldout, ref shapeEditor);
-        DrawConfigEditor(generator.bodyConfig.shading, ref shadingFoldout, ref shadingEditor);
-        DrawConfigEditor(generator.bodyConfig.ocean, ref oceanFoldout, ref oceanEditor);
-    }
+//             using (new EditorGUI.DisabledGroupScope(!realistic))
+//             {
+//                 if (GUILayout.Button("Non realistic colors"))
+//                 {
+//                     shadingC.realisticColors = false;
+//                     oceanC.realisticColors = false;
+//                     Regenerate(shapeC, shadingC, physicsC, oceanC);
+//                 }
+//             }
+//             using (new EditorGUI.DisabledGroupScope(realistic))
+//             {
+//                 if (GUILayout.Button("Realistic colors"))
+//                 {
+//                     shadingC.realisticColors = true;
+//                     oceanC.realisticColors = true;
+//                     Regenerate(shapeC, shadingC, physicsC, oceanC);
+//                 }
+//             }
+//         }
 
-    void DrawConfigEditor(Object settings, ref bool foldout, ref Editor editor)
-    {
-        if (settings != null)
-        {
-            foldout = EditorGUILayout.InspectorTitlebar(foldout, settings);
-            if (foldout)
-            {
-                CreateCachedEditor(settings, null, ref editor);
-                editor.OnInspectorGUI();
-            }
-        }
-    }
+//         SaveState();
+//     }
 
-    private void OnEnable()
-    {
-        shapeFoldout = EditorPrefs.GetBool(nameof(shapeFoldout), false);
-        shadingFoldout = EditorPrefs.GetBool(nameof(shadingFoldout), false);
-        physicsFoldout = EditorPrefs.GetBool(nameof(physicsFoldout), false);
-        oceanFoldout = EditorPrefs.GetBool(nameof(oceanFoldout), false);
+//     void Regenerate(Shape.ShapeConfig spCon, Shading.ShadingConfig shCon, Physics.PhysicsSettings phCon, Ocean.OceanSettings oCon)
+//     {
+//         generator.bodyConfig.ocean.SetSettings(oCon);
+//         generator.bodyConfig.shape.SetConfig(spCon);
+//         generator.bodyConfig.shading.SetConfig(shCon);
+//         generator.bodyConfig.physics.SetSettings(phCon);
+//         EditorApplication.QueuePlayerLoopUpdate();
+//     }
 
-        generator = (CelestialBodyGenerator)target;
+//     private void DrawConfigEditors()
+//     {
+//         DrawConfigEditor(generator.bodyConfig.shape, ref shapeFoldout, ref shapeEditor);
+//         DrawConfigEditor(generator.bodyConfig.shading, ref shadingFoldout, ref shadingEditor);
+//         DrawConfigEditor(generator.bodyConfig.ocean, ref oceanFoldout, ref oceanEditor);
+//     }
 
-        if (generator == null)
-        {
-            Debug.LogError("Generator is null");
-            return;
-        }
+//     void DrawConfigEditor(Object settings, ref bool foldout, ref Editor editor)
+//     {
+//         if (settings != null)
+//         {
+//             foldout = EditorGUILayout.InspectorTitlebar(foldout, settings);
+//             if (foldout)
+//             {
+//                 CreateCachedEditor(settings, null, ref editor);
+//                 editor.OnInspectorGUI();
+//             }
+//         }
+//     }
 
-        if (generator.bodyConfig == null)
-        {
-            Debug.LogError("Generator body config is null");
-            return;
-        }
-    }
+//     private void OnEnable()
+//     {
+//         shapeFoldout = EditorPrefs.GetBool(nameof(shapeFoldout), false);
+//         shadingFoldout = EditorPrefs.GetBool(nameof(shadingFoldout), false);
+//         physicsFoldout = EditorPrefs.GetBool(nameof(physicsFoldout), false);
+//         oceanFoldout = EditorPrefs.GetBool(nameof(oceanFoldout), false);
 
-    private void SaveState()
-    {
-        EditorPrefs.SetBool(nameof(shapeFoldout), shapeFoldout);
-        EditorPrefs.SetBool(nameof(shadingFoldout), shadingFoldout);
-        EditorPrefs.SetBool(nameof(oceanFoldout), oceanFoldout);
-        EditorPrefs.SetBool(nameof(oceanFoldout), oceanFoldout);
-    }
-}
+//         generator = (CelestialBodyGenerator)target;
+
+//         if (generator == null)
+//         {
+//             Debug.LogError("Generator is null");
+//             return;
+//         }
+
+//         if (generator.bodyConfig == null)
+//         {
+//             Debug.LogError("Generator body config is null");
+//             return;
+//         }
+//     }
+
+//     private void SaveState()
+//     {
+//         EditorPrefs.SetBool(nameof(shapeFoldout), shapeFoldout);
+//         EditorPrefs.SetBool(nameof(shadingFoldout), shadingFoldout);
+//         EditorPrefs.SetBool(nameof(oceanFoldout), oceanFoldout);
+//         EditorPrefs.SetBool(nameof(oceanFoldout), oceanFoldout);
+//     }
+// }

@@ -28,7 +28,10 @@ public class NBodyPhysics : IPhysicsModel
                 // Newton's Law of universal gravitation: F = G * m1 * m2 / r^2
 
                 Vector3 direction = bodies[j].Position - bodies[i].Position;
+
                 float sqrDist = direction.sqrMagnitude + 0.001f; // Avoid div by zero error
+                // float sqrDist = direction.sqrMagnitude;
+                
                 float dist = Mathf.Sqrt(sqrDist);
 
                 acceleration += direction.normalized * gravityConstant * (bodies[j].Mass / sqrDist);

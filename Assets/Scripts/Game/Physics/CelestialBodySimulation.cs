@@ -17,7 +17,7 @@ public class CelestialBodySimulation : MonoBehaviour, ICelestialObserver
     [UnityEngine.Range(1, 5)] public int lengthIncrement = 1;
 
     [Tooltip("Simulation time step")]
-    [UnityEngine.Range(0.001f, 1)] public float timeStep = 0.01f;
+    [UnityEngine.Range(0.00001f, 1)] public float timeStep = 0.0001f;
 
     [Tooltip("Number of points computed per update")]
     [UnityEngine.Range(1, 25)] public int simulationSpeed = 1;
