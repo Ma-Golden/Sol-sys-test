@@ -32,7 +32,7 @@ public class CelestialBodySimulation : MonoBehaviour, ICelestialObserver
     private List<int> _orbitSizes;
     private int _referenceFrameIndex;
     private Vector3 _referenceBodyInitialPosition;
-    private IPhysicsModel _physicsModel;
+    public IPhysicsModel _physicsModel;
 
     // check if needed
     private CelestialBody[] _bodies;
