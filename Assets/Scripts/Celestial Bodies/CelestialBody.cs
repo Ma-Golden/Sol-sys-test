@@ -24,10 +24,19 @@ public class CelestialBody : MonoBehaviour
 
     private void Awake()
     {
-        //_rb = gameObject.AddComponent<Rigidbody>();
-        //_rb.iskinematic = true;
-
-        celestiaBodyGenerator = gameObject.AddComponent<CelestialBodyGenerator>();
+        // Check if we already have a generator
+        celestiaBodyGenerator = GetComponent<CelestialBodyGenerator>();
+        if (celestiaBodyGenerator == null)
+        {
+            Debug.Log($"[CelestialBody] Creating new CelestialBodyGenerator for {gameObject.name}");
+            celestiaBodyGenerator = gameObject.AddComponent<CelestialBodyGenerator>();
+        }
+        else
+        {
+            Debug.Log($"[CelestialBody] Using existing CelestialBodyGenerator for {gameObject.name}");
+        }
+        
+        // Set the reference in the generator
         celestiaBodyGenerator.body = this;
     }
 

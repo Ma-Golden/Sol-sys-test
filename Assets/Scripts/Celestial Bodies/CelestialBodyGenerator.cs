@@ -57,26 +57,48 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
     // Allow update of shape, shading etc from edit mode
     public void HandleEditModeGeneration()
     {
-        // TODO: Implement this
-
+        Debug.Log("[CelestialBodyGenerator] Starting HandleEditModeGeneration");
+        
+        // Ensure body is initialized
+        if (body == null)
+        {
+            Debug.Log($"[CelestialBodyGenerator] Body is null for {gameObject.name}, attempting to get CelestialBody component");
+            body = GetComponent<CelestialBody>();
+            if (body == null)
+            {
+                Debug.LogError($"[CelestialBodyGenerator] No CelestialBody component found on {gameObject.name}! This is not expected - please ensure the CelestialBody component exists.");
+                return;
+            }
+        }
+        
         if (_shapeUpdated)
         {
-            Debug.Log("Shape updated");
+            Debug.Log("[CelestialBodyGenerator] Shape updated");
             _shapeUpdated = false;
 
-            // _shadingUpdated = false;
             _heightMinMax = GenerateShapeShading(ref _previewMesh, 250);
 
-            // TODO SHADING
-
-            Material terrainMatInstance = new Material(bodyConfig.shading.terrainMaterial);
-
-            body.surfaceMaterial = terrainMatInstance;
-
-            //body.surfaceMaterial = new Material(Shader.Find("Standard"));
+            Debug.Log($"[CelestialBodyGenerator] Checking bodyConfig.shading: {bodyConfig?.shading != null}");
+            Debug.Log($"[CelestialBodyGenerator] Checking terrainMaterial: {bodyConfig?.shading?.terrainMaterial != null}");
+            
+            if (bodyConfig?.shading?.terrainMaterial != null)
+            {
+                Material terrainMatInstance = new Material(bodyConfig.shading.terrainMaterial);
+                Debug.Log($"[CelestialBodyGenerator] Created new terrain material instance: {terrainMatInstance != null}");
+                
+                body.surfaceMaterial = terrainMatInstance;
+                Debug.Log($"[CelestialBodyGenerator] Set surface material: {body.surfaceMaterial != null}");
+            }
+            else
+            {
+                Debug.LogError("[CelestialBodyGenerator] Missing required materials! bodyConfig.shading or terrainMaterial is null");
+                // Create a default material as fallback
+                body.surfaceMaterial = new Material(Shader.Find("Standard"));
+                Debug.Log("[CelestialBodyGenerator] Created fallback standard material");
+            }
 
             _terrainHolder = GetOrCreateMeshObject(_previewMesh, body.surfaceMaterial);
-
+            Debug.Log($"[CelestialBodyGenerator] Created terrain holder: {_terrainHolder != null}");
         }
         else if (_shadingUpdated)
         {
@@ -89,8 +111,7 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
             SetPhysicalProperties();
         }
 
-
-        if (bodyConfig.shading != null && body.surfaceMaterial != null)
+        if (bodyConfig?.shading != null && body?.surfaceMaterial != null)
         {
             SetPhysicalProperties();
             
@@ -99,7 +120,10 @@ public class CelestialBodyGenerator : MonoBehaviour, ICelestialObserver
             float testOceanLevel = bodyConfig.ocean.GetSettings().GetOceanLevel();
 
             bodyConfig.shading.SetSurfaceProperties(body.surfaceMaterial, _heightMinMax, BodyScale, testOceanLevel);
-        
+        }
+        else
+        {
+            Debug.LogError("[CelestialBodyGenerator] Missing required components for shading setup!");
         }
 
         ReleaseAllBuffers();

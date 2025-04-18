@@ -45,32 +45,58 @@ namespace CBodies.PostProcessing.PlanetEffects
 
         private void Init()
         {
-
+            Debug.Log("[PlanetEffect] Starting Init()");
+            
             if (_effectHolders == null)
             {
+                Debug.Log("[PlanetEffect] _effectHolders is null, initializing new list");
                 var generators = new List<CelestialBodyGenerator>(FindObjectsOfType<CelestialBodyGenerator>());
+
+                // var generators = new List<CelestialBodyGenerator>(FindObjectsByType<CelestialBodyGenerator>(FindObjectsSortMode.InstanceID));
+
+                Debug.Log($"[PlanetEffect] Found {generators.Count} CelestialBodyGenerators");
                 _effectHolders = new List<EffectHolder>(generators.Count);
                 foreach (CelestialBodyGenerator t in generators)
                 {
+                    if (t == null)
+                    {
+                        Debug.LogError("[PlanetEffect] Found null CelestialBodyGenerator!");
+                        continue;
+                    }
                     _effectHolders.Add(new EffectHolder(t));
                 }
             }
 
+            if (SystemSavingUtils.Instance == null)
+            {
+                Debug.LogError("[PlanetEffect] SystemSavingUtils.Instance is null!");
+                return;
+            }
+
             if (SystemSavingUtils.Instance.currentSystemConfig == null)
             {
-                Debug.LogError("CURRENT SYSTEM CONFIG IS NULL");
+                Debug.LogError("[PlanetEffect] currentSystemConfig is null");
             }
+
+            Debug.Log($"[PlanetEffect] Current effect holders count: {_effectHolders.Count}, System config bodies count: {SystemSavingUtils.Instance.currentSystemConfig?.celestialBodyConfigs?.Count ?? 0}");
 
             if (_effectHolders.Count != SystemSavingUtils.Instance.currentSystemConfig.celestialBodyConfigs.Count)
             {
                 var prevGenerators = _effectHolders.Select(e => e.generator).ToList();
                 var curGenerators = new List<CelestialBodyGenerator>(FindObjectsOfType<CelestialBodyGenerator>());
+                Debug.Log($"[PlanetEffect] Previous generators: {prevGenerators.Count}, Current generators: {curGenerators.Count}");
+                
                 // CBody added
                 if (curGenerators.Count > _effectHolders.Count)
                 {
                     foreach (CelestialBodyGenerator t in curGenerators.Where(
                         t => !prevGenerators.Contains(t)))
                     {
+                        if (t == null)
+                        {
+                            Debug.LogError("[PlanetEffect] Found null generator in new bodies!");
+                            continue;
+                        }
                         _effectHolders.Add(new EffectHolder(t));
                     }
                 }
@@ -80,6 +106,11 @@ namespace CBodies.PostProcessing.PlanetEffects
                     foreach (CelestialBodyGenerator t in prevGenerators.Where(
                         t => !curGenerators.Contains(t)))
                     {
+                        if (t == null)
+                        {
+                            Debug.LogError("[PlanetEffect] Found null generator in removed bodies!");
+                            continue;
+                        }
                         foreach (EffectHolder holder in _effectHolders.Where(h => h.generator == t))
                         {
                             _effectHolders.Remove(holder);
@@ -90,11 +121,12 @@ namespace CBodies.PostProcessing.PlanetEffects
             }
 
             _postProcessingMaterials ??= new List<Material>();
-
             _sortDistances ??= new List<float>();
 
             _sortDistances.Clear();
             _postProcessingMaterials.Clear();
+            
+            Debug.Log($"[PlanetEffect] Init completed. Effect holders: {_effectHolders.Count}, Materials: {_postProcessingMaterials.Count}, Sort distances: {_sortDistances.Count}");
         }
 
         private List<Material> GetMaterials()
