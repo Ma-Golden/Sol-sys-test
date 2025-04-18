@@ -25,7 +25,7 @@ public class StarSystemManager : MonoBehaviour
 
     [Tooltip("Current physics model used for simulation")]
     public PhysicsModelType currentPhysicsModelType = PhysicsModelType.Keplerian;
-    private IPhysicsModel currentPhysicsModel;
+    public IPhysicsModel currentPhysicsModel;
 
     [Header("Reference Body")]
     public bool simulateRelativeToStar = true;
@@ -51,28 +51,40 @@ public class StarSystemManager : MonoBehaviour
         {
             CreateScreenshotSystem();
         }
+
+        // Initialize physics model based on selection
+        UpdatePhysicsModel();
+
+        // Set the physics model on the simulation controller
+        if (simulationController != null)
+        {
+            if (currentPhysicsModel == null)
+            {
+                Debug.LogError("Physics model is null! Initializing with default Keplerian model.");
+                currentPhysicsModel = new KeplerMotion();
+            }
+
+            simulationController.SetPhysicsModel(currentPhysicsModel);
+            simulationController.relativeToBody = simulateRelativeToStar;
+
+            if (centralStar != null)
+            {
+                simulationController.centralBody = centralStar;
+            }
+            else
+            {
+                Debug.LogWarning("No central star set in StarSystemManager!");
+            }
+        }
         else
         {
-            // Initialize physics model based on selection
-            UpdatePhysicsModel();
+            Debug.LogError("Simulation controller not assigned in StarSystemManager!");
+        }
 
-            // Set the physics model on the simulation controller
-            if (simulationController != null)
-            {
-                simulationController.SetPhysicsModel(currentPhysicsModel); // update physics model
-                simulationController.relativeToBody = simulateRelativeToStar;
-
-                if (centralStar != null)
-                {
-                    simulationController.centralBody = centralStar;
-                }
-            }
-
-            // Auto-start if enabled
-            if (autoStartSimulation && systemBodies.Count > 0)
-            {
-                StartSimulation();
-            }
+        // Auto-start if enabled
+        if (autoStartSimulation && systemBodies.Count > 0)
+        {
+            StartSimulation();
         }
     }
 
