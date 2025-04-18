@@ -411,116 +411,108 @@ public class BodyEditorPanel : MonoBehaviour
         Debug.Log("Randomized shading for " + selectedBody.name);
     }
 
-    private void CreateNewBody()
+private void CreateNewBody()
+{
+    if (bodiesContainer == null)
     {
-        if (bodiesContainer == null)
-        {
-            Debug.LogError("Bodies container not assigned!");
-            return;
-        }
-
-        // Get the StarSystemConfig from SystemSavingUtils
-        StarSystemConfig systemConfig = null;
-        if (SystemSavingUtils.Instance != null)
-        {
-            systemConfig = SystemSavingUtils.Instance.currentSystemConfig;
-            if (systemConfig == null)
-            {
-                systemConfig = ScriptableObject.CreateInstance<StarSystemConfig>();
-                SystemSavingUtils.Instance.currentSystemConfig = systemConfig;
-            }
-        }
-        else
-        {
-            Debug.LogError("SystemSavingUtils.Instance is null!");
-            return;
-        }
-
-        // Get selected body type from dropdown
-        CelestialBodyConfig.CelestialBodyType bodyType = CelestialBodyConfig.CelestialBodyType.Planet;
-        if (bodyTypeDropdown != null)
-        {
-            bodyType = (CelestialBodyConfig.CelestialBodyType)bodyTypeDropdown.value;
-        }
-
-        // Create a unique name for the new body
-        string bodyName = bodyType.ToString() + "_" + System.Guid.NewGuid().ToString().Substring(0, 6);
-
-        // Add new body settings to the system config
-        int bodyIndex = systemConfig.AddNewCelestialBodySettings(bodyType);
-        CelestialBodyConfig bodyConfig = systemConfig.celestialBodyConfigs[bodyIndex];
-
-        // Create a new GameObject
-        GameObject newBodyObject = new GameObject(bodyName);
-        newBodyObject.transform.SetParent(bodiesContainer);
-        newBodyObject.transform.localPosition = Vector3.zero;
-        newBodyObject.transform.localRotation = Quaternion.identity;
-        newBodyObject.transform.localScale = Vector3.one;
-
-        // Add collider for selection
-        SphereCollider collider = newBodyObject.AddComponent<SphereCollider>();
-        collider.radius = 1f;
-
-        // Add CelestialBody component
-        CelestialBody newBody = newBodyObject.AddComponent<CelestialBody>();
-        newBody.mass = 1.0f;
-        
-        // Get position from physics config or use default
-        Vector3 position = Vector3.zero;
-        Vector3 velocity = Vector3.zero;
-        
-        if (bodyConfig.physics != null && bodyConfig.physics.GetPhysicalConfig() != null)
-        {
-            position = bodyConfig.physics.GetPhysicalConfig().initialPosition;
-            velocity = bodyConfig.physics.GetPhysicalConfig().initialVelocity;
-        }
-        
-        newBody.position = position;
-        newBody.velocity = velocity;
-        newBody.transform.position = position;
-
-        // Add CelestialBodyGenerator component
-        CelestialBodyGenerator generator = newBodyObject.GetComponent<CelestialBodyGenerator>();
-        if (generator == null)
-        {
-            generator = newBodyObject.AddComponent<CelestialBodyGenerator>();
-        }
-        
-        generator.body = newBody;
-        newBody.celestiaBodyGenerator = generator;
-
-        // Set config reference
-        generator.bodyConfig = bodyConfig;
-
-        // Apply features if not already set
-        if (bodyConfig.shape == null || bodyConfig.shading == null || bodyConfig.ocean == null)
-        {
-            if (SystemSavingUtils.Instance != null)
-            {
-                var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(bodyType);
-                
-                if (bodyConfig.shape == null) bodyConfig.shape = shape;
-                if (bodyConfig.shading == null) bodyConfig.shading = shading;
-                if (bodyConfig.ocean == null) bodyConfig.ocean = ocean;
-                if (bodyConfig.physics == null) bodyConfig.physics = physics;
-            }
-        }
-
-        // Initialize generator
-        generator.OnInitialUpdate();
-
-        // Add to system manager
-        if (StarSystemManager.Instance != null)
-        {
-            StarSystemManager.Instance.AddBody(newBody);
-        }
-
-        // Select the new body
-        SelectBody(newBody);
-
-        Debug.Log("Created new " + bodyType.ToString() + " with persistent config at index " + bodyIndex);
+        Debug.LogError("Bodies container not assigned!");
+        return;
     }
 
+    // Get the StarSystemConfig from SystemSavingUtils
+    StarSystemConfig systemConfig = null;
+    if (SystemSavingUtils.Instance != null)
+    {
+        systemConfig = SystemSavingUtils.Instance.currentSystemConfig;
+        if (systemConfig == null)
+        {
+            systemConfig = ScriptableObject.CreateInstance<StarSystemConfig>();
+            SystemSavingUtils.Instance.currentSystemConfig = systemConfig;
+        }
+    }
+    else
+    {
+        Debug.LogError("SystemSavingUtils.Instance is null!");
+        return;
+    }
+
+    // Get selected body type from dropdown
+    CelestialBodyConfig.CelestialBodyType bodyType = CelestialBodyConfig.CelestialBodyType.Planet;
+    if (bodyTypeDropdown != null)
+    {
+        bodyType = (CelestialBodyConfig.CelestialBodyType)bodyTypeDropdown.value;
+    }
+
+    // Create a unique name for the new body
+    string bodyName = bodyType.ToString() + "_" + System.Guid.NewGuid().ToString().Substring(0, 6);
+
+    // Add new body settings to the system config
+    int bodyIndex = systemConfig.AddNewCelestialBodySettings(bodyType);
+    CelestialBodyConfig bodyConfig = systemConfig.celestialBodyConfigs[bodyIndex];
+
+    // Create a new GameObject
+    GameObject newBodyObject = new GameObject(bodyName);
+    newBodyObject.transform.SetParent(bodiesContainer);
+    newBodyObject.transform.localPosition = Vector3.zero;
+    newBodyObject.transform.localRotation = Quaternion.identity;
+    newBodyObject.transform.localScale = Vector3.one;
+
+    // Add collider for selection
+    SphereCollider collider = newBodyObject.AddComponent<SphereCollider>();
+    collider.radius = 1f;
+
+    // Add CelestialBody component
+    CelestialBody newBody = newBodyObject.AddComponent<CelestialBody>();
+    newBody.mass = 1.0f;
+    
+    // Get position from physics config or use default
+    Vector3 position = Vector3.zero;
+    Vector3 velocity = Vector3.zero;
+    
+    if (bodyConfig.physics != null && bodyConfig.physics.GetPhysicalConfig() != null)
+    {
+        position = bodyConfig.physics.GetPhysicalConfig().initialPosition;
+        velocity = bodyConfig.physics.GetPhysicalConfig().initialVelocity;
+    }
+    
+    newBody.position = position;
+    newBody.velocity = velocity;
+    newBody.transform.position = position;
+
+    // Get reference to the generator that was automatically added in CelestialBody.Awake()
+    CelestialBodyGenerator generator = newBody.celestiaBodyGenerator;
+    
+    // Set config reference
+    generator.bodyConfig = bodyConfig;
+
+    // Apply features if not already set
+    if (bodyConfig.shape == null || bodyConfig.shading == null || bodyConfig.ocean == null)
+    {
+        if (SystemSavingUtils.Instance != null)
+        {
+            var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(bodyType);
+            
+            if (bodyConfig.shape == null) bodyConfig.shape = shape;
+            if (bodyConfig.shading == null) bodyConfig.shading = shading;
+            if (bodyConfig.ocean == null) bodyConfig.ocean = ocean;
+            if (bodyConfig.physics == null) bodyConfig.physics = physics;
+        }
+    }
+
+    // Initialize generator
+    generator.OnInitialUpdate();
+
+    // Add to system manager
+    if (StarSystemManager.Instance != null)
+    {
+        StarSystemManager.Instance.AddBody(newBody);
+    }
+
+    // Select the new body
+    SelectBody(newBody);
+
+    Debug.Log("Created new " + bodyType.ToString() + " with persistent config at index " + bodyIndex);
+}
     private void DeleteSelectedBody()
     {
         if (selectedBody == null)

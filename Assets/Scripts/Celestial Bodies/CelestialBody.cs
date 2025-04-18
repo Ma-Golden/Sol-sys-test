@@ -18,44 +18,30 @@ public class CelestialBody : MonoBehaviour
     public Material surfaceMaterial;
 
     private bool isSelected = false;
-
-    //    private Rigidbody _rb;
-
+    private bool isSimulating = false;
 
     private void Awake()
     {
-        // Check if we already have a generator
+        // Check if we already have a generator component
         celestiaBodyGenerator = GetComponent<CelestialBodyGenerator>();
+        
+        // Only add the component if it doesn't exist
         if (celestiaBodyGenerator == null)
         {
-            Debug.Log($"[CelestialBody] Creating new CelestialBodyGenerator for {gameObject.name}");
             celestiaBodyGenerator = gameObject.AddComponent<CelestialBodyGenerator>();
+            celestiaBodyGenerator.body = this;
         }
-        else
-        {
-            Debug.Log($"[CelestialBody] Using existing CelestialBodyGenerator for {gameObject.name}");
-        }
-        
-        // Set the reference in the generator
-        celestiaBodyGenerator.body = this;
     }
-
-    //private void UpdateColliderSize()
-    //{
-    //    Debug.Log("Updating collider size");
-    //    if (sphereMesh != null)
-    //    {
-    //        float radius = sphereMesh.localScale.x /2f;
-    //        Debug.Log("Setting collider Radius: " + radius);
-    //        sphereCollider.radius = radius;
-    //    }
-    //}
 
     private void FixedUpdate()
     {
-
-        position += velocity * Time.fixedDeltaTime;
-        transform.position = position;
+        // Only update position if simulation is running
+        if (isSimulating || (StarSystemManager.Instance && StarSystemManager.Instance.simulationController && 
+            StarSystemManager.Instance.simulationController.simulating))
+        {
+            position += velocity * Time.fixedDeltaTime;
+            transform.position = position;
+        }
     }
 
     public void ApplyForce(Vector3 force)
@@ -71,6 +57,12 @@ public class CelestialBody : MonoBehaviour
     {
         position = newPosition;
         transform.position = newPosition;
+    }
+
+    // Set simulation state
+    public void SetSimulating(bool simulating)
+    {
+        isSimulating = simulating;
     }
 
     private void OnMouseDown()
@@ -91,7 +83,6 @@ public class CelestialBody : MonoBehaviour
             Debug.Log("bodyPanel.selectbody called");
             bodyEditorPanel.SelectBody(this);
         }
-
     }
 
     // Set visual cue that body is highlighted
@@ -121,8 +112,5 @@ public class CelestialBody : MonoBehaviour
     {
         isSelected = false;
         // Remove visuals
-
     }
-
-
 }

@@ -263,197 +263,185 @@ public class SystemCreator : MonoBehaviour
 
     #region Helper Methods
 
-    private CelestialBody CreateStar(string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity)
+#region Helper Methods
+
+private CelestialBody CreateStar(string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity)
+{
+    GameObject starObject = CreateBodyObject(name);
+
+    // Add CelestialBody component
+    CelestialBody body = starObject.AddComponent<CelestialBody>();
+    body.mass = mass;
+    body.position = position;
+    body.velocity = velocity;
+
+    // Get the CelestialBodyGenerator component that was created in CelestialBody's Awake
+    CelestialBodyGenerator generator = body.celestiaBodyGenerator;
+    
+    // Create star config
+    CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
+    
+    bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Star);
+    bodyConfig.radius = radius;
+
+    // Create physics config
+    Physics physicsConfig = ScriptableObject.CreateInstance<Physics>();
+    Physics.PhysicsSettings physicsSettings = new Physics.PhysicsSettings();
+    physicsSettings.initialPosition = position;
+    physicsSettings.initialVelocity = velocity;
+    physicsConfig.SetSettings(physicsSettings);
+    bodyConfig.physics = physicsConfig;
+
+    // Apply features from SystemSavingUtils
+    if (SystemSavingUtils.Instance != null)
     {
-        GameObject starObject = CreateBodyObject(name);
+        var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(bodyConfig.bodyType);
+        bodyConfig.shape = shape;
+        bodyConfig.shading = shading;
+        bodyConfig.ocean = ocean;
 
-        // Add CelestialBody component
-        CelestialBody body = starObject.AddComponent<CelestialBody>();
-        body.mass = mass;
-        body.position = position;
-        body.velocity = velocity;
-
-        // Add CelestialBodyGenerator component
-        CelestialBodyGenerator generator = starObject.AddComponent<CelestialBodyGenerator>();
-        generator.body = body;
-        body.celestiaBodyGenerator = generator;
-
-        // Create star config
-        // CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
-        
-        CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
-        
-        bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Star);
-        bodyConfig.radius = radius;
-
-        // Create physics config
-        Physics physicsConfig = ScriptableObject.CreateInstance<Physics>();
-        Physics.PhysicsSettings physicsSettings = new Physics.PhysicsSettings();
-        physicsSettings.initialPosition = position;
-        physicsSettings.initialVelocity = velocity;
-        physicsConfig.SetSettings(physicsSettings);
-        bodyConfig.physics = physicsConfig;
-
-        // Apply features from SystemSavingUtils
-        if (SystemSavingUtils.Instance != null)
+        // Customize star color
+        if (shading != null && shading is StarShading starShading)
         {
-            var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(bodyConfig.bodyType);
-            bodyConfig.shape = shape;
-            bodyConfig.shading = shading;
-            bodyConfig.ocean = ocean;
-
-            // Customize star color
-            if (shading != null && shading is StarShading starShading)
-            {
-                // This assumes StarShading has a method to set color
-                // If not, you'll need to adapt this based on your implementation
-                // starShading.SetColor(color);
-            }
+            // This assumes StarShading has a method to set color
+            // If not, you'll need to adapt this based on your implementation
+            // starShading.SetColor(color);
         }
-
-        // Set config
-        generator.bodyConfig = bodyConfig;
-
-        // Initialize generator
-        generator.OnInitialUpdate();
-
-        // Add to system
-        if (StarSystemManager.Instance != null)
-        {
-            StarSystemManager.Instance.AddBody(body);
-        }
-
-        return body;
     }
 
-    private CelestialBody CreatePlanet(string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity)
+    // Set config
+    generator.bodyConfig = bodyConfig;
+
+    // Initialize generator
+    generator.OnInitialUpdate();
+
+    // Add to system
+    if (StarSystemManager.Instance != null)
     {
-        GameObject planetObject = CreateBodyObject(name);
-
-        // Add CelestialBody component
-        CelestialBody body = planetObject.AddComponent<CelestialBody>();
-        body.mass = mass;
-        body.position = position;
-        body.velocity = velocity;
-
-        // Add CelestialBodyGenerator component
-        CelestialBodyGenerator generator = planetObject.AddComponent<CelestialBodyGenerator>();
-        generator.body = body;
-        body.celestiaBodyGenerator = generator;
-
-
-        // TODO: Check
-        // Create planet config
-        // CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
-        
-        CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
-        bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Planet);
-        bodyConfig.radius = radius;
-
-        // Create physics config
-        Physics physicsConfig = ScriptableObject.CreateInstance<Physics>();
-        Physics.PhysicsSettings physicsSettings = new Physics.PhysicsSettings();
-        physicsSettings.initialPosition = position;
-        physicsSettings.initialVelocity = velocity;
-        physicsConfig.SetSettings(physicsSettings);
-        bodyConfig.physics = physicsConfig;
-
-        // Apply features from SystemSavingUtils
-        if (SystemSavingUtils.Instance != null)
-        {
-            var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(bodyConfig.bodyType);
-            bodyConfig.shape = shape;
-            bodyConfig.shading = shading;
-            bodyConfig.ocean = ocean;
-
-            // Customize planet color
-            if (shading != null && shading is PlanetShading planetShading)
-            {
-                // This assumes PlanetShading has a method to set color
-                // If not, you'll need to adapt this based on your implementation
-                // planetShading.SetColor(color);
-            }
-        }
-
-        // Set config
-        generator.bodyConfig = bodyConfig;
-
-        // Initialize generator
-        generator.OnInitialUpdate();
-
-        // Add to system
-        if (StarSystemManager.Instance != null)
-        {
-            StarSystemManager.Instance.AddBody(body);
-        }
-
-        return body;
+        StarSystemManager.Instance.AddBody(body);
     }
 
-    private CelestialBody CreateMoon(string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity)
+    return body;
+}
+
+private CelestialBody CreatePlanet(string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity)
+{
+    GameObject planetObject = CreateBodyObject(name);
+
+    // Add CelestialBody component
+    CelestialBody body = planetObject.AddComponent<CelestialBody>();
+    body.mass = mass;
+    body.position = position;
+    body.velocity = velocity;
+
+    // Get the CelestialBodyGenerator component that was created in CelestialBody's Awake
+    CelestialBodyGenerator generator = body.celestiaBodyGenerator;
+
+    // Create planet config
+    CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
+    bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Planet);
+    bodyConfig.radius = radius;
+
+    // Create physics config
+    Physics physicsConfig = ScriptableObject.CreateInstance<Physics>();
+    Physics.PhysicsSettings physicsSettings = new Physics.PhysicsSettings();
+    physicsSettings.initialPosition = position;
+    physicsSettings.initialVelocity = velocity;
+    physicsConfig.SetSettings(physicsSettings);
+    bodyConfig.physics = physicsConfig;
+
+    // Apply features from SystemSavingUtils
+    if (SystemSavingUtils.Instance != null)
     {
-        GameObject moonObject = CreateBodyObject(name);
+        var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(bodyConfig.bodyType);
+        bodyConfig.shape = shape;
+        bodyConfig.shading = shading;
+        bodyConfig.ocean = ocean;
 
-        // Add CelestialBody component
-        CelestialBody body = moonObject.AddComponent<CelestialBody>();
-        body.mass = mass;
-        body.position = position;
-        body.velocity = velocity;
-
-        // Add CelestialBodyGenerator component
-        CelestialBodyGenerator generator = moonObject.AddComponent<CelestialBodyGenerator>();
-        generator.body = body;
-        body.celestiaBodyGenerator = generator;
-
-        // Create moon config
-        // TODO: Check
-        // CelestialBodyConfig bodyConfig = ScriptableObject.CreateInstance<CelestialBodyConfig>();
-        
-        CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
-
-        bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Moon);
-        bodyConfig.radius = radius;
-
-        // Create physics config
-        Physics physicsConfig = ScriptableObject.CreateInstance<Physics>();
-        Physics.PhysicsSettings physicsSettings = new Physics.PhysicsSettings();
-        physicsSettings.initialPosition = position;
-        physicsSettings.initialVelocity = velocity;
-        physicsConfig.SetSettings(physicsSettings);
-        bodyConfig.physics = physicsConfig;
-
-        // Apply features from SystemSavingUtils
-        if (SystemSavingUtils.Instance != null)
+        // Customize planet color
+        if (shading != null && shading is PlanetShading planetShading)
         {
-            var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(bodyConfig.bodyType);
-            bodyConfig.shape = shape;
-            bodyConfig.shading = shading;
-            bodyConfig.ocean = ocean;
-
-            // Customize moon color
-            if (shading != null && shading is MoonShading moonShading)
-            {
-                // This assumes MoonShading has a method to set color
-                // If not, you'll need to adapt this based on your implementation
-                // moonShading.SetColor(color);
-            }
+            // This assumes PlanetShading has a method to set color
+            // If not, you'll need to adapt this based on your implementation
+            // planetShading.SetColor(color);
         }
-
-        // Set config
-        generator.bodyConfig = bodyConfig;
-
-        // Initialize generator
-        generator.OnInitialUpdate();
-
-        // Add to system
-        if (StarSystemManager.Instance != null)
-        {
-            StarSystemManager.Instance.AddBody(body);
-        }
-
-        return body;
     }
 
+    // Set config
+    generator.bodyConfig = bodyConfig;
+
+    // Initialize generator
+    generator.OnInitialUpdate();
+
+    // Add to system
+    if (StarSystemManager.Instance != null)
+    {
+        StarSystemManager.Instance.AddBody(body);
+    }
+
+    return body;
+}
+
+private CelestialBody CreateMoon(string name, float mass, float radius, Color color, Vector3 position, Vector3 velocity)
+{
+    GameObject moonObject = CreateBodyObject(name);
+
+    // Add CelestialBody component
+    CelestialBody body = moonObject.AddComponent<CelestialBody>();
+    body.mass = mass;
+    body.position = position;
+    body.velocity = velocity;
+
+    // Get the CelestialBodyGenerator component that was created in CelestialBody's Awake
+    CelestialBodyGenerator generator = body.celestiaBodyGenerator;
+
+    // Create moon config
+    CelestialBodyConfig bodyConfig = new CelestialBodyConfig();
+
+    bodyConfig.Init(CelestialBodyConfig.CelestialBodyType.Moon);
+    bodyConfig.radius = radius;
+
+    // Create physics config
+    Physics physicsConfig = ScriptableObject.CreateInstance<Physics>();
+    Physics.PhysicsSettings physicsSettings = new Physics.PhysicsSettings();
+    physicsSettings.initialPosition = position;
+    physicsSettings.initialVelocity = velocity;
+    physicsConfig.SetSettings(physicsSettings);
+    bodyConfig.physics = physicsConfig;
+
+    // Apply features from SystemSavingUtils
+    if (SystemSavingUtils.Instance != null)
+    {
+        var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(bodyConfig.bodyType);
+        bodyConfig.shape = shape;
+        bodyConfig.shading = shading;
+        bodyConfig.ocean = ocean;
+
+        // Customize moon color
+        if (shading != null && shading is MoonShading moonShading)
+        {
+            // This assumes MoonShading has a method to set color
+            // If not, you'll need to adapt this based on your implementation
+            // moonShading.SetColor(color);
+        }
+    }
+
+    // Set config
+    generator.bodyConfig = bodyConfig;
+
+    // Initialize generator
+    generator.OnInitialUpdate();
+
+    // Add to system
+    if (StarSystemManager.Instance != null)
+    {
+        StarSystemManager.Instance.AddBody(body);
+    }
+
+    return body;
+}
+
+#endregion
     private GameObject CreateBodyObject(string name)
     {
         GameObject bodyObject = null;

@@ -47,55 +47,95 @@ public class CelestialBodySimulation : MonoBehaviour, ICelestialObserver
     }
 
 
-    public void StartSimulation(CelestialBody[] orderedBodies)
+public void StartSimulation(CelestialBody[] orderedBodies)
+{
+    StopSimulation();
+
+    // TODO check deselect 
+
+    _bodies = orderedBodies;
+    int numBodies = _bodies.Length;
+    _virtualBodies = new VirtualBody[numBodies];
+    _orbitPoints = new List<List<Vector3>>(numBodies);
+    _orbitSizes = new List<int>(numBodies);
+    _lineRenderers = new LineRenderer[numBodies];
+
+    _referenceFrameIndex = 0;
+    _referenceBodyInitialPosition = Vector3.zero;
+
+
+    for (var i = 0; i < numBodies; i++)
     {
-        StopSimulation();
+        _orbitSizes.Add(ComputeOrbitSize());
+        _orbitPoints.Add(new List<Vector3>(_orbitSizes[i]));
 
-        // TODO check deselect 
+        _virtualBodies[i] = new VirtualBody(_bodies[i]);
+        
+        // Set the simulation state on each body
+        _bodies[i].SetSimulating(true);
 
-        _bodies = orderedBodies;
-        int numBodies = _bodies.Length;
-        _virtualBodies = new VirtualBody[numBodies];
-        _orbitPoints = new List<List<Vector3>>(numBodies);
-        _orbitSizes = new List<int>(numBodies);
-        _lineRenderers = new LineRenderer[numBodies];
-
-        _referenceFrameIndex = 0;
-        _referenceBodyInitialPosition = Vector3.zero;
-
-
-        for (var i = 0; i < numBodies; i++)
+        if (_bodies[i] == centralBody && relativeToBody)
         {
-            _orbitSizes.Add(ComputeOrbitSize());
-            _orbitPoints.Add(new List<Vector3>(_orbitSizes[i]));
-
-            _virtualBodies[i] = new VirtualBody(_bodies[i]);
-
-            if (_bodies[i] == centralBody && relativeToBody)
-            {
-                _referenceFrameIndex = i;
-                _referenceBodyInitialPosition = _virtualBodies[i].Position;
-            }
-
-            // Setup orbit visualization
-             _lineRenderers[i] = _bodies[i].gameObject.AddComponent<LineRenderer>();
-            _lineRenderers[i].material = new Material(Shader.Find("Sprites/Default"));
-            _lineRenderers[i].alignment = LineAlignment.TransformZ;
-            _lineRenderers[i].positionCount = 0;
-            _lineRenderers[i].widthMultiplier = lineWidth;
-
-            // TODO: SET COLOUR BASED ON BODY COLOUR -> DUMMY CONFIG NEEDED
-            _lineRenderers[i].startColor = Color.white;
-            _lineRenderers[i].endColor = Color.red;
-
-            //_lineRenderers[i].endColor = _bodies[i].celestiaBodyGenerator.bodyConfig.shading.GetConfig().mainColor;
-
+            _referenceFrameIndex = i;
+            _referenceBodyInitialPosition = _virtualBodies[i].Position;
         }
 
-        // Begin simulating
-        StartCoroutine(SimulationLoop());
+        // Setup orbit visualization
+         _lineRenderers[i] = _bodies[i].gameObject.AddComponent<LineRenderer>();
+        _lineRenderers[i].material = new Material(Shader.Find("Sprites/Default"));
+        _lineRenderers[i].alignment = LineAlignment.TransformZ;
+        _lineRenderers[i].positionCount = 0;
+        _lineRenderers[i].widthMultiplier = lineWidth;
 
+        // TODO: SET COLOUR BASED ON BODY COLOUR -> DUMMY CONFIG NEEDED
+        _lineRenderers[i].startColor = Color.white;
+        _lineRenderers[i].endColor = Color.red;
+
+        //_lineRenderers[i].endColor = _bodies[i].celestiaBodyGenerator.bodyConfig.shading.GetConfig().mainColor;
     }
+
+    // Begin simulating
+    simulating = true;
+    StartCoroutine(SimulationLoop());
+}
+
+public void StopSimulation()
+{
+    StopAllCoroutines();
+    simulating = false;
+    
+    // Add null checks
+    if (_bodies != null)
+    {
+        foreach (var body in _bodies)
+        {
+            if (body != null)
+            {
+                // Set the simulation state to false
+                body.SetSimulating(false);
+                
+                if (body.celestiaBodyGenerator != null && 
+                    body.celestiaBodyGenerator.bodyConfig != null &&
+                    body.celestiaBodyGenerator.bodyConfig.physics != null)
+                {
+                    body.transform.position = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig().initialPosition;
+                    body.position = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig().initialPosition;
+                }
+            }
+        }
+    }
+
+    if (_lineRenderers != null)
+    {
+        foreach (var line in _lineRenderers)
+        {
+            if (line != null) 
+            {
+                line.positionCount = 0;
+            }
+        }
+    }
+}
 
     // TODO:EXPLAIN
     private int ComputeOrbitSize()
@@ -153,36 +193,6 @@ public class CelestialBodySimulation : MonoBehaviour, ICelestialObserver
 
             stepCount = 0;
             yield return null;
-        }
-    }
-
-    public void StopSimulation()
-    {
-        StopAllCoroutines();
-        
-        // Add null checks
-        if (_bodies != null)
-        {
-            foreach (var body in _bodies)
-            {
-                if (body != null && body.celestiaBodyGenerator != null && 
-                    body.celestiaBodyGenerator.bodyConfig != null &&
-                    body.celestiaBodyGenerator.bodyConfig.physics != null)
-                {
-                    body.transform.position = body.celestiaBodyGenerator.bodyConfig.physics.GetPhysicalConfig().initialPosition;
-                }
-            }
-        }
-
-        if (_lineRenderers != null)
-        {
-            foreach (var line in _lineRenderers)
-            {
-                if (line != null) 
-                {
-                    line.positionCount = 0;
-                }
-            }
         }
     }
 
