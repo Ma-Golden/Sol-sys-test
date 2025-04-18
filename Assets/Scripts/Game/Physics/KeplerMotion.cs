@@ -16,26 +16,42 @@ public class KeplerMotion : IPhysicsModel
         accumulatedTime = 0f;
 
         // Central body must be first in array
-        for (int i = 0; i < bodies.Length; i++)
+        for (int i = 1; i < bodies.Length; i++)
         {
-            Vector3 centralPos = bodies[0].Position;
-            Vector3 orbitingPos = bodies[i].Position;
-
-            // Calculate orbital elements for each body
             Vector3 r = bodies[i].Position - bodies[0].Position;
             Vector3 v = bodies[i].Velocity;
+            float r_mag = r.magnitude;
+            float v_mag = v.magnitude;
 
-            float periapsis = r.magnitude;    // Initial distance as periapsis (Closest point)
-            //float apoapsis = periapsis;       // Estimate for apoapsis // TODO: More robust calculation of apoapsis
-            float apoapsis = periapsis * 2f;
+            // Calculate specific angular momentum
+            Vector3 h = Vector3.Cross(r, v);
+            float h_mag = h.magnitude;
 
+            // Calculate eccentricity vector
+            Vector3 e_vec = Vector3.Cross(v, h) / (bodies[0].Mass * 6.674f) - r.normalized;
+            float e = e_vec.magnitude;
 
-            orbitalElements[bodies[i]] = new OrbitalElements{
+            // Calculate semi-major axis
+            float a = h_mag * h_mag / (bodies[0].Mass * 6.674f * (1 - e * e));
+
+            // Calculate periapsis and apoapsis
+            float periapsis = a * (1 - e);
+            float apoapsis = a * (1 + e);
+
+            // Calculate orbital period using Kepler's third law
+            float period = 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow(a, 3) / (bodies[0].Mass * 6.674f));
+
+            orbitalElements[bodies[i]] = new OrbitalElements
+            {
                 Periapsis = periapsis,
                 Apoapsis = apoapsis,
-                InitialTime = 0, // Start 'counting' from now
-                Period = 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow((periapsis + apoapsis) / 2, 3) / (bodies[0].Mass * 6.674f))
+                InitialTime = 0,
+                Period = period,
+                Eccentricity = e,
+                SemiMajorAxis = a
             };
+
+            Debug.Log($"Initialized orbit for body {i}: a={a}, e={e}, P={period}, r_p={periapsis}, r_a={apoapsis}");
         }
     }
 
@@ -43,40 +59,51 @@ public class KeplerMotion : IPhysicsModel
     {
         if (bodies.Length < 2) return; // Need at least central and orbiting body
 
-        // timeStep already includes simulation speed from bodySimulation
         accumulatedTime += timeStep;
-        Vector3 centalPos = bodies[0].Position; // Set sun as center
+        Vector3 centralPos = bodies[0].Position;
 
         // For each orbiting body
         for (int i = 1; i < bodies.Length; i++)
         {
-            if (!orbitalElements.ContainsKey(bodies[i])) continue; // Skip if body not initialized
+            if (!orbitalElements.ContainsKey(bodies[i])) continue;
 
             var elements = orbitalElements[bodies[i]];
-
-            // Calculate position on orbit using simulation time
             float t = (accumulatedTime % elements.Period) / elements.Period;
-            Vector3 orbitPos = CalculatePointOnOrbit(elements.Periapsis, elements.Apoapsis, t);
-            bodies[i].Position = centalPos + new Vector3(orbitPos.x, 0, orbitPos.y);
+            
+            // Calculate position in orbital plane
+            Vector3 orbitPos = CalculatePointOnOrbit(elements, t);
+            
+            // Update body position
+            bodies[i].Position = centralPos + orbitPos;
         }
     }
 
-    // Try double for increased accuracy
-    private Vector2 CalculatePointOnOrbit (double periapsis, double apoapsis, float t)
+    private Vector3 CalculatePointOnOrbit(OrbitalElements elements, float t)
     {
-        double semiMajorLength = (apoapsis + periapsis) / 2;
-        double linearEccentricity = semiMajorLength - periapsis; // Distance bet centre and focus
-        double eccentricity = linearEccentricity / semiMajorLength; // (0 = perfect circle)
-        double semiMinorLength = Math.Sqrt(Math.Pow(semiMajorLength, 2) - Math.Pow(linearEccentricity, 2));
-
-        double meanAnomaly = t * Mathf.PI * 2;
-        double eccentricAnomaly = SolveKepler(meanAnomaly, eccentricity);
-
-        // Calculate position on the ellipse
-        double pointX = semiMajorLength * (Math.Cos(eccentricAnomaly) - eccentricity);
-        double pointY = semiMinorLength * Math.Sin(eccentricAnomaly);
-
-        return new Vector2((float)pointX, (float)pointY);
+        // Calculate mean anomaly
+        float meanAnomaly = t * 2 * Mathf.PI;
+        
+        // Solve Kepler's equation for eccentric anomaly
+        float eccentricAnomaly = (float)SolveKepler(meanAnomaly, elements.Eccentricity);
+        
+        // Calculate true anomaly
+        float trueAnomaly = 2 * Mathf.Atan2(
+            Mathf.Sqrt(1 + elements.Eccentricity) * Mathf.Sin(eccentricAnomaly / 2),
+            Mathf.Sqrt(1 - elements.Eccentricity) * Mathf.Cos(eccentricAnomaly / 2)
+        );
+        
+        // Calculate distance from focus
+        float distance = elements.SemiMajorAxis * (1 - elements.Eccentricity * elements.Eccentricity) / 
+                        (1 + elements.Eccentricity * Mathf.Cos(trueAnomaly));
+        
+        // Calculate position in orbital plane
+        Vector3 position = new Vector3(
+            distance * Mathf.Cos(trueAnomaly),
+            0,
+            distance * Mathf.Sin(trueAnomaly)
+        );
+        
+        return position;
     }
 
     private double SolveKepler(double meanAnomaly, double eccentricity, int maxIterations = 100)
@@ -96,7 +123,7 @@ public class KeplerMotion : IPhysicsModel
                 break;
             }
 
-            // Update guess to vlaue of x where the slope of the function intersects the x-axis
+            // Update guess to value of x where the slope of the function intersects the x-axis
             double slope = (KeplerEquation(guess + h, meanAnomaly, eccentricity) - y) / h;
             double step = y / slope;
             guess -= step;
@@ -119,5 +146,7 @@ public class KeplerMotion : IPhysicsModel
         public float Apoapsis { get; set; }
         public float InitialTime;
         public float Period;
+        public float Eccentricity;
+        public float SemiMajorAxis;
     }
 }
