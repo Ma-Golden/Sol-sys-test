@@ -56,6 +56,11 @@ namespace CBodies.PostProcessing.PlanetEffects
                 }
             }
 
+            if (SystemSavingUtils.Instance.currentSystemConfig == null)
+            {
+                Debug.LogError("CURRENT SYSTEM CONFIG IS NULL");
+            }
+
             if (_effectHolders.Count != SystemSavingUtils.Instance.currentSystemConfig.celestialBodyConfigs.Count)
             {
                 var prevGenerators = _effectHolders.Select(e => e.generator).ToList();

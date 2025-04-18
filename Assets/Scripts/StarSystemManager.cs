@@ -46,25 +46,33 @@ public class StarSystemManager : MonoBehaviour
 
     private void Start()
     {
-        // Initialize physics model based on selection
-        UpdatePhysicsModel();
-
-        // Set the physics model on the simulation controller
-        if (simulationController != null)
+        // If no system config exists, create a default one
+        if (systemConfig == null)
         {
-            simulationController.SetPhysicsModel(currentPhysicsModel); // update physics model
-            simulationController.relativeToBody = simulateRelativeToStar;
-
-            if (centralStar != null)
-            {
-                simulationController.centralBody = centralStar;
-            }
+            CreateScreenshotSystem();
         }
-
-        // Auto-start if enabled
-        if (autoStartSimulation && systemBodies.Count > 0)
+        else
         {
-            StartSimulation();
+            // Initialize physics model based on selection
+            UpdatePhysicsModel();
+
+            // Set the physics model on the simulation controller
+            if (simulationController != null)
+            {
+                simulationController.SetPhysicsModel(currentPhysicsModel); // update physics model
+                simulationController.relativeToBody = simulateRelativeToStar;
+
+                if (centralStar != null)
+                {
+                    simulationController.centralBody = centralStar;
+                }
+            }
+
+            // Auto-start if enabled
+            if (autoStartSimulation && systemBodies.Count > 0)
+            {
+                StartSimulation();
+            }
         }
     }
 
@@ -262,5 +270,124 @@ public class StarSystemManager : MonoBehaviour
         }
 
         return modelNames;
+    }
+
+    public void CreateScreenshotSystem()
+    {
+        // Stop any existing simulation
+        StopSimulation();
+        
+        // Clear existing bodies
+        foreach (var body in systemBodies.ToArray())
+        {
+            if (body != null)
+            {
+                RemoveBody(body);
+                Destroy(body.gameObject);
+            }
+        }
+        systemBodies.Clear();
+
+        // Create a new star system config
+        systemConfig = ScriptableObject.CreateInstance<StarSystemConfig>();
+        systemConfig.systemName = "ScreenshotSystem";
+
+        // Create a star
+        GameObject starObj = new GameObject("Sun");
+        CelestialBody star = starObj.AddComponent<CelestialBody>();
+        CelestialBodyGenerator starGenerator = starObj.AddComponent<CelestialBodyGenerator>();
+        
+        star.mass = 100f;
+        star.position = Vector3.zero;
+        star.velocity = Vector3.zero;
+        star.celestiaBodyGenerator = starGenerator;
+        
+        // Create and set up star config
+        CelestialBodyConfig starConfig = new CelestialBodyConfig();
+        starConfig.Init(CelestialBodyConfig.CelestialBodyType.Star);
+        starConfig.bodyName = "Sun";
+        starConfig.radius = 10f;
+        
+        // Apply features from SystemSavingUtils
+        if (SystemSavingUtils.Instance != null)
+        {
+            var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(CelestialBodyConfig.CelestialBodyType.Star);
+            starConfig.shape = shape;
+            starConfig.shading = shading;
+            starConfig.ocean = ocean;
+            starConfig.physics = physics;
+            
+            Physics.PhysicsSettings starPhysics = new Physics.PhysicsSettings();
+            starPhysics.initialPosition = Vector3.zero;
+            starPhysics.initialVelocity = Vector3.zero;
+            starConfig.physics.SetSettings(starPhysics);
+        }
+        
+        starGenerator.bodyConfig = starConfig;
+        starGenerator.OnInitialUpdate();
+        AddBody(star);
+        SetCentralBody(star);
+
+        // Create a planet
+        GameObject planetObj = new GameObject("Earth");
+        CelestialBody planet = planetObj.AddComponent<CelestialBody>();
+        CelestialBodyGenerator planetGenerator = planetObj.AddComponent<CelestialBodyGenerator>();
+        
+        // Calculate orbital parameters
+        float orbitRadius = 50f;
+        var (planetPos, planetVel) = OrbitalCalculator.CalculateOrbitPositionVelocity(
+            star, orbitRadius, 0f, 0f, 1f, 3f);
+        
+        planet.mass = 1f;
+        planet.position = planetPos;
+        planet.velocity = planetVel;
+        planet.celestiaBodyGenerator = planetGenerator;
+        
+        // Create and set up planet config
+        CelestialBodyConfig planetConfig = new CelestialBodyConfig();
+        planetConfig.Init(CelestialBodyConfig.CelestialBodyType.Planet);
+        planetConfig.bodyName = "Earth";
+        planetConfig.radius = 3f;
+        
+        // Apply features from SystemSavingUtils
+        if (SystemSavingUtils.Instance != null)
+        {
+            var (shape, shading, ocean, physics) = SystemSavingUtils.Instance.CreateFeatures(CelestialBodyConfig.CelestialBodyType.Planet);
+            planetConfig.shape = shape;
+            planetConfig.shading = shading;
+            planetConfig.ocean = ocean;
+            planetConfig.physics = physics;
+            
+            Physics.PhysicsSettings planetPhysics = new Physics.PhysicsSettings();
+            planetPhysics.initialPosition = planetPos;
+            planetPhysics.initialVelocity = planetVel;
+            planetConfig.physics.SetSettings(planetPhysics);
+        }
+        
+        planetGenerator.bodyConfig = planetConfig;
+        planetGenerator.OnInitialUpdate();
+        AddBody(planet);
+
+        // Save the system config
+        if (SystemSavingUtils.Instance != null)
+        {
+            systemConfig.celestialBodyConfigs.Add(starConfig);
+            systemConfig.celestialBodyConfigs.Add(planetConfig);
+            SystemSavingUtils.Instance.currentSystemConfig = systemConfig;
+        }
+
+        // Initialize physics model and start simulation
+        UpdatePhysicsModel();
+        if (simulationController != null)
+        {
+            simulationController.SetPhysicsModel(currentPhysicsModel);
+            simulationController.relativeToBody = simulateRelativeToStar;
+            simulationController.centralBody = centralStar;
+        }
+        
+        if (autoStartSimulation)
+        {
+            StartSimulation();
+        }
     }
 }

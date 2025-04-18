@@ -335,13 +335,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 794503659}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.087051325, y: -0, z: -0, w: 0.99620384}
-  m_LocalPosition: {x: 0.42, y: 4.29, z: -20.11}
+  m_LocalRotation: {x: 0.03531114, y: -0.9611817, z: 0.1470814, w: 0.23075943}
+  m_LocalPosition: {x: 13.4, y: 9.8386, z: 25.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 9.988, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 17.4, y: -153, z: 0}
 --- !u!114 &794503664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,8 +482,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolution: 3
+  screenshotKey: 111
+  screenshotWidth: 1920
+  screenshotHeight: 1080
+  screenshotFolder: Screenshots
   celestialBody: {fileID: 1939330747}
-  cBodyType: 1
+  cBodyType: 0
 --- !u!1 &1939330746
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,6 +912,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolution: 3
+  screenshotKey: 111
+  screenshotWidth: 1920
+  screenshotHeight: 1080
+  screenshotFolder: Screenshots
   celestialBody: {fileID: 1939330747}
   cBodyType: 0
 --- !u!4 &2083924689
